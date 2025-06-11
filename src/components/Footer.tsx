@@ -1,4 +1,5 @@
 
+
 import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 
 export const Footer = () => {
@@ -31,9 +32,9 @@ export const Footer = () => {
             </div>
             
             {/* Enhanced experimental info container */}
-            <div className="w-full px-4 sm:px-0 max-w-md mx-auto">
-              <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-200/80 rounded-xl p-4 sm:p-5 shadow-sm backdrop-blur-sm">
-                <div className="text-xs sm:text-sm text-gray-600 font-light text-center leading-relaxed">
+            <div className="w-full px-4 sm:px-0 max-w-lg mx-auto">
+              <div className="bg-gradient-to-br from-gray-100 to-gray-50 border border-gray-300/60 rounded-xl p-4 sm:p-5 shadow-sm backdrop-blur-sm">
+                <div className="text-xs sm:text-sm text-gray-700 font-light text-center leading-relaxed">
                   {t('footer.experimental')}
                 </div>
               </div>
@@ -44,3 +45,4 @@ export const Footer = () => {
     </footer>
   );
 };
+
