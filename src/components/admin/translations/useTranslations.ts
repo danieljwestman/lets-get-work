@@ -39,9 +39,9 @@ export const useTranslations = (themeId: string) => {
 
       console.log('🔧 ADMIN TRANSLATIONS: Raw translations data:', data);
 
-      // Group by language
-      const enTranslations = data?.filter(t => t.language === 'en') || [];
-      const svTranslations = data?.filter(t => t.language === 'sv') || [];
+      // Group by language with proper type casting
+      const enTranslations = (data?.filter(t => t.language === 'en') || []) as Translation[];
+      const svTranslations = (data?.filter(t => t.language === 'sv') || []) as Translation[];
 
       setTranslations({
         en: enTranslations,
@@ -59,26 +59,36 @@ export const useTranslations = (themeId: string) => {
     }
   };
 
-  const saveTranslation = async (translation: Partial<Translation>) => {
+  const saveTranslation = async (language: 'en' | 'sv', key: string, value: string) => {
     setSaving(true);
     try {
-      console.log('🔧 ADMIN TRANSLATIONS: Saving translation:', translation);
+      console.log('🔧 ADMIN TRANSLATIONS: Saving translation:', { language, key, value });
 
-      if (translation.id) {
+      // Check if translation already exists
+      const existingTranslation = translations[language].find(t => t.translation_key === key);
+
+      if (existingTranslation) {
         // Update existing
         const { error } = await supabase
           .from('translations')
-          .update(translation)
-          .eq('id', translation.id);
+          .update({ 
+            draft_value: value,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', existingTranslation.id);
 
         if (error) throw error;
       } else {
-        // Create new
+        // Create new - ensure all required fields are provided
         const { error } = await supabase
           .from('translations')
           .insert({
-            ...translation,
-            theme_id: themeId
+            theme_id: themeId,
+            language: language,
+            translation_key: key,
+            draft_value: value,
+            published_value: '', // Required field with default empty value
+            user_id: (await supabase.auth.getUser()).data.user?.id || ''
           });
 
         if (error) throw error;
@@ -93,15 +103,20 @@ export const useTranslations = (themeId: string) => {
     }
   };
 
-  const publishSingleTranslation = async (translation: Translation) => {
+  const publishSingleTranslation = async (language: 'en' | 'sv', key: string) => {
     try {
-      console.log('🔧 ADMIN TRANSLATIONS: Publishing single translation:', translation.id);
+      console.log('🔧 ADMIN TRANSLATIONS: Publishing single translation:', { language, key });
       
+      const translation = translations[language].find(t => t.translation_key === key);
+      if (!translation) {
+        throw new Error('Translation not found');
+      }
+
       const { error } = await supabase
         .from('translations')
         .update({ 
-          published_value: translation.draft_value,
-          published_at: new Date().toISOString()
+          published_value: translation.draft_value || translation.published_value,
+          updated_at: new Date().toISOString()
         })
         .eq('id', translation.id);
 
@@ -114,14 +129,19 @@ export const useTranslations = (themeId: string) => {
     }
   };
 
-  const deleteTranslation = async (translationId: string) => {
+  const deleteTranslation = async (language: 'en' | 'sv', key: string) => {
     try {
-      console.log('🔧 ADMIN TRANSLATIONS: Deleting translation:', translationId);
+      console.log('🔧 ADMIN TRANSLATIONS: Deleting translation:', { language, key });
       
+      const translation = translations[language].find(t => t.translation_key === key);
+      if (!translation) {
+        throw new Error('Translation not found');
+      }
+
       const { error } = await supabase
         .from('translations')
         .delete()
-        .eq('id', translationId);
+        .eq('id', translation.id);
 
       if (error) throw error;
 
