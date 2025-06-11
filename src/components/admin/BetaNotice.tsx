@@ -10,7 +10,7 @@ export const BetaNotice: React.FC = () => {
       </div>
       <p className="text-sm text-blue-700">
         We're currently in beta! New account creation is temporarily disabled. 
-        If you need access, please reach out to our team.
+        If you want to try it out, please reach out to our team.
       </p>
     </div>
   );
