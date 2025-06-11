@@ -39,11 +39,7 @@ const DashboardContent: React.FC = () => {
   console.log('Dashboard: User is authenticated, showing admin layout');
 
   return (
-    <ErrorBoundary
-      onError={(error, errorInfo) => {
-        console.error('Dashboard Content Error:', error, errorInfo);
-      }}
-    >
+    <ErrorBoundary>
       <OpportunityProvider>
         <LanguageProvider>
           <AdminLayout />
@@ -57,11 +53,7 @@ const Dashboard: React.FC = () => {
   console.log('Dashboard: Rendering dashboard');
 
   return (
-    <ErrorBoundary
-      onError={(error, errorInfo) => {
-        console.error('Dashboard Root Error:', error, errorInfo);
-      }}
-    >
+    <ErrorBoundary>
       <DashboardContent />
     </ErrorBoundary>
   );

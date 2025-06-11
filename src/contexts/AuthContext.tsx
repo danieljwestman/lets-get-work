@@ -9,9 +9,10 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  isLoading: boolean;
+  loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  signOut: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -27,15 +28,15 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Initialize auth state
-    setIsLoading(false);
+    setLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       // Mock login for now
       setUser({ id: '1', email, name: 'User' });
@@ -43,11 +44,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Login failed:', error);
       throw error;
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   const logout = () => {
+    setUser(null);
+  };
+
+  const signOut = async () => {
     setUser(null);
   };
 
@@ -56,9 +61,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider value={{
       user,
-      isLoading,
+      loading,
       login,
       logout,
+      signOut,
       isAuthenticated
     }}>
       {children}

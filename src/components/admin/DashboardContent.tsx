@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { TabsContent } from '@/components/ui/tabs';
 import { AnalyticsDashboard } from '@/components/analytics/AnalyticsDashboard';
@@ -16,81 +17,49 @@ export const DashboardContent: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <TabsContent value="analytics" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('AnalyticsDashboard Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <AnalyticsDashboard />
         </ErrorBoundary>
       </TabsContent>
 
       <TabsContent value="messages" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('MessagesTable Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <MessagesTable />
         </ErrorBoundary>
       </TabsContent>
 
       <TabsContent value="profile" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('ProfileManager Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <ProfileManager />
         </ErrorBoundary>
       </TabsContent>
 
       <TabsContent value="opportunities" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('OpportunitiesManager Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <OpportunitiesManager />
         </ErrorBoundary>
       </TabsContent>
 
       <TabsContent value="themes" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('ThemesManager Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <ThemesManager />
         </ErrorBoundary>
       </TabsContent>
 
       <TabsContent value="settings" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('SettingsManager Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <SettingsManager />
         </ErrorBoundary>
       </TabsContent>
 
       <TabsContent value="billing" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('BillingManager Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <BillingManager />
         </ErrorBoundary>
       </TabsContent>
 
       <TabsContent value="help-support" className="mt-0">
-        <ErrorBoundary
-          onError={(error, errorInfo) => {
-            console.error('HelpSupportManager Error:', error, errorInfo);
-          }}
-        >
+        <ErrorBoundary>
           <HelpSupportManager />
         </ErrorBoundary>
       </TabsContent>

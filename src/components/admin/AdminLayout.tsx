@@ -49,29 +49,17 @@ export const AdminLayout: React.FC = () => {
   console.log('AdminLayout: Rendering admin layout');
 
   return (
-    <ErrorBoundary
-      onError={(error, errorInfo) => {
-        console.error('AdminLayout Error:', error, errorInfo);
-      }}
-    >
+    <ErrorBoundary>
       <div className="min-h-screen bg-gray-50">
         <Tabs defaultValue="analytics" value={currentTab} onValueChange={handleNavigate} className="min-h-screen">
-          <ErrorBoundary
-            onError={(error, errorInfo) => {
-              console.error('DashboardHeader Error:', error, errorInfo);
-            }}
-          >
+          <ErrorBoundary>
             <DashboardHeader 
               onLogout={handleLogout} 
               currentValue={currentTab}
               onNavigate={handleNavigate}
             />
           </ErrorBoundary>
-          <ErrorBoundary
-            onError={(error, errorInfo) => {
-              console.error('DashboardContent Error:', error, errorInfo);
-            }}
-          >
+          <ErrorBoundary>
             <div className="pt-16">
               <DashboardContent />
             </div>
