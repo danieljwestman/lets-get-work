@@ -20,7 +20,7 @@ export const createAnalyticsDemoData = async () => {
       .select('opportunity_id, theme_id, subdomain')
       .eq('user_id', user.id)
       .eq('opportunity_id', 'default')
-      .eq('status', 'active')
+      .eq('status', 'published') // Fixed: Use 'published' instead of 'active'
       .single();
 
     if (oppError) {
