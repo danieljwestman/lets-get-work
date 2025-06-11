@@ -1,110 +1,110 @@
 
 {
   "header": {
-    "badge": "Hire Daniel Now"
+    "badge": "Hire Me Now"
   },
   "hero": {
-    "badge": "Hire Daniel Now",
-    "title": "Where Creative Ideas Click",
-    "greeting": "Hello! I'm Daniel 👋",
-    "description": "Experienced customer success professional with a passion for technology, design, and helping people succeed. I love making complex things simple — combining AI expertise, creative thinking, and a sharp eye for design to turn ideas into user-friendly solutions. Always learning, always improving!",
+    "badge": "Hire Me Now",
+    "title": "My Digital Resume",
+    "greeting": "Hey there! I'm Daniel 👋",
+    "description": "Tech-savvy, design-minded, and driven by creativity — I love bringing ideas to life in ways that empower people. Whether it's building intuitive interfaces or crafting seamless user experiences, I'm passionate about creating digital solutions that make a real difference.",
     "buttons": {
-      "getToKnow": "Learn about me",
-      "letsTalk": "Get in touch",
+      "getToKnow": "Get to know me",
+      "letsTalk": "Let's talk",
       "chatWithDaniBot": "Chat with DaniBot"
     }
   },
   "about": {
-    "title": "Your Next Customer Experience Champion 🏆",
-    "titleMobile": "Your Next Customer Experience Champion",
-    "description": "Native Swedish, fluent in English, and remote-ready with a pro home office. Based near Stockholm and familiar with Lovable's workspace in Waterfront Building. Open to full- or part-time — excited to join Lovable's next chapter!",
+    "title": "Your Next Digital Experience Champion 🏆",
+    "titleMobile": "Your Next Digital Experience Champion",
+    "description": "Native Swedish, fluent in English, and remote-ready with a pro home office. Based near Stockholm and familiar with modern tech stacks. Open to full- or part-time opportunities — excited to bring fresh ideas and energy to your team!",
     "videoTitle": "Meet Daniel",
     "videoDescription": "Click to watch my introduction",
-    "contentTitle": "Tech + Heart + Empowerment 💝",
-    "contentTitleMobile": "Tech + Heart + Empowerment",
-    "contentParagraph1": "I get tech, but more importantly - I get people! Having built SaaS platforms myself with over 100,000+ users, I understand both the technical challenges and the human frustration when things don't work.",
-    "contentParagraph2": "That's where magic happens: turning complex challenges into simple solutions!",
-    "contentParagraph3": "When I'm not empowering users to succeed, you'll find me building things with my hands (amateur carpenter at heart!) or chasing after my three kids with my wonderful wife. Same attention to detail, different tools!",
-    "contentParagraph3Mobile": "When I'm not empowering users to succeed, you'll find me building things with my hands (amateur carpenter at heart!) or chasing after my three kids with my wonderful wife. Same attention to detail, different tools!"
+    "contentTitle": "Tech + Heart + Innovation 💝",
+    "contentTitleMobile": "Tech + Heart + Innovation",
+    "contentParagraph1": "I get tech, but more importantly - I get people! Having built SaaS platforms myself with thousands of users, I understand both the technical challenges and the human needs that drive great digital experiences.",
+    "contentParagraph2": "That's where magic happens: turning complex problems into elegant solutions!",
+    "contentParagraph3": "When I'm not crafting digital experiences, you'll find me building things with my hands (amateur carpenter at heart!) or chasing after my three kids with my wonderful wife. Same attention to detail, different tools!",
+    "contentParagraph3Mobile": "When I'm not crafting digital experiences, you'll find me building things with my hands (amateur carpenter at heart!) or chasing after my three kids with my wonderful wife. Same attention to detail, different tools!"
   },
   "skills": {
-    "title": "My Customer Success Expertise 💎",
-    "titleMobile": "My Customer Success Expertise",
-    "description": "The perfect blend of technical expertise and people skills to make users and customers delighted!",
+    "title": "My Tech & Design Expertise 💎",
+    "titleMobile": "My Tech & Design Expertise",
+    "description": "The perfect blend of technical skills and creative thinking to build amazing digital experiences!",
     "items": [
-      "Customer Success 🎯",
-      "Technical Support 🛠️",
-      "User Onboarding ✨",
+      "Frontend Development 🎯",
+      "UX/UI Design 🛠️",
+      "User Research ✨",
       "Problem Solving 🧩",
-      "Design Eye 👁️",
-      "SaaS Platforms 🚀",
-      "Home Office Pro 🏠",
+      "Design Systems 👁️",
+      "React & TypeScript 🚀",
+      "Remote Collaboration 🏠",
       "Stockholm Local 🇸🇪",
       "Quality-Driven 💎",
-      "Idea Catalyst 💡",
-      "AI Prompt Engineer 🤖",
-      "Quick Learning ⚡"
+      "Innovation Catalyst 💡",
+      "AI Integration 🤖",
+      "Rapid Learning ⚡"
     ]
   },
   "tools": {
     "title": "Tech Stack & Tools 🛠️",
-    "description": "Comfortable with the tools that make great support happen! Always curious and love exploring new trending tools!",
+    "description": "Proficient with modern development tools and always eager to explore emerging technologies!",
     "footer": "Always learning, always improving!"
   },
   "experience": {
-    "title": "My Journey to Customer Experience Excellence 🌟",
-    "titleMobile": "My Journey to Customer Experience Excellence",
-    "description": "From university experiments to building platforms used by 100,000+ people — every step has fueled my passion for thoughtful design, user-focused development, and the powerful possibilities of AI.",
+    "title": "My Journey to Digital Excellence 🌟",
+    "titleMobile": "My Journey to Digital Excellence",
+    "description": "From university experiments to building platforms serving thousands of users — every step has taught me something valuable about design, development, and what makes users truly happy with their digital tools.",
     "items": [
       {
-        "title": "AI Whisperer & Prompt Engineering Enthusiast",
-        "company": "The Future of Communication",
+        "title": "Digital Innovation Enthusiast",
+        "company": "Future-Focused Development",
         "period": "Current Focus",
-        "description": "Deeply fascinated by prompt engineering and becoming fluent in 'AI language' - because the future of great support will blend human empathy with AI superpowers. I speak both human and machine! 🤖",
+        "description": "Passionate about emerging technologies and their potential to solve real-world problems. Always exploring the latest in web development, AI integration, and user experience design. The future is digital, and I want to help shape it! 🤖",
         "emoji": "🧠"
       },
       {
-        "title": "Tech Entrepreneur & SaaS Builder",
-        "company": "15+ Years of Innovation",
+        "title": "Tech Entrepreneur & Platform Builder",
+        "company": "10+ Years of Innovation",
         "period": "Present part-time",
-        "description": "Built and operated multiple SaaS platforms serving 100,000+ users across various industries, mostly within Prop Tech. Deep hands-on experience with user acquisition, retention, support challenges, and scaling customer success operations. I've lived through every stage - from first user to scale - and understand what makes customers stick around! 🚀",
+        "description": "Built and operated multiple digital platforms serving thousands of users across various industries. Deep hands-on experience with user acquisition, retention, technical challenges, and scaling operations. I've lived through every stage - from MVP to scale! 🚀",
         "emoji": "🚀"
       },
       {
-        "title": "Design & Customer Experience Advocate",
+        "title": "Design & User Experience Advocate",
         "company": "Every Project I Touch",
         "period": "Always",
-        "description": "Passionate about great design and smooth user experiences. I spot what works, what doesn't, and most importantly - I care about making it better. Your users deserve thoughtful, well-crafted experiences! ✨",
+        "description": "Passionate about great design and smooth user experiences. I spot what works, what doesn't, and most importantly - I care about making it better. Users deserve thoughtful, well-crafted digital experiences! ✨",
         "emoji": "💎"
       },
       {
-        "title": "Stockholm Office Veteran",
-        "company": "Waterfront Building Experience",
-        "period": "Previous Years",
-        "description": "Had my own office in the same Waterfront building where Lovable Stockholm is located. I know the coffee spots, the vibe, and what makes that workspace special. Remote-ready with a great home office setup! ☕",
+        "title": "Stockholm Tech Community Member",
+        "company": "Local Tech Scene",
+        "period": "Ongoing",
+        "description": "Active in Stockholm's vibrant tech community. I know the local scene, the culture, and what makes Swedish tech companies special. Remote-ready with an excellent home office setup! ☕",
         "emoji": "🏢"
       },
       {
         "title": "University Explorer",
-        "company": "Academic Adventures",
+        "company": "Academic Foundation",
         "period": "The Learning Years",
-        "description": "Studied IT, Marketing, and Economics at university - education taught me how to learn and think critically, which is invaluable! 📚 But honestly, the real magic happened when I started building actual projects and solving real problems in the wild. That's where everything clicked! 🛠️",
+        "description": "Studied IT, Marketing, and Economics at university - education taught me how to learn and think critically, which is invaluable! 📚 But honestly, the real magic happened when I started building actual projects and solving real problems. That's where everything clicked! 🛠️",
         "emoji": "🎓"
       }
     ]
   },
   "whySupport": {
-    "title": "Customer + Daniel = Success! ✨",
-    "titleMobile": "Customer + Daniel = Success!",
-    "description": "I've been on both sides - building tools AND desperately needing great support! I know what it feels like to be stuck, and I live for those aha! moments when everything clicks. Let me help your users discover the joy of effortless building - especially in the Support Specialist role!",
+    "title": "Ready to Create Amazing Experiences! ✨",
+    "titleMobile": "Ready to Create Amazing Experiences!",
+    "description": "I've been on both sides - building digital products AND using them! I know what it feels like to struggle with poor UX, and I live for those aha! moments when everything just works perfectly. Let me help your users discover the joy of seamless digital experiences!",
     "highlights": [
       {
         "title": "Remote Ready",
-        "subtitle": "Killer Home Office"
+        "subtitle": "Professional Setup"
       },
       {
-        "title": "Part-Time",
-        "subtitle": "Perfect Fit"
+        "title": "Flexible",
+        "subtitle": "Part or Full-time"
       },
       {
         "title": "Stockholm",
@@ -116,35 +116,10 @@
       }
     ]
   },
-  "inquiryTypes": {
-    "title": "How Can I Help Your Team? 👥",
-    "titleMobile": "How Can I Help Your Team?",
-    "description": "I'm open to different types of professional engagements. Here's how we could work together:",
-    "types": {
-      "partTime": {
-        "title": "Part-Time Hire",
-        "description": "Perfect for ongoing projects that need consistent attention without full-time commitment.",
-        "benefit1": "Flexible scheduling",
-        "benefit2": "Cost-effective solution"
-      },
-      "fullTime": {
-        "title": "Full-Time Hire",
-        "description": "Ready to fully commit to your team's mission and grow together long-term.",
-        "benefit1": "Complete dedication",
-        "benefit2": "Long-term partnership"
-      },
-      "consultancy": {
-        "title": "Consultancy",
-        "description": "Strategic guidance and expertise for specific challenges or project phases.",
-        "benefit1": "Expert insights",
-        "benefit2": "Quick implementation"
-      }
-    }
-  },
   "contact": {
-    "title": "Let's Connect! 🚀",
-    "titleMobile": "Let's Connect!",
-    "description": "I'm passionate about discussing user experience, technology, and design innovation. Whether it's crafting intuitive interfaces, solving complex technical challenges, or creating seamless digital experiences, I'd love to explore how my expertise in UX and tech can contribute to your team's vision.",
+    "title": "Let's Create Something Amazing Together!",
+    "titleMobile": "Let's Create Something Amazing Together!",
+    "description": "I'd love to chat about joining your team! Whether it's frontend development, UX/UI design, or any role focused on creating exceptional digital experiences, I'm genuinely excited about the opportunity to bring my passion for user-centered design to your projects. Let's connect and explore how we could work together!",
     "buttons": {
       "email": "Send an email",
       "github": "GitHub Profile",
@@ -160,15 +135,15 @@
       "emailPlaceholder": "your@email.com",
       "inquiryType": "Inquiry Type",
       "selectInquiry": "Select inquiry type",
+      "message": "Message",
+      "messagePlaceholder": "Your message to Daniel...",
+      "sending": "Sending...",
       "inquiryTypes": {
         "general": "General Inquiry",
         "job": "Job Opportunity",
         "collaboration": "Collaboration",
         "consultation": "Consultation"
       },
-      "message": "Message",
-      "messagePlaceholder": "Your message to Daniel...",
-      "sending": "Sending...",
       "validation": {
         "missingInfo": "Missing Information",
         "fillRequired": "Please fill in all required fields"
@@ -182,10 +157,9 @@
         "description": "Please try again later"
       }
     },
-    "emailSubject": "Let's talk about opportunities"
+    "emailSubject": "Let's explore opportunities together!"
   },
   "footer": {
-    "text": "Crafted with ❤️ and powered by Lovable - where great ideas become reality! ✨",
-    "experimental": "Experimental project showcasing Daniel's expertise in user experience and innovative web development"
+    "text": "Crafted with ❤️ and powered by Lovable - where great ideas become reality! ✨"
   }
 }
