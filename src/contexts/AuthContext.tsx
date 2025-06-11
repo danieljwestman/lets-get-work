@@ -11,6 +11,8 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<{ error?: Error }>;
+  resetPassword: (email: string) => Promise<{ error?: Error }>;
   logout: () => void;
   signOut: () => Promise<void>;
   isAuthenticated: boolean;
@@ -48,6 +50,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const signIn = async (email: string, password: string) => {
+    try {
+      await login(email, password);
+      return {};
+    } catch (error) {
+      return { error: error as Error };
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    try {
+      // Mock reset password
+      console.log('Password reset requested for:', email);
+      return {};
+    } catch (error) {
+      return { error: error as Error };
+    }
+  };
+
   const logout = () => {
     setUser(null);
   };
@@ -63,6 +84,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       user,
       loading,
       login,
+      signIn,
+      resetPassword,
       logout,
       signOut,
       isAuthenticated
