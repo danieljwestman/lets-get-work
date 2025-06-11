@@ -19,22 +19,18 @@ export const Footer = () => {
           </a>
           {t('footer.text').split('Lovable')[1]}
         </p>
-
-        {/* Experimental Project Notice */}
-        <div className="border-t border-gray-200 pt-6">
-          <p className="text-sm text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            {t('footer.experimental')}
-          </p>
-        </div>
         
         {/* Let's Get Work Branding */}
         <div className="border-t border-gray-200 pt-8">
-          <div className="flex flex-col items-center space-y-1">
+          <div className="flex flex-col items-center space-y-3">
             <div className="text-sm text-gray-500 font-light text-center">
               Powered by
             </div>
             <div className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               LetsGetWork
+            </div>
+            <div className="text-xs text-gray-500 font-light text-center max-w-2xl leading-relaxed">
+              {t('footer.experimental')}
             </div>
           </div>
         </div>
