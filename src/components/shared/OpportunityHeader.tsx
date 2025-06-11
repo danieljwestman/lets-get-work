@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 import { LanguageToggle } from "@/components/shared/LanguageToggle";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOpportunity } from "@/contexts/OpportunityContext";
 
@@ -12,7 +12,7 @@ interface OpportunityHeaderProps {
 }
 
 export const OpportunityHeader = ({ onScrollToContact }: OpportunityHeaderProps) => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
   const { user } = useAuth();
   const { opportunity } = useOpportunity();
 

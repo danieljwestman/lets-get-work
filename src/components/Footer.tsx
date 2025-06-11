@@ -1,8 +1,8 @@
 
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 
 export const Footer = () => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
 
   return (
     <footer className="text-center py-8 px-6 text-gray-500">
