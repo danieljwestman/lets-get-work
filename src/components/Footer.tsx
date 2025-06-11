@@ -29,7 +29,7 @@ export const Footer = () => {
             <div className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               LetsGetWork
             </div>
-            <div className="text-xs text-gray-500 font-light text-center max-w-2xl leading-relaxed">
+            <div className="text-sm text-gray-500 font-light text-center max-w-2xl leading-relaxed">
               {t('footer.experimental')}
             </div>
           </div>
