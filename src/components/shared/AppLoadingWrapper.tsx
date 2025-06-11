@@ -8,7 +8,7 @@ import { LoadingScreen } from './LoadingScreen';
 
 interface AppLoadingWrapperProps {
   children: React.ReactNode;
-  isDashboard?: boolean; // New prop to distinguish dashboard from opportunity pages
+  isDashboard?: boolean;
 }
 
 export const AppLoadingWrapper: React.FC<AppLoadingWrapperProps> = ({ 
@@ -34,7 +34,7 @@ export const AppLoadingWrapper: React.FC<AppLoadingWrapperProps> = ({
   // For dashboard pages, just check basic loading without translations
   if (isDashboard) {
     if (opportunityLoading || languageLoading) {
-      return <LoadingScreen minDelay={0} />;
+      return <LoadingScreen />;
     }
     
     if (opportunityError) {
@@ -52,10 +52,12 @@ export const AppLoadingWrapper: React.FC<AppLoadingWrapperProps> = ({
   }
 
   // For opportunity pages, wait for everything including translations
+  // Be more strict - only show content when translations are truly ready
   const shouldShowLoading = opportunityLoading || 
                            languageLoading || 
                            !opportunity || 
-                           !translationReadiness.isReady;
+                           !translationReadiness.isReady ||
+                           translationReadiness.isLoading;
 
   console.log('🔧 APP LOADING WRAPPER: Loading state check:', {
     opportunityLoading,
@@ -63,12 +65,13 @@ export const AppLoadingWrapper: React.FC<AppLoadingWrapperProps> = ({
     hasOpportunity: !!opportunity,
     translationReady: translationReadiness.isReady,
     translationLoading: translationReadiness.isLoading,
+    translationCount: Object.keys(translations).length,
     shouldShowLoading,
     isDashboard
   });
 
   if (shouldShowLoading) {
-    return <LoadingScreen minDelay={0} />; // Remove artificial delay
+    return <LoadingScreen />;
   }
 
   // Show error screen if opportunity failed to load

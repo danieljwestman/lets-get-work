@@ -26,13 +26,14 @@ export const useTranslationReadiness = (
 
   const currentThemeId = opportunity?.theme?.theme_id || 'default';
 
-  // Check if we have translations (even if minimal)
+  // Check if we have meaningful translations (not just empty object)
   const checkMinimumTranslations = (translationData: Record<string, any>): boolean => {
     const translationCount = Object.keys(translationData).length;
     console.log(`🔍 TRANSLATION READINESS: Checking ${translationCount} translations for ${currentThemeId}/${language}`);
     
-    // For now, consider any translations as sufficient since we have fallbacks
-    return translationCount > 0;
+    // Need at least some translations to be considered ready
+    // This prevents showing content with fallback keys
+    return translationCount >= 5; // Require minimum 5 translations for basic content
   };
 
   useEffect(() => {
@@ -63,10 +64,15 @@ export const useTranslationReadiness = (
 
     previousThemeIdRef.current = currentThemeId;
 
-    // Immediate update - no artificial delay
-    const isFullyReady = !translationLoading && Boolean(currentThemeId);
+    // Only mark as ready when:
+    // 1. Not loading
+    // 2. Have theme ID
+    // 3. Have minimum translations loaded
+    const isFullyReady = !translationLoading && 
+                        Boolean(currentThemeId) && 
+                        hasMinimumTranslations;
     
-    console.log(`🔍 TRANSLATION READINESS: Immediate update for ${currentThemeId}/${language}:`, {
+    console.log(`🔍 TRANSLATION READINESS: Readiness check for ${currentThemeId}/${language}:`, {
       translationLoading,
       hasTranslations,
       hasMinimumTranslations,
@@ -77,7 +83,7 @@ export const useTranslationReadiness = (
 
     setReadinessState({
       isReady: isFullyReady,
-      isLoading: translationLoading || !currentThemeId,
+      isLoading: translationLoading || !currentThemeId || !hasMinimumTranslations,
       currentThemeId,
       hasMinimumTranslations
     });
@@ -87,7 +93,8 @@ export const useTranslationReadiness = (
     isReady: readinessState.isReady,
     isLoading: readinessState.isLoading,
     currentThemeId: readinessState.currentThemeId,
-    hasMinimumTranslations: readinessState.hasMinimumTranslations
+    hasMinimumTranslations: readinessState.hasMinimumTranslations,
+    translationCount: Object.keys(translations).length
   });
 
   return readinessState;
