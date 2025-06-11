@@ -23,17 +23,17 @@ export const useTranslationReadiness = (
   });
 
   const previousThemeIdRef = useRef<string | null>(null);
+  const stabilityTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentThemeId = opportunity?.theme?.theme_id || 'default';
 
-  // Check if we have meaningful translations (not just empty object)
+  // Check if we have meaningful translations
   const checkMinimumTranslations = (translationData: Record<string, any>): boolean => {
     const translationCount = Object.keys(translationData).length;
     console.log(`🔍 TRANSLATION READINESS: Checking ${translationCount} translations for ${currentThemeId}/${language}`);
     
-    // Need at least some translations to be considered ready
-    // This prevents showing content with fallback keys
-    return translationCount >= 5; // Require minimum 5 translations for basic content
+    // Lowered threshold and added fallback for smaller themes
+    return translationCount >= 3 || (translationCount > 0 && !translationLoading);
   };
 
   useEffect(() => {
@@ -51,6 +51,12 @@ export const useTranslationReadiness = (
       translationCount: Object.keys(translations).length
     });
 
+    // Clear any existing stability timer
+    if (stabilityTimerRef.current) {
+      clearTimeout(stabilityTimerRef.current);
+      stabilityTimerRef.current = null;
+    }
+
     // If theme changed, mark as loading immediately
     if (hasThemeChanged && previousThemeIdRef.current !== null) {
       console.log(`🔄 TRANSLATION READINESS: Theme changed from ${previousThemeIdRef.current} to ${currentThemeId} - marking as loading`);
@@ -64,29 +70,39 @@ export const useTranslationReadiness = (
 
     previousThemeIdRef.current = currentThemeId;
 
-    // Only mark as ready when:
-    // 1. Not loading
-    // 2. Have theme ID
-    // 3. Have minimum translations loaded
-    const isFullyReady = !translationLoading && 
-                        Boolean(currentThemeId) && 
-                        hasMinimumTranslations;
+    // Only mark as ready when loading is complete AND we have translations
+    const isDataReady = !translationLoading && 
+                       Boolean(currentThemeId) && 
+                       hasMinimumTranslations;
     
-    console.log(`🔍 TRANSLATION READINESS: Readiness check for ${currentThemeId}/${language}:`, {
-      translationLoading,
-      hasTranslations,
-      hasMinimumTranslations,
-      isFullyReady,
-      translationCount: Object.keys(translations).length,
-      currentThemeId
-    });
+    if (isDataReady) {
+      // Add small stability delay to prevent flicker
+      stabilityTimerRef.current = setTimeout(() => {
+        console.log(`🔍 TRANSLATION READINESS: Marking ready after stability check for ${currentThemeId}/${language}`);
+        setReadinessState({
+          isReady: true,
+          isLoading: false,
+          currentThemeId,
+          hasMinimumTranslations
+        });
+      }, 50); // Very short delay to ensure stability
+    } else {
+      setReadinessState(prev => ({
+        ...prev,
+        isReady: false,
+        isLoading: translationLoading || !currentThemeId || !hasMinimumTranslations,
+        currentThemeId,
+        hasMinimumTranslations
+      }));
+    }
 
-    setReadinessState({
-      isReady: isFullyReady,
-      isLoading: translationLoading || !currentThemeId || !hasMinimumTranslations,
-      currentThemeId,
-      hasMinimumTranslations
-    });
+    // Cleanup function
+    return () => {
+      if (stabilityTimerRef.current) {
+        clearTimeout(stabilityTimerRef.current);
+        stabilityTimerRef.current = null;
+      }
+    };
   }, [translations, translationLoading, currentThemeId, language]);
 
   console.log(`🔍 TRANSLATION READINESS: Current state:`, {
