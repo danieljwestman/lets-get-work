@@ -7,6 +7,9 @@ export type SafeTranslationFunction = (key: string, fallback?: string) => string
 // Create a safe translation function with fallback support
 export const createSafeTranslationFunction = (translations: any): SafeTranslationFunction => {
   return (key: string, fallback?: string): string => {
+    console.log(`🔧 SAFE TRANSLATION: Looking up key "${key}" in translations:`, translations);
+    console.log(`🔧 SAFE TRANSLATION: Translations keys available:`, Object.keys(translations || {}));
+    
     const getValue = (obj: any, path: string): any => {
       return path.split('.').reduce((current, segment) => {
         if (current === null || current === undefined) return undefined;
@@ -24,8 +27,15 @@ export const createSafeTranslationFunction = (translations: any): SafeTranslatio
     try {
       // If translations object is empty/null/undefined, use fallback immediately
       if (!translations || typeof translations !== 'object' || Object.keys(translations).length === 0) {
+        console.log(`🔧 SAFE TRANSLATION: No translations available, using fallback for "${key}"`);
+        
         if (fallback) {
           return fallback;
+        }
+        
+        // For development, show the key in brackets to make missing translations obvious
+        if (process.env.NODE_ENV === 'development') {
+          return `[${key}]`;
         }
         
         // Convert key to readable text as last resort
@@ -39,6 +49,7 @@ export const createSafeTranslationFunction = (translations: any): SafeTranslatio
       }
 
       const value = getValue(translations, key);
+      console.log(`🔧 SAFE TRANSLATION: Found value for "${key}":`, value);
       
       if (value !== undefined && value !== null && value !== '') {
         return typeof value === 'string' ? value : String(value);
@@ -46,6 +57,7 @@ export const createSafeTranslationFunction = (translations: any): SafeTranslatio
 
       // Use provided fallback if available
       if (fallback) {
+        console.log(`🔧 SAFE TRANSLATION: Using provided fallback for "${key}": "${fallback}"`);
         return fallback;
       }
 
@@ -68,7 +80,7 @@ export const createSafeTranslationFunction = (translations: any): SafeTranslatio
       
       return readableText || 'Content';
     } catch (error) {
-      console.error('Translation error:', error);
+      console.error('🔧 SAFE TRANSLATION: Translation error:', error);
       return process.env.NODE_ENV === 'development' ? `[ERROR: ${key}]` : 'Content';
     }
   };
