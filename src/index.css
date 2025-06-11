@@ -3,9 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import only general animation styles */
-@import './styles/animations.css';
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -102,4 +99,21 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Basic fade-in animation */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+  opacity: 0;
 }
