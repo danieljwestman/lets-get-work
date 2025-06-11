@@ -4,102 +4,38 @@ import { TranslationFunction } from '@/types/translations';
 // Simple translation function type
 export type SafeTranslationFunction = (key: string, fallback?: string) => string;
 
-// Create a safe translation function with fallback support
-export const createSafeTranslationFunction = (translations: any): SafeTranslationFunction => {
+// Create a simple translation function
+export const createSafeTranslationFunction = (translations: Record<string, string>): SafeTranslationFunction => {
   return (key: string, fallback?: string): string => {
-    console.log(`🔧 SAFE TRANSLATION: Looking up key "${key}" in translations:`, translations);
-    console.log(`🔧 SAFE TRANSLATION: Translations keys available:`, Object.keys(translations || {}));
+    const value = translations[key];
     
-    const getValue = (obj: any, path: string): any => {
-      return path.split('.').reduce((current, segment) => {
-        if (current === null || current === undefined) return undefined;
-        
-        // Handle array access like items.0.title
-        if (/^\d+$/.test(segment)) {
-          const index = parseInt(segment);
-          return Array.isArray(current) ? current[index] : undefined;
-        }
-        
-        return current[segment];
-      }, obj);
-    };
-
-    try {
-      // If translations object is empty/null/undefined, use fallback immediately
-      if (!translations || typeof translations !== 'object' || Object.keys(translations).length === 0) {
-        console.log(`🔧 SAFE TRANSLATION: No translations available, using fallback for "${key}"`);
-        
-        if (fallback) {
-          return fallback;
-        }
-        
-        // For development, show the key in brackets to make missing translations obvious
-        if (process.env.NODE_ENV === 'development') {
-          return `[${key}]`;
-        }
-        
-        // Convert key to readable text as last resort
-        const keyParts = key.split('.');
-        const lastPart = keyParts[keyParts.length - 1];
-        return lastPart
-          .replace(/([A-Z])/g, ' $1')
-          .replace(/_/g, ' ')
-          .replace(/^\w/, c => c.toUpperCase())
-          .trim() || 'Content';
-      }
-
-      const value = getValue(translations, key);
-      console.log(`🔧 SAFE TRANSLATION: Found value for "${key}":`, value);
-      
-      if (value !== undefined && value !== null && value !== '') {
-        return typeof value === 'string' ? value : String(value);
-      }
-
-      // Use provided fallback if available
-      if (fallback) {
-        console.log(`🔧 SAFE TRANSLATION: Using provided fallback for "${key}": "${fallback}"`);
-        return fallback;
-      }
-
-      // In development, show the key for debugging
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`🔍 Missing translation key: ${key}`);
-        return `[${key}]`;
-      }
-
-      // In production, show user-friendly fallback
-      const keyParts = key.split('.');
-      const lastPart = keyParts[keyParts.length - 1];
-      
-      // Convert camelCase or snake_case to readable text
-      const readableText = lastPart
-        .replace(/([A-Z])/g, ' $1') // camelCase to spaces
-        .replace(/_/g, ' ') // snake_case to spaces
-        .replace(/^\w/, c => c.toUpperCase()) // capitalize first letter
-        .trim();
-      
-      return readableText || 'Content';
-    } catch (error) {
-      console.error('🔧 SAFE TRANSLATION: Translation error:', error);
-      return process.env.NODE_ENV === 'development' ? `[ERROR: ${key}]` : 'Content';
+    if (value && value.trim() !== '') {
+      return value;
     }
+    
+    // Use provided fallback if available
+    if (fallback) {
+      return fallback;
+    }
+    
+    // In development, show the key for debugging
+    if (process.env.NODE_ENV === 'development') {
+      return `[${key}]`;
+    }
+
+    // In production, show user-friendly fallback
+    const keyParts = key.split('.');
+    const lastPart = keyParts[keyParts.length - 1];
+    
+    // Convert camelCase or snake_case to readable text
+    const readableText = lastPart
+      .replace(/([A-Z])/g, ' $1') // camelCase to spaces
+      .replace(/_/g, ' ') // snake_case to spaces
+      .replace(/^\w/, c => c.toUpperCase()) // capitalize first letter
+      .trim();
+    
+    return readableText || 'Content';
   };
-};
-
-// Helper to get nested values from translation object
-const getNestedValue = (obj: any, key: string): any => {
-  const keys = key.split('.');
-  let current = obj;
-  
-  for (const k of keys) {
-    if (current && typeof current === 'object' && k in current) {
-      current = current[k];
-    } else {
-      return undefined;
-    }
-  }
-  
-  return current;
 };
 
 // Required translation keys for validation
