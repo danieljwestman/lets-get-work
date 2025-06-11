@@ -49,6 +49,9 @@ export const AuthForm: React.FC<AuthFormProps> = ({
     return 'Sign In';
   };
 
+  // Beta flag - set to true to disable sign up
+  const isBetaMode = true;
+
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       {/* Email Field */}
@@ -126,8 +129,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({
 
       {/* Auth Mode Switching */}
       <div className="mt-6 text-center space-y-2">
-        {/* Sign In / Sign Up Toggle */}
-        {!isResetPassword && (
+        {/* Sign In / Sign Up Toggle - Hidden during beta mode */}
+        {!isResetPassword && !isBetaMode && (
           <p className="text-sm text-gray-600">
             {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
             <button

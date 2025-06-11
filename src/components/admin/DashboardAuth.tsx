@@ -49,9 +49,6 @@ export const DashboardAuth: React.FC = () => {
             </p>
           </div>
 
-          {/* Beta Notice */}
-          {!isResetPassword && <BetaNotice />}
-
           <AuthForm
             isResetPassword={isResetPassword}
             isSignUp={isSignUp}
@@ -68,6 +65,9 @@ export const DashboardAuth: React.FC = () => {
             onSwitchToSignIn={switchToSignIn}
             onSwitchToSignUp={switchToSignUp}
           />
+
+          {/* Beta Notice moved to bottom and only shown when not in reset password mode */}
+          {!isResetPassword && <BetaNotice />}
         </div>
       </div>
     </div>
