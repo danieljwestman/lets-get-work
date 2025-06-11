@@ -3,12 +3,12 @@ import { TrendingUp } from "lucide-react";
 import { toolCategories } from "@/data/tools";
 import { ToolCategory } from "@/components/shared/ToolCategory";
 import { ResponsiveTitle } from "@/components/shared/ResponsiveTitle";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { Section } from "@/components/shared/Section";
 import { GradientText } from "@/components/shared/GradientText";
 
 export const ToolsSection = () => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
 
   return (
     <Section id="tools" background="muted" containerSize="large">

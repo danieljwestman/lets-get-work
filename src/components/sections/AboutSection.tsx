@@ -1,12 +1,11 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Play } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { ResponsiveTitle } from "@/components/shared/ResponsiveTitle";
-import { TYPOGRAPHY } from "@/constants/design";
 
 export const AboutSection = () => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
 
   return (
     <section id="about" className="px-6 py-16">

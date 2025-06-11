@@ -1,25 +1,34 @@
 
-import { useLanguage } from "@/contexts/LanguageContext";
+import React from 'react';
+import { useOpportunityTranslations } from '@/hooks/useOpportunityTranslations';
 
 interface ResponsiveTitleProps {
   titleKey: string;
-  mobileTitleKey: string;
+  mobileTitleKey?: string;
   className?: string;
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
-export const ResponsiveTitle = ({ 
-  titleKey, 
-  mobileTitleKey, 
-  className = "", 
-  as: Component = 'h2' 
-}: ResponsiveTitleProps) => {
-  const { t } = useLanguage();
+export const ResponsiveTitle: React.FC<ResponsiveTitleProps> = ({
+  titleKey,
+  mobileTitleKey,
+  className = ""
+}) => {
+  const { t } = useOpportunityTranslations();
+  
+  const title = t(titleKey);
+  const mobileTitle = mobileTitleKey ? t(mobileTitleKey) : title;
 
   return (
-    <Component className={className}>
-      <span className="md:hidden">{t(mobileTitleKey)}</span>
-      <span className="hidden md:inline">{t(titleKey)}</span>
-    </Component>
+    <>
+      {/* Mobile title */}
+      <h2 className={`block sm:hidden ${className}`}>
+        {mobileTitle}
+      </h2>
+      
+      {/* Desktop title */}
+      <h2 className={`hidden sm:block ${className}`}>
+        {title}
+      </h2>
+    </>
   );
 };

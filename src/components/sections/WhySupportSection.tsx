@@ -2,12 +2,12 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { ResponsiveTitle } from "@/components/shared/ResponsiveTitle";
 import { SectionCard } from "@/components/shared/SectionCard";
 
 export const WhySupportSection = () => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
   
   // Access individual highlight items directly from the translation system
   const highlights = [

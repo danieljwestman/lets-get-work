@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Star, Coffee, Bot } from "lucide-react";
 import { FloatingBubbles } from "@/components/shared/FloatingBubbles";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { useCompany } from "@/contexts/OpportunityContext";
 import { useDesignTokens } from "@/hooks/useDesignTokens";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -16,7 +16,7 @@ interface HeroSectionProps {
 
 export const HeroSection = ({ onScrollToSection, onOpenChat }: HeroSectionProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
   const { company } = useCompany();
   const tokens = useDesignTokens();
   const { trackChatStart, trackExternalLink } = useAnalytics();
@@ -39,16 +39,6 @@ export const HeroSection = ({ onScrollToSection, onOpenChat }: HeroSectionProps)
     console.log('HeroSection: About to call onOpenChat');
     onOpenChat();
   }, [onOpenChat, trackChatStart]);
-
-  const handleGithubClick = useCallback(() => {
-    trackExternalLink('github', 'hero_section');
-    window.open('https://github.com/danieljwestman', '_blank');
-  }, [trackExternalLink]);
-
-  const handleLinkedinClick = useCallback(() => {
-    trackExternalLink('linkedin', 'hero_section');
-    window.open('https://www.linkedin.com/in/daniel-westman-1224a6b/', '_blank');
-  }, [trackExternalLink]);
 
   // Always show CTAs for default resume, check company config for others
   const showCTAs = company.id === 'default' || company.content.showHeroCTAs !== false;

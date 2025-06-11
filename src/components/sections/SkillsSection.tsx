@@ -1,12 +1,12 @@
 
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { SkillBadge } from "@/components/shared/SkillBadge";
 import { skills } from "@/data/skills";
 import { ResponsiveTitle } from "@/components/shared/ResponsiveTitle";
 import { Section } from "@/components/shared/Section";
 
 export const SkillsSection = () => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
 
   return (
     <Section id="skills">

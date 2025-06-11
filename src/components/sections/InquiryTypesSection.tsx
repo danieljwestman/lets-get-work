@@ -4,10 +4,10 @@ import { Clock, Briefcase, Users, CheckCircle, Star } from 'lucide-react';
 import { Section } from '@/components/shared/Section';
 import { ResponsiveContainer } from '@/components/shared/ResponsiveContainer';
 import { ResponsiveTitle } from '@/components/shared/ResponsiveTitle';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useOpportunityTranslations } from '@/hooks/useOpportunityTranslations';
 
 const InquiryTypesSection = () => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
 
   const inquiryTypes = [
     {

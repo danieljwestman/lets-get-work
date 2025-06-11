@@ -1,12 +1,12 @@
 
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { ResponsiveTitle } from "@/components/shared/ResponsiveTitle";
 import { JourneyTimeline } from "@/components/shared/JourneyTimeline";
 import { Section } from "@/components/shared/Section";
 import { getExperienceData } from "@/data/experienceData";
 
 export const ExperienceSection = () => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
   
   // Get structured experience data with translations
   const experiences = getExperienceData(t);

@@ -1,6 +1,7 @@
+
 import { Mail, Github, Linkedin, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 import { useCompany } from "@/contexts/OpportunityContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ResponsiveTitle } from "@/components/shared/ResponsiveTitle";
@@ -13,7 +14,7 @@ interface ContactSectionProps {
 }
 
 export const ContactSection = ({ onOpenChat }: ContactSectionProps) => {
-  const { t } = useLanguage();
+  const { t } = useOpportunityTranslations();
   const { company } = useCompany();
   const { trackChatStart, trackExternalLink } = useAnalytics();
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
