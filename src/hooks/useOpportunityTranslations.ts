@@ -11,13 +11,13 @@ export const useOpportunityTranslations = () => {
   
   const { translations, loading, t: rawT } = useTranslations(themeId, language as 'en' | 'sv');
   
-  // Create a safe translation function with fallbacks
-  const t = createSafeTranslationFunction(translations);
+  // Always create a safe translation function, even when loading or when translations are empty
+  const t = createSafeTranslationFunction(translations || {});
   
-  console.log(`🔧 OPPORTUNITY TRANSLATIONS: Using themeId: ${themeId}, language: ${language}, translations count: ${Object.keys(translations).length}`);
+  console.log(`🔧 OPPORTUNITY TRANSLATIONS: Using themeId: ${themeId}, language: ${language}, translations count: ${Object.keys(translations || {}).length}`);
   
   return {
-    translations,
+    translations: translations || {},
     loading,
     t,
     themeId,

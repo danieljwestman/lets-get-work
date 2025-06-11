@@ -1,3 +1,4 @@
+
 import { TranslationFunction } from '@/types/translations';
 
 // Simple translation function type
@@ -21,6 +22,22 @@ export const createSafeTranslationFunction = (translations: any): SafeTranslatio
     };
 
     try {
+      // If translations object is empty/null/undefined, use fallback immediately
+      if (!translations || typeof translations !== 'object' || Object.keys(translations).length === 0) {
+        if (fallback) {
+          return fallback;
+        }
+        
+        // Convert key to readable text as last resort
+        const keyParts = key.split('.');
+        const lastPart = keyParts[keyParts.length - 1];
+        return lastPart
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/_/g, ' ')
+          .replace(/^\w/, c => c.toUpperCase())
+          .trim() || 'Content';
+      }
+
       const value = getValue(translations, key);
       
       if (value !== undefined && value !== null && value !== '') {
