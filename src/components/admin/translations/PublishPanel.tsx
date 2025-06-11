@@ -39,15 +39,19 @@ export const PublishPanel: React.FC<PublishPanelProps> = ({
 
     setIsPublishing(true);
     try {
+      console.log('🔧 PUBLISH PANEL: Starting publish all process');
       const allTranslations = Object.values(translations).flat();
       const unpublishedTranslations = allTranslations.filter(t => t.draft_value);
 
+      console.log('🔧 PUBLISH PANEL: Found unpublished translations:', unpublishedTranslations.length);
+
       const updatePromises = unpublishedTranslations.map(async (translation) => {
+        console.log('🔧 PUBLISH PANEL: Publishing translation:', translation.translation_key, translation.draft_value);
         return supabase
           .from('translations')
           .update({
             published_value: translation.draft_value,
-            draft_value: null
+            draft_value: null // Clear draft after publishing
           })
           .eq('id', translation.id);
       });
@@ -56,8 +60,12 @@ export const PublishPanel: React.FC<PublishPanelProps> = ({
       
       const hasErrors = results.some(result => result.error);
       if (hasErrors) {
+        const errors = results.filter(r => r.error).map(r => r.error);
+        console.error('🔧 PUBLISH PANEL: Publish errors:', errors);
         throw new Error('Failed to publish some translations');
       }
+
+      console.log('🔧 PUBLISH PANEL: All translations published successfully');
 
       toast({
         title: "Translations published",
@@ -67,7 +75,7 @@ export const PublishPanel: React.FC<PublishPanelProps> = ({
 
       onPublishSuccess();
     } catch (error) {
-      console.error('Error publishing translations:', error);
+      console.error('🔧 PUBLISH PANEL: Error publishing translations:', error);
       toast({
         title: "Error",
         description: "Failed to publish translations. Please try again.",

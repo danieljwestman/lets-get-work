@@ -112,16 +112,26 @@ export const useTranslations = (themeId: string) => {
         throw new Error('Translation not found');
       }
 
+      // Use draft_value if it exists, otherwise use published_value
+      const valueToPublish = translation.draft_value || translation.published_value;
+      
+      console.log('🔧 ADMIN TRANSLATIONS: Publishing value:', valueToPublish);
+
       const { error } = await supabase
         .from('translations')
         .update({ 
-          published_value: translation.draft_value || translation.published_value,
+          published_value: valueToPublish,
+          draft_value: null, // Clear draft after publishing
           updated_at: new Date().toISOString()
         })
         .eq('id', translation.id);
 
-      if (error) throw error;
+      if (error) {
+        console.error('🔧 ADMIN TRANSLATIONS: Error in publishSingleTranslation:', error);
+        throw error;
+      }
 
+      console.log('🔧 ADMIN TRANSLATIONS: Successfully published translation');
       await loadTranslations();
     } catch (error) {
       console.error('🔧 ADMIN TRANSLATIONS: Error publishing translation:', error);
