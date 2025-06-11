@@ -30,8 +30,8 @@ export const Footer = () => {
               LetsGetWork
             </div>
             
-            {/* Enhanced experimental info container with increased width */}
-            <div className="w-full px-4 sm:px-0 max-w-2xl mx-auto">
+            {/* Enhanced experimental info container with moderate width */}
+            <div className="w-full px-4 sm:px-0 max-w-xl mx-auto">
               <div className="bg-gradient-to-br from-gray-100 to-gray-50 border border-gray-300/60 rounded-xl p-4 sm:p-5 shadow-sm backdrop-blur-sm">
                 <div className="text-xs sm:text-sm text-gray-700 font-light text-center leading-relaxed">
                   {t('footer.experimental')}
