@@ -6,15 +6,17 @@ interface LoadingScreenProps {
   minDelay?: number; // Minimum delay in milliseconds
 }
 
-export const LoadingScreen: React.FC<LoadingScreenProps> = ({ minDelay = 800 }) => {
-  const [showContent, setShowContent] = useState(false);
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({ minDelay = 0 }) => {
+  const [showContent, setShowContent] = useState(minDelay === 0);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowContent(true);
-    }, minDelay);
+    if (minDelay > 0) {
+      const timer = setTimeout(() => {
+        setShowContent(true);
+      }, minDelay);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, [minDelay]);
 
   if (!showContent) {

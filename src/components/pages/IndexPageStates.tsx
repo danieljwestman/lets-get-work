@@ -56,7 +56,7 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
     const personName = opportunity.owner_full_name?.trim() || 'the opportunity owner';
     console.log('Index: Showing passcode modal for protected opportunity with personName:', personName);
     return (
-      <AppLoadingWrapper>
+      <AppLoadingWrapper isDashboard={false}>
         <PasscodeModal
           isOpen={true}
           personName={personName}
@@ -69,18 +69,18 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
   // Wait for opportunity to load completely
   if (opportunityLoading || !opportunity) {
     console.log('Index: Still loading opportunity or no opportunity found');
-    return <AppLoadingWrapper>Loading opportunity...</AppLoadingWrapper>;
+    return <AppLoadingWrapper isDashboard={false}>Loading opportunity...</AppLoadingWrapper>;
   }
 
   // Wait for access verification to complete for protected opportunities
   if (opportunity.is_passcode_protected && (!hasAccess || isProcessing)) {
     console.log('Index: Waiting for access verification');
-    return <AppLoadingWrapper>Verifying access...</AppLoadingWrapper>;
+    return <AppLoadingWrapper isDashboard={false}>Verifying access...</AppLoadingWrapper>;
   }
 
-  // Render main content
+  // Render main content - this will now wait for translations to be ready
   return (
-    <AppLoadingWrapper>
+    <AppLoadingWrapper isDashboard={false}>
       <IndexPageContent
         opportunity={opportunity}
         isOwner={isOwner}

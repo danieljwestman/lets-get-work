@@ -23,7 +23,6 @@ export const useTranslationReadiness = (
   });
 
   const previousThemeIdRef = useRef<string | null>(null);
-  const stabilityTimerRef = useRef<NodeJS.Timeout>();
 
   const currentThemeId = opportunity?.theme?.theme_id || 'default';
 
@@ -64,39 +63,24 @@ export const useTranslationReadiness = (
 
     previousThemeIdRef.current = currentThemeId;
 
-    // Clear any existing stability timer
-    if (stabilityTimerRef.current) {
-      clearTimeout(stabilityTimerRef.current);
-    }
+    // Immediate update - no artificial delay
+    const isFullyReady = !translationLoading && Boolean(currentThemeId);
+    
+    console.log(`🔍 TRANSLATION READINESS: Immediate update for ${currentThemeId}/${language}:`, {
+      translationLoading,
+      hasTranslations,
+      hasMinimumTranslations,
+      isFullyReady,
+      translationCount: Object.keys(translations).length,
+      currentThemeId
+    });
 
-    // Wait for translations to be stable before marking as ready
-    stabilityTimerRef.current = setTimeout(() => {
-      // If translations are not loading and we have theme ID, we're ready
-      // Even if we don't have translations, we should still render (with fallbacks)
-      const isFullyReady = !translationLoading && Boolean(currentThemeId);
-      
-      console.log(`🔍 TRANSLATION READINESS: Stability check for ${currentThemeId}/${language}:`, {
-        translationLoading,
-        hasTranslations,
-        hasMinimumTranslations,
-        isFullyReady,
-        translationCount: Object.keys(translations).length,
-        currentThemeId
-      });
-
-      setReadinessState({
-        isReady: isFullyReady,
-        isLoading: translationLoading || !currentThemeId,
-        currentThemeId,
-        hasMinimumTranslations
-      });
-    }, 100); // Small delay to ensure stability
-
-    return () => {
-      if (stabilityTimerRef.current) {
-        clearTimeout(stabilityTimerRef.current);
-      }
-    };
+    setReadinessState({
+      isReady: isFullyReady,
+      isLoading: translationLoading || !currentThemeId,
+      currentThemeId,
+      hasMinimumTranslations
+    });
   }, [translations, translationLoading, currentThemeId, language]);
 
   console.log(`🔍 TRANSLATION READINESS: Current state:`, {

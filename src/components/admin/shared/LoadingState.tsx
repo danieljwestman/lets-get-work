@@ -8,16 +8,18 @@ interface LoadingStateProps {
 
 export const LoadingState: React.FC<LoadingStateProps> = ({ 
   message = "Loading...",
-  minDelay = 600
+  minDelay = 0
 }) => {
-  const [showContent, setShowContent] = useState(false);
+  const [showContent, setShowContent] = useState(minDelay === 0);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowContent(true);
-    }, minDelay);
+    if (minDelay > 0) {
+      const timer = setTimeout(() => {
+        setShowContent(true);
+      }, minDelay);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, [minDelay]);
 
   if (!showContent) {
