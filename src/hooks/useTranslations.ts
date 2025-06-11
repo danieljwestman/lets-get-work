@@ -101,7 +101,7 @@ export const useTranslations = (themeId: string, language: 'en' | 'sv') => {
           return;
         }
 
-        if (!value || typeof value !== 'string') {
+        if (value === null || value === undefined || typeof value !== 'string') {
           console.warn(`🔧 TRANSLATIONS HOOK: Missing or invalid published_value for key "${key}":`, item);
           invalidCount++;
           return;
