@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
-import { Shield, Eye, EyeOff } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Eye, EyeOff, Edit, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +11,7 @@ export const SecuritySettings: React.FC = () => {
   const { updatePassword } = useProfile();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
@@ -63,6 +63,7 @@ export const SecuritySettings: React.FC = () => {
       });
       
       setPasswords({ current: '', new: '', confirm: '' });
+      setShowPasswordForm(false);
     } catch (error: any) {
       toast({
         title: "Password update failed",
@@ -74,16 +75,45 @@ export const SecuritySettings: React.FC = () => {
     }
   };
 
+  const handleCancel = () => {
+    setPasswords({ current: '', new: '', confirm: '' });
+    setShowPasswordForm(false);
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Shield className="h-5 w-5" />
-          Security Settings
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handlePasswordChange} className="space-y-4">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h4 className="text-lg font-medium text-gray-900">Password</h4>
+          <p className="text-sm text-gray-500">Manage your account password</p>
+        </div>
+        {!showPasswordForm && (
+          <Button
+            onClick={() => setShowPasswordForm(true)}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <Edit className="h-4 w-4" />
+            Change Password
+          </Button>
+        )}
+      </div>
+
+      {showPasswordForm && (
+        <form onSubmit={handlePasswordChange} className="space-y-4 p-4 border rounded-lg bg-gray-50">
+          <div className="flex items-center justify-between mb-4">
+            <h5 className="font-medium text-gray-900">Change Password</h5>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={handleCancel}
+              className="h-8 w-8 p-0"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="current-password">Current Password</Label>
             <div className="relative">
@@ -153,11 +183,16 @@ export const SecuritySettings: React.FC = () => {
             </div>
           </div>
 
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? 'Updating...' : 'Update Password'}
-          </Button>
+          <div className="flex gap-2 pt-2">
+            <Button type="submit" disabled={loading}>
+              {loading ? 'Updating...' : 'Update Password'}
+            </Button>
+            <Button type="button" variant="outline" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </div>
         </form>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 };
