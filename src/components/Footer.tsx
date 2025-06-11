@@ -19,6 +19,13 @@ export const Footer = () => {
           </a>
           {t('footer.text').split('Lovable')[1]}
         </p>
+
+        {/* Experimental Project Notice */}
+        <div className="border-t border-gray-200 pt-6">
+          <p className="text-sm text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            {t('footer.experimental')}
+          </p>
+        </div>
         
         {/* Let's Get Work Branding */}
         <div className="border-t border-gray-200 pt-8">
