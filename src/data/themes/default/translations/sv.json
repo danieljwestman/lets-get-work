@@ -1,0 +1,190 @@
+
+{
+  "header": {
+    "badge": "Anlita Daniel nu"
+  },
+  "hero": {
+    "badge": "Anlita Daniel nu",
+    "title": "Där Kreativa Idéer Klickar",
+    "greeting": "Hej! Jag heter Daniel 👋",
+    "description": "Erfaren specialist inom IT med passion för teknik, design och att hjälpa användare lyckas. Jag brinner för att göra det komplexa enkelt — och omvandlar idéer till användarvänliga lösningar med hjälp av djup teknisk förståelse, AI-kompetens, kreativt tänkande och ett skarpt öga för design.\n\nStändigt nyfiken, ständigt i utveckling.",
+    "buttons": {
+      "getToKnow": "Lär dig om mig",
+      "letsTalk": "Kontakta mig",
+      "chatWithDaniBot": "Chatta med DaniBot"
+    }
+  },
+  "about": {
+    "title": "Er Nästa Customer Experience Champion 🏆",
+    "titleMobile": "Er Nästa Customer Experience Champion",
+    "description": "Modersmål svenska, flytande engelska, och redo för distansarbete med en professionell hemmakontor. Bor nära Stockholm och bekant med Lovables arbetsplats i Waterfront Building. Öppen för hel- eller deltid — taggad på att vara med i Lovables nästa kapitel!",
+    "videoTitle": "Träffa Daniel",
+    "videoDescription": "Klicka för att se min presentation",
+    "contentTitle": "Teknik + Hjärta + Engagemang 💝",
+    "contentTitleMobile": "Teknik + Hjärta + Engagemang",
+    "contentParagraph1": "Jag förstår teknik, men ännu viktigare - jag förstår människor! Eftersom jag själv byggt SaaS-plattformar med över 100 000+ användare, förstår jag både de tekniska utmaningarna och den mänskliga frustrationen när saker inte fungerar.",
+    "contentParagraph2": "Det är där magin händer: att förvandla komplexa utmaningar till enkla lösningar!",
+    "contentParagraph3": "När jag inte hjälper användare att lyckas, hittar du mig byggande saker med händerna (hantverkare på hjärtat!) eller springande efter mina tre barn med min underbara fru. Samma uppmärksamhet på detaljer, olika verktyg!",
+    "contentParagraph3Mobile": "När jag inte hjälper användare att lyckas, hittar du mig byggande saker med händerna (hantverkare på hjärtat!) eller springande efter mina tre barn med min underbara fru. Samma uppmärksamhet på detaljer, olika verktyg!"
+  },
+  "skills": {
+    "title": "Mina Customer Success Expertområden 💎",
+    "titleMobile": "Mina Customer Success Expertområden",
+    "description": "Den perfekta blandningen av teknisk expertis och interpersonella färdigheter för att få användare och kunder mer än nöjda!",
+    "items": [
+      "Customer Success 🎯",
+      "Teknisk Support 🛠️",
+      "Användarintroduktion ✨",
+      "Problemlösning 🧩",
+      "Designöga 👁️",
+      "SaaS-plattformar 🚀",
+      "Distansarbete Pro 🏠",
+      "Stockholmare 🇸🇪",
+      "Kvalitetsfokuserad 💎",
+      "Idékatalysator 💡",
+      "AI Prompt Engineer 🤖",
+      "Snabbinlärning ⚡"
+    ]
+  },
+  "tools": {
+    "title": "Teknikstack & Verktyg 🛠️",
+    "description": "Bekväm med verktygen som får bra support att fungera! Alltid nyfiken och älskar att utforska nya trendiga verktyg!",
+    "footer": "Lär mig alltid, utvecklas alltid!"
+  },
+  "experience": {
+    "title": "Min Resa till Customer Experience Excellence 🌟",
+    "titleMobile": "Min Resa till Customer Experience Excellence",
+    "description": "Från universitetsexperiment till att bygga plattformar som betjänar 100 000+ användare — varje steg har lärt mig något om design, användarbehov och vad som gör människor nöjda med sina verktyg.",
+    "items": [
+      {
+        "title": "AI-expert & Prompt Engineering Entusiast",
+        "company": "Framtidens Kommunikation",
+        "period": "Nuvarande Fokus",
+        "description": "Djupt fascinerad av prompt engineering och att behärska 'AI-språk' - eftersom framtiden för bra support kommer att blanda mänsklig empati med AI-superkrafter. Jag talar både människa och maskin! 🤖✨",
+        "emoji": "🧠"
+      },
+      {
+        "title": "Teknikentreprenör & SaaS-byggare",
+        "company": "15+ År av Innovation",
+        "period": "Pågående deltid",
+        "description": "Byggt och drivit flera SaaS-plattformar som betjänar 100 000+ användare inom olika branscher, mestadels inom PropTech. Djup praktisk erfarenhet av användarförvärv, retention, supportutmaningar och skalning av customer success-operationer. Jag har varit med genom varje stadium - från första användaren till skalning - och förstår vad som får kunder att stanna kvar! 🚀",
+        "emoji": "🚀"
+      },
+      {
+        "title": "Design & Customer Experience Förespråkare",
+        "company": "Varje Projekt Jag Rör",
+        "period": "Alltid",
+        "description": "Passionerad för bra design och smidiga användarupplevelser. Jag ser vad som fungerar, vad som inte fungerar, och viktigast av allt - jag bryr mig om att göra det bättre. Era användare förtjänar genomtänkta, välgjorda upplevelser! ✨",
+        "emoji": "💎"
+      },
+      {
+        "title": "Stockholm Kontorsveteran",
+        "company": "Waterfront Building Erfarenhet",
+        "period": "Tidigare År",
+        "description": "Hade mitt eget kontor i samma Waterfront-byggnad där Lovable Stockholm finns. Jag känner till kafféställena, stämningen och vad som gör den arbetsplatsen speciell. Distansarbete-redo med en fantastisk hemmakontor-setup! ☕",
+        "emoji": "🏢"
+      },
+      {
+        "title": "Universitetsutforskare",
+        "company": "Akademiska Äventyr",
+        "period": "Lärandeåren",
+        "description": "Studerade IT, Marknadsföring och Ekonomi på universitetet - utbildningen lärde mig hur man lär sig och tänker kritiskt, vilket är ovärderligt! 📚 Men ärligt talat, den riktiga magin hände när jag började bygga faktiska projekt och lösa riktiga problem ute i verkligheten. Det var då allt föll på plats! 🛠️",
+        "emoji": "🎓"
+      }
+    ]
+  },
+  "whySupport": {
+    "title": "Kund + Daniel = Framgång! ✨",
+    "titleMobile": "Kund + Daniel = Framgång!",
+    "description": "Jag har varit på båda sidor - byggt verktyg OCH desperat behövt bra support! Jag vet hur det känns att vara fast, och jag lever för de där aha!-momenten när allt klickar. Låt mig hjälpa era användare att upptäcka glädjen i problemfritt byggande - särskilt i rollen som Support Specialist!",
+    "highlights": [
+      {
+        "title": "Distansarbete Redo",
+        "subtitle": "Professionell Hemmakontor"
+      },
+      {
+        "title": "Deltid",
+        "subtitle": "Perfekt Match"
+      },
+      {
+        "title": "Stockholm",
+        "subtitle": "Lokal Kunskap"
+      },
+      {
+        "title": "Tillgänglig Nu",
+        "subtitle": "Redo att Börja"
+      }
+    ]
+  },
+  "inquiryTypes": {
+    "title": "Hur kan jag hjälpa ditt team? 🤝",
+    "titleMobile": "Hur kan jag hjälpa ditt team?",
+    "description": "Jag är öppen för olika typer av professionella engagemang. Så här skulle vi kunna arbeta tillsammans:",
+    "types": {
+      "partTime": {
+        "title": "Deltidsanställning",
+        "description": "Perfekt för pågående projekt som behöver konsekvent uppmärksamhet utan heltidsengagemang.",
+        "benefit1": "Flexibel schemaläggning",
+        "benefit2": "Kostnadseffektiv lösning"
+      },
+      "fullTime": {
+        "title": "Heltidsanställning",
+        "description": "Redo att fullt ut engagera mig i ditt teams mission och växa tillsammans långsiktigt.",
+        "benefit1": "Fullständig dedikation",
+        "benefit2": "Långsiktigt partnerskap"
+      },
+      "consultancy": {
+        "title": "Konsultuppdrag",
+        "description": "Strategisk vägledning och expertis för specifika utmaningar eller projektfaser.",
+        "benefit1": "Expertinsikter",
+        "benefit2": "Snabb implementation"
+      }
+    }
+  },
+  "contact": {
+    "title": "Låt oss prata! 🚀",
+    "titleMobile": "Låt oss prata!",
+    "description": "Jag brinner för att diskutera användarupplevelse, teknik och designinnovation. Oavsett om det handlar om att skapa intuitiva gränssnitt, lösa komplexa tekniska utmaningar eller skapa sömlösa digitala upplevelser, skulle jag gärna utforska hur min expertis inom UX och teknik kan bidra till ert teams vision.",
+    "buttons": {
+      "email": "Skicka ett mejl",
+      "github": "GitHub Profil",
+      "linkedin": "LinkedIn Profil"
+    },
+    "modal": {
+      "title": "Kontakta Daniel"
+    },
+    "form": {
+      "name": "Ditt Namn",
+      "namePlaceholder": "Ditt namn",
+      "email": "Din E-post",
+      "emailPlaceholder": "din@email.com",
+      "inquiryType": "Typ av Förfrågan",
+      "selectInquiry": "Välj typ av förfrågan",
+      "message": "Meddelande",
+      "messagePlaceholder": "Ditt meddelande till Daniel...",
+      "sending": "Skickar...",
+      "inquiryTypes": {
+        "general": "Allmän Förfrågan",
+        "job": "Jobbtillfälle",
+        "collaboration": "Samarbete",
+        "consultation": "Konsultation"
+      },
+      "validation": {
+        "missingInfo": "Information Saknas",
+        "fillRequired": "Vänligen fyll i alla obligatoriska fält"
+      },
+      "success": {
+        "title": "E-post Skickad Framgångsrikt! ✨",
+        "description": "Daniel kommer att återkomma till dig snart. Kolla din e-post för en bekräftelse."
+      },
+      "error": {
+        "title": "Misslyckades att Skicka E-post",
+        "description": "Vänligen försök igen senare"
+      }
+    },
+    "emailSubject": "Låt oss utforska möjligheter tillsammans!"
+  },
+  "footer": {
+    "text": "Skapad med ❤️ och driven av Lovable - där innovativa idéer blir verklighet! ✨"
+  }
+}
