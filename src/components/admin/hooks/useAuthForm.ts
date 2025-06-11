@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
 export const useAuthForm = () => {
-  const { signIn, resetPassword, loading } = useAuth();
+  const { signIn, signUp, resetPassword, loading } = useAuth();
   const [isResetPassword, setIsResetPassword] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -20,6 +21,12 @@ export const useAuthForm = () => {
     setMessage('');
     setIsSubmitting(true);
 
+    console.log('useAuthForm: Form submission', {
+      isResetPassword,
+      isSignUp,
+      email: formData.email
+    });
+
     try {
       if (isResetPassword) {
         const { error } = await resetPassword(formData.email);
@@ -27,16 +34,24 @@ export const useAuthForm = () => {
           setError(error.message);
         } else {
           setMessage('Password reset email sent! Check your inbox.');
-          setFormData({ email: '', password: '' });
+        }
+      } else if (isSignUp) {
+        const { error } = await signUp(formData.email, formData.password);
+        if (error) {
+          setError(error.message);
+        } else {
+          setMessage('Account created! Check your email to verify your account.');
         }
       } else {
         const { error } = await signIn(formData.email, formData.password);
         if (error) {
           setError(error.message);
         }
+        // Success will be handled by the auth context state change
       }
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
+    } catch (err) {
+      console.error('useAuthForm: Submission error:', err);
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -44,27 +59,35 @@ export const useAuthForm = () => {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    setError('');
+    // Clear errors when user starts typing
+    if (error) setError('');
+    if (message) setMessage('');
   };
 
-  const resetForm = () => {
-    setFormData({ email: '', password: '' });
+  const switchToReset = () => {
+    setIsResetPassword(true);
+    setIsSignUp(false);
     setError('');
     setMessage('');
   };
 
-  const switchToReset = () => {
-    resetForm();
-    setIsResetPassword(true);
+  const switchToSignIn = () => {
+    setIsResetPassword(false);
+    setIsSignUp(false);
+    setError('');
+    setMessage('');
   };
 
-  const switchToSignIn = () => {
-    resetForm();
+  const switchToSignUp = () => {
     setIsResetPassword(false);
+    setIsSignUp(true);
+    setError('');
+    setMessage('');
   };
 
   return {
     isResetPassword,
+    isSignUp,
     showPassword,
     setShowPassword,
     formData,
@@ -76,5 +99,6 @@ export const useAuthForm = () => {
     handleInputChange,
     switchToReset,
     switchToSignIn,
+    switchToSignUp,
   };
 };

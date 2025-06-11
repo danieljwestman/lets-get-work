@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface AuthFormProps {
   isResetPassword: boolean;
+  isSignUp: boolean;
   showPassword: boolean;
   setShowPassword: (show: boolean) => void;
   formData: {
@@ -22,10 +23,12 @@ interface AuthFormProps {
   onInputChange: (field: string, value: string) => void;
   onSwitchToReset: () => void;
   onSwitchToSignIn: () => void;
+  onSwitchToSignUp: () => void;
 }
 
 export const AuthForm: React.FC<AuthFormProps> = ({
   isResetPassword,
+  isSignUp,
   showPassword,
   setShowPassword,
   formData,
@@ -37,7 +40,15 @@ export const AuthForm: React.FC<AuthFormProps> = ({
   onInputChange,
   onSwitchToReset,
   onSwitchToSignIn,
+  onSwitchToSignUp,
 }) => {
+  const getSubmitButtonText = () => {
+    if (isSubmitting) return 'Processing...';
+    if (isResetPassword) return 'Send Reset Email';
+    if (isSignUp) return 'Create Account';
+    return 'Sign In';
+  };
+
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       {/* Email Field */}
@@ -52,7 +63,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
             onChange={(e) => onInputChange('email', e.target.value)}
             required
             className="pl-10 border-2 focus:border-blue-500 focus:ring-blue-500/20"
-            disabled={isSubmitting}
+            disabled={isSubmitting || loading}
           />
           <Mail className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
         </div>
@@ -71,7 +82,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
               onChange={(e) => onInputChange('password', e.target.value)}
               required
               className="pl-10 pr-10 border-2 focus:border-blue-500 focus:ring-blue-500/20"
-              disabled={isSubmitting}
+              disabled={isSubmitting || loading}
             />
             <Lock className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
             <Button
@@ -80,7 +91,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
               size="sm"
               className="absolute right-0 top-0 h-full px-3"
               onClick={() => setShowPassword(!showPassword)}
-              disabled={isSubmitting}
+              disabled={isSubmitting || loading}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </Button>
@@ -110,23 +121,34 @@ export const AuthForm: React.FC<AuthFormProps> = ({
         className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-200" 
         disabled={isSubmitting || loading}
       >
-        {isSubmitting 
-          ? 'Processing...' 
-          : isResetPassword 
-            ? 'Send Reset Email' 
-            : 'Sign In'
-        }
+        {getSubmitButtonText()}
       </Button>
 
-      {/* Password Reset Link */}
-      <div className="mt-6 text-center">
+      {/* Auth Mode Switching */}
+      <div className="mt-6 text-center space-y-2">
+        {/* Sign In / Sign Up Toggle */}
+        {!isResetPassword && (
+          <p className="text-sm text-gray-600">
+            {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
+            <button
+              type="button"
+              onClick={isSignUp ? onSwitchToSignIn : onSwitchToSignUp}
+              className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              disabled={isSubmitting || loading}
+            >
+              {isSignUp ? 'Sign In' : 'Create Account'}
+            </button>
+          </p>
+        )}
+
+        {/* Password Reset Link */}
         <p className="text-sm text-gray-600">
           {isResetPassword ? 'Remember your password? ' : 'Forgot your password? '}
           <button
             type="button"
             onClick={isResetPassword ? onSwitchToSignIn : onSwitchToReset}
             className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
-            disabled={isSubmitting}
+            disabled={isSubmitting || loading}
           >
             {isResetPassword ? 'Sign In' : 'Reset Password'}
           </button>

@@ -8,6 +8,7 @@ import { AuthForm } from './AuthForm';
 export const DashboardAuth: React.FC = () => {
   const {
     isResetPassword,
+    isSignUp,
     showPassword,
     setShowPassword,
     formData,
@@ -19,14 +20,19 @@ export const DashboardAuth: React.FC = () => {
     handleInputChange,
     switchToReset,
     switchToSignIn,
+    switchToSignUp,
   } = useAuthForm();
 
   const getTitle = () => {
-    return isResetPassword ? 'Reset Password' : 'Dashboard';
+    if (isResetPassword) return 'Reset Password';
+    if (isSignUp) return 'Create Account';
+    return 'Dashboard';
   };
 
   const getSubtitle = () => {
-    return isResetPassword ? 'Enter your email to receive a password reset link' : 'Sign in to manage your job hunting';
+    if (isResetPassword) return 'Enter your email to receive a password reset link';
+    if (isSignUp) return 'Create your account to manage your job hunting opportunities';
+    return 'Sign in to manage your job hunting';
   };
 
   return (
@@ -48,6 +54,7 @@ export const DashboardAuth: React.FC = () => {
 
           <AuthForm
             isResetPassword={isResetPassword}
+            isSignUp={isSignUp}
             showPassword={showPassword}
             setShowPassword={setShowPassword}
             formData={formData}
@@ -59,6 +66,7 @@ export const DashboardAuth: React.FC = () => {
             onInputChange={handleInputChange}
             onSwitchToReset={switchToReset}
             onSwitchToSignIn={switchToSignIn}
+            onSwitchToSignUp={switchToSignUp}
           />
         </div>
       </div>

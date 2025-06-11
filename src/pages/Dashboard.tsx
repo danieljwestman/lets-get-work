@@ -8,7 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 
 const DashboardContent: React.FC = () => {
-  const { user, loading } = useAuth();
+  const { user, session, loading } = useAuth();
   const [hasMinimumDelay, setHasMinimumDelay] = useState(false);
 
   // Ensure minimum loading time for better UX
@@ -19,6 +19,14 @@ const DashboardContent: React.FC = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  console.log('Dashboard: Current auth state', {
+    hasUser: !!user,
+    hasSession: !!session,
+    loading,
+    hasMinimumDelay,
+    userId: user?.id
+  });
 
   if (loading || !hasMinimumDelay) {
     return (
@@ -31,12 +39,15 @@ const DashboardContent: React.FC = () => {
     );
   }
 
-  if (!user) {
+  if (!user || !session) {
     console.log('Dashboard: User not authenticated, showing login screen');
     return <DashboardAuth />;
   }
 
-  console.log('Dashboard: User is authenticated, showing admin layout');
+  console.log('Dashboard: User is authenticated, showing admin layout', {
+    userId: user.id,
+    email: user.email
+  });
 
   return (
     <ErrorBoundary>
