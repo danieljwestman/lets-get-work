@@ -15,8 +15,8 @@ export const Footer = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-gray-50/70 to-white/90 rounded-3xl shadow-2xl backdrop-blur-md border border-white/20" />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-50/30 via-purple-50/30 to-pink-50/30 rounded-3xl" />
             
-            {/* Content container with increased top and bottom padding */}
-            <div className="relative py-12 sm:py-16 md:py-20 px-6 sm:px-10 md:px-16 space-y-10 sm:space-y-12">
+            {/* Content container with responsive padding - reduced on desktop */}
+            <div className="relative py-12 sm:py-16 md:py-12 lg:py-10 px-6 sm:px-10 md:px-12 lg:px-10 space-y-10 sm:space-y-12 md:space-y-8 lg:space-y-6">
               
               {/* Crafted with care section */}
               <div className="space-y-4">
