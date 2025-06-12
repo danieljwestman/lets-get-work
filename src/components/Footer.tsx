@@ -20,7 +20,7 @@ export const Footer = () => {
               
               {/* Crafted with care section */}
               <div className="space-y-4">
-                <p className="text-gray-700 text-base sm:text-sm md:text-base leading-relaxed font-light max-w-2xl mx-auto">
+                <p className="text-gray-700 text-sm sm:text-base leading-relaxed font-light max-w-2xl mx-auto">
                   {t('footer.text').split('Lovable')[0]}
                   <a 
                     href="https://lovable.dev" 
@@ -50,12 +50,12 @@ export const Footer = () => {
                   
                   {/* Main logo text */}
                   <div className="relative">
-                    <div className="text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent tracking-tight leading-none">
+                    <div className="text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent tracking-tight leading-none">
                       LetsGetWork
                     </div>
                     
                     {/* Subtle reflection effect */}
-                    <div className="absolute inset-0 text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-700/20 bg-clip-text text-transparent tracking-tight leading-none transform translate-y-1 blur-sm -z-10">
+                    <div className="absolute inset-0 text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-700/20 bg-clip-text text-transparent tracking-tight leading-none transform translate-y-1 blur-sm -z-10">
                       LetsGetWork
                     </div>
                   </div>
@@ -63,7 +63,7 @@ export const Footer = () => {
               </div>
 
               {/* Experimental showcase description */}
-              <div className="text-base sm:text-sm md:text-base text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
+              <div className="text-sm sm:text-base text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
                 {t('footer.experimental')}
               </div>
             </div>
