@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Settings, Lock, CircleCheck, CircleMinus, CircleX } from 'lucide-react';
@@ -16,6 +16,24 @@ export const UserTopBar: React.FC<UserTopBarProps> = ({ onDashboardClick }) => {
   const { opportunity } = useOpportunity();
   const { toast } = useToast();
   const [isToggling, setIsToggling] = useState(false);
+
+  // Show toast after page reload if status was changed
+  useEffect(() => {
+    const statusChangeInfo = sessionStorage.getItem('opportunity-status-changed');
+    if (statusChangeInfo) {
+      try {
+        const { newStatus } = JSON.parse(statusChangeInfo);
+        toast({
+          title: "Status Updated",
+          description: `Opportunity ${newStatus === 'published' ? 'published' : 'unpublished'} successfully`,
+        });
+        sessionStorage.removeItem('opportunity-status-changed');
+      } catch (error) {
+        console.error('Error parsing status change info:', error);
+        sessionStorage.removeItem('opportunity-status-changed');
+      }
+    }
+  }, [toast]);
 
   if (!opportunity) return null;
 
@@ -74,10 +92,8 @@ export const UserTopBar: React.FC<UserTopBarProps> = ({ onDashboardClick }) => {
         throw error;
       }
 
-      toast({
-        title: "Status Updated",
-        description: `Opportunity ${newStatus === 'published' ? 'published' : 'unpublished'} successfully`,
-      });
+      // Store status change info for post-reload toast
+      sessionStorage.setItem('opportunity-status-changed', JSON.stringify({ newStatus }));
 
       // Reload the page to reflect the changes
       window.location.reload();
@@ -88,7 +104,6 @@ export const UserTopBar: React.FC<UserTopBarProps> = ({ onDashboardClick }) => {
         description: "Failed to update opportunity status",
         variant: "destructive",
       });
-    } finally {
       setIsToggling(false);
     }
   };
