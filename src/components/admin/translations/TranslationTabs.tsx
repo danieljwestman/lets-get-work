@@ -35,11 +35,47 @@ export const TranslationTabs: React.FC<TranslationTabsProps> = ({
   onSearchChange = () => {}
 }) => {
   return (
-    <Tabs value={activeLanguage} onValueChange={(value) => onLanguageChange(value as 'en' | 'sv' | 'both')}>
-      <TabsHeader translations={translations} />
+    <div>
+      <Tabs value={activeLanguage} onValueChange={(value) => onLanguageChange(value as 'en' | 'sv' | 'both')}>
+        <TabsHeader translations={translations} />
 
-      {/* Search filter positioned below tabs - centered and smaller width */}
-      <div className="flex justify-center py-4 bg-gray-50/50">
+        <div className="bg-white">
+          <LanguageTabContent
+            language="en"
+            translations={translations.en}
+            filteredTranslations={filteredTranslations}
+            onSave={onSave}
+            onDelete={onDelete}
+            onPublishSingle={onPublishSingle}
+            loading={loading}
+            saving={saving}
+          />
+
+          <LanguageTabContent
+            language="sv"
+            translations={translations.sv}
+            filteredTranslations={filteredTranslations}
+            onSave={onSave}
+            onDelete={onDelete}
+            onPublishSingle={onPublishSingle}
+            loading={loading}
+            saving={saving}
+          />
+
+          <SideBySideTabContent
+            translations={translations}
+            filteredTranslations={filteredTranslations}
+            onSave={onSave}
+            onDelete={onDelete}
+            onPublishSingle={onPublishSingle}
+            loading={loading}
+            saving={saving}
+          />
+        </div>
+      </Tabs>
+
+      {/* Search filter positioned outside tabs container with more spacing */}
+      <div className="flex justify-center py-6 bg-white">
         <div className="w-full max-w-md">
           <TranslationSearch
             searchTerm={searchTerm}
@@ -47,40 +83,6 @@ export const TranslationTabs: React.FC<TranslationTabsProps> = ({
           />
         </div>
       </div>
-
-      <div className="bg-white">
-        <LanguageTabContent
-          language="en"
-          translations={translations.en}
-          filteredTranslations={filteredTranslations}
-          onSave={onSave}
-          onDelete={onDelete}
-          onPublishSingle={onPublishSingle}
-          loading={loading}
-          saving={saving}
-        />
-
-        <LanguageTabContent
-          language="sv"
-          translations={translations.sv}
-          filteredTranslations={filteredTranslations}
-          onSave={onSave}
-          onDelete={onDelete}
-          onPublishSingle={onPublishSingle}
-          loading={loading}
-          saving={saving}
-        />
-
-        <SideBySideTabContent
-          translations={translations}
-          filteredTranslations={filteredTranslations}
-          onSave={onSave}
-          onDelete={onDelete}
-          onPublishSingle={onPublishSingle}
-          loading={loading}
-          saving={saving}
-        />
-      </div>
-    </Tabs>
+    </div>
   );
 };
