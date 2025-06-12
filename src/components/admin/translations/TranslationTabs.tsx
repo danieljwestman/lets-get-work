@@ -35,54 +35,52 @@ export const TranslationTabs: React.FC<TranslationTabsProps> = ({
   onSearchChange = () => {}
 }) => {
   return (
-    <div>
-      <Tabs value={activeLanguage} onValueChange={(value) => onLanguageChange(value as 'en' | 'sv' | 'both')}>
-        <TabsHeader translations={translations} />
+    <Tabs value={activeLanguage} onValueChange={(value) => onLanguageChange(value as 'en' | 'sv' | 'both')}>
+      <TabsHeader translations={translations} />
 
-        <div className="bg-white">
-          <LanguageTabContent
-            language="en"
-            translations={translations.en}
-            filteredTranslations={filteredTranslations}
-            onSave={onSave}
-            onDelete={onDelete}
-            onPublishSingle={onPublishSingle}
-            loading={loading}
-            saving={saving}
-          />
-
-          <LanguageTabContent
-            language="sv"
-            translations={translations.sv}
-            filteredTranslations={filteredTranslations}
-            onSave={onSave}
-            onDelete={onDelete}
-            onPublishSingle={onPublishSingle}
-            loading={loading}
-            saving={saving}
-          />
-
-          <SideBySideTabContent
-            translations={translations}
-            filteredTranslations={filteredTranslations}
-            onSave={onSave}
-            onDelete={onDelete}
-            onPublishSingle={onPublishSingle}
-            loading={loading}
-            saving={saving}
-          />
+      <div className="bg-white">
+        {/* Search filter positioned at the top of content area */}
+        <div className="flex justify-center py-6 border-b border-gray-100">
+          <div className="w-full max-w-md">
+            <TranslationSearch
+              searchTerm={searchTerm}
+              onSearchChange={onSearchChange}
+            />
+          </div>
         </div>
-      </Tabs>
 
-      {/* Search filter positioned outside tabs container with more spacing */}
-      <div className="flex justify-center py-6 bg-white">
-        <div className="w-full max-w-md">
-          <TranslationSearch
-            searchTerm={searchTerm}
-            onSearchChange={onSearchChange}
-          />
-        </div>
+        <LanguageTabContent
+          language="en"
+          translations={translations.en}
+          filteredTranslations={filteredTranslations}
+          onSave={onSave}
+          onDelete={onDelete}
+          onPublishSingle={onPublishSingle}
+          loading={loading}
+          saving={saving}
+        />
+
+        <LanguageTabContent
+          language="sv"
+          translations={translations.sv}
+          filteredTranslations={filteredTranslations}
+          onSave={onSave}
+          onDelete={onDelete}
+          onPublishSingle={onPublishSingle}
+          loading={loading}
+          saving={saving}
+        />
+
+        <SideBySideTabContent
+          translations={translations}
+          filteredTranslations={filteredTranslations}
+          onSave={onSave}
+          onDelete={onDelete}
+          onPublishSingle={onPublishSingle}
+          loading={loading}
+          saving={saving}
+        />
       </div>
-    </div>
+    </Tabs>
   );
 };
