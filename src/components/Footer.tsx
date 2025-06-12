@@ -18,9 +18,9 @@ export const Footer = () => {
             {/* Content container with reduced padding on mobile */}
             <div className="relative p-4 sm:p-8 md:p-12 space-y-6 sm:space-y-8">
               
-              {/* Crafted with care section - reduced font sizes */}
+              {/* Crafted with care section */}
               <div className="space-y-4">
-                <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed font-light max-w-2xl mx-auto">
+                <p className="text-gray-700 text-sm sm:text-sm md:text-base leading-relaxed font-light max-w-2xl mx-auto">
                   {t('footer.text').split('Lovable')[0]}
                   <a 
                     href="https://lovable.dev" 
@@ -35,38 +35,36 @@ export const Footer = () => {
                 </p>
               </div>
 
-              {/* Powered by section with reduced font sizes */}
+              {/* Powered by section */}
               <div className="space-y-4 sm:space-y-6">
                 <div className="text-xs text-gray-500 font-light tracking-wider uppercase">
                   Powered by
                 </div>
                 
-                {/* LetsGetWork logo with reduced font sizes */}
+                {/* LetsGetWork logo */}
                 <div className="relative inline-block">
                   {/* Multiple glow layers for depth */}
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl blur-3xl scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl blur-2xl scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg blur-xl" />
                   
-                  {/* Main logo text with reduced font sizes */}
+                  {/* Main logo text */}
                   <div className="relative">
-                    <div className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent tracking-tight leading-none">
+                    <div className="text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent tracking-tight leading-none">
                       LetsGetWork
                     </div>
                     
                     {/* Subtle reflection effect */}
-                    <div className="absolute inset-0 text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-700/20 bg-clip-text text-transparent tracking-tight leading-none transform translate-y-1 blur-sm -z-10">
+                    <div className="absolute inset-0 text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-700/20 bg-clip-text text-transparent tracking-tight leading-none transform translate-y-1 blur-sm -z-10">
                       LetsGetWork
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Experimental showcase description - now directly in main container */}
-              <div className="space-y-2">
-                <div className="text-sm text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
-                  {t('footer.experimental')}
-                </div>
+              {/* Experimental showcase description */}
+              <div className="text-sm sm:text-sm md:text-base text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
+                {t('footer.experimental')}
               </div>
             </div>
 
