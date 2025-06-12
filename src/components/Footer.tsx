@@ -1,5 +1,3 @@
-
-
 import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 
 export const Footer = () => {
@@ -7,8 +5,8 @@ export const Footer = () => {
 
   return (
     <footer className="relative overflow-hidden">
-      {/* Main footer container with increased top padding */}
-      <div className="text-center pb-8 sm:pb-16 pt-12 sm:pt-20 px-4 sm:px-6">
+      {/* Main footer container with increased top and bottom padding */}
+      <div className="text-center pb-12 sm:pb-20 pt-16 sm:pt-24 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl">
           {/* Main unified card container */}
           <div className="relative">
@@ -81,4 +79,3 @@ export const Footer = () => {
     </footer>
   );
 };
-
