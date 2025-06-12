@@ -16,7 +16,7 @@ export const Footer = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-50/30 via-purple-50/30 to-pink-50/30 rounded-3xl" />
             
             {/* Content container with reduced padding on mobile */}
-            <div className="relative p-4 sm:p-8 md:p-12 space-y-6 sm:space-y-8">
+            <div className="relative p-4 sm:p-8 md:p-12 space-y-8 sm:space-y-10">
               
               {/* Crafted with care section */}
               <div className="space-y-4">
@@ -36,7 +36,7 @@ export const Footer = () => {
               </div>
 
               {/* Powered by section */}
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-3 sm:space-y-4">
                 <div className="text-xs text-gray-500 font-light tracking-wider uppercase">
                   Powered by
                 </div>
