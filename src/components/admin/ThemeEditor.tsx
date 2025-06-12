@@ -77,43 +77,72 @@ export const ThemeEditor: React.FC<ThemeEditorProps> = ({
 
       {/* Editor Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="basic">Basic Info</TabsTrigger>
-          <TabsTrigger value="branding">Branding</TabsTrigger>
-          <TabsTrigger value="content">Content</TabsTrigger>
-          <TabsTrigger value="danibot">DaniBot</TabsTrigger>
-          <TabsTrigger value="translations">Translations</TabsTrigger>
-        </TabsList>
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+          <TabsList className="w-full h-auto p-1 bg-gray-50/50 grid grid-cols-5 gap-1 rounded-lg">
+            <TabsTrigger 
+              value="basic"
+              className="flex flex-col items-center gap-1 py-3 px-4 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:border border-gray-200 rounded-md transition-all text-sm font-medium"
+            >
+              <span>Basic Info</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="branding"
+              className="flex flex-col items-center gap-1 py-3 px-4 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:border border-gray-200 rounded-md transition-all text-sm font-medium"
+            >
+              <span>Branding</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="content"
+              className="flex flex-col items-center gap-1 py-3 px-4 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:border border-gray-200 rounded-md transition-all text-sm font-medium"
+            >
+              <span>Content</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="danibot"
+              className="flex flex-col items-center gap-1 py-3 px-4 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:border border-gray-200 rounded-md transition-all text-sm font-medium"
+            >
+              <span>DaniBot</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="translations"
+              className="flex flex-col items-center gap-1 py-3 px-4 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:border border-gray-200 rounded-md transition-all text-sm font-medium"
+            >
+              <span>Translations</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsContent value="basic">
-          <ThemeBasicInfo theme={theme} onChange={updateTheme} />
-        </TabsContent>
+        <div className="bg-white">
+          <TabsContent value="basic" className="mt-0">
+            <ThemeBasicInfo theme={theme} onChange={updateTheme} />
+          </TabsContent>
 
-        <TabsContent value="branding">
-          <ThemeBranding theme={theme} onChange={updateTheme} />
-        </TabsContent>
+          <TabsContent value="branding" className="mt-0">
+            <ThemeBranding theme={theme} onChange={updateTheme} />
+          </TabsContent>
 
-        <TabsContent value="content">
-          <ThemeContent theme={theme} onChange={updateTheme} />
-        </TabsContent>
+          <TabsContent value="content" className="mt-0">
+            <ThemeContent theme={theme} onChange={updateTheme} />
+          </TabsContent>
 
-        <TabsContent value="danibot">
-          <ThemeDaniBot theme={theme} onChange={updateTheme} />
-        </TabsContent>
+          <TabsContent value="danibot" className="mt-0">
+            <ThemeDaniBot theme={theme} onChange={updateTheme} />
+          </TabsContent>
 
-        <TabsContent value="translations">
-          {!isCreating && themeId ? (
-            <LazyThemeTranslations themeId={themeId} />
-          ) : (
-            <Card>
-              <CardContent className="p-6 text-center">
-                <p className="text-gray-600">
-                  Save the theme first to manage translations.
-                </p>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
+          <TabsContent value="translations" className="mt-0">
+            {!isCreating && themeId ? (
+              <LazyThemeTranslations themeId={themeId} />
+            ) : (
+              <Card>
+                <CardContent className="p-6 text-center">
+                  <p className="text-gray-600">
+                    Save the theme first to manage translations.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
