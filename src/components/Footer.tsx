@@ -6,8 +6,8 @@ export const Footer = () => {
 
   return (
     <footer className="relative overflow-hidden">
-      {/* Main footer container with reduced padding on mobile */}
-      <div className="text-center pb-8 sm:pb-16 px-4 sm:px-6">
+      {/* Main footer container with increased top padding */}
+      <div className="text-center pb-8 sm:pb-16 pt-12 sm:pt-20 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl">
           {/* Main unified card container */}
           <div className="relative">
@@ -15,12 +15,12 @@ export const Footer = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-gray-50/70 to-white/90 rounded-3xl shadow-2xl backdrop-blur-md border border-white/20" />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-50/30 via-purple-50/30 to-pink-50/30 rounded-3xl" />
             
-            {/* Content container with reduced padding on mobile */}
-            <div className="relative p-4 sm:p-8 md:p-12 space-y-8 sm:space-y-10">
+            {/* Content container with increased spacing between sections */}
+            <div className="relative p-4 sm:p-8 md:p-12 space-y-10 sm:space-y-12">
               
               {/* Crafted with care section */}
               <div className="space-y-4">
-                <p className="text-gray-700 text-sm sm:text-sm md:text-base leading-relaxed font-light max-w-2xl mx-auto">
+                <p className="text-gray-700 text-xs sm:text-xs md:text-sm leading-relaxed font-light max-w-2xl mx-auto">
                   {t('footer.text').split('Lovable')[0]}
                   <a 
                     href="https://lovable.dev" 
@@ -63,7 +63,7 @@ export const Footer = () => {
               </div>
 
               {/* Experimental showcase description */}
-              <div className="text-sm sm:text-sm md:text-base text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
+              <div className="text-xs sm:text-xs md:text-sm text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
                 {t('footer.experimental')}
               </div>
             </div>
