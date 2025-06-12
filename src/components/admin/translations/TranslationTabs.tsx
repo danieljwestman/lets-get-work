@@ -2,6 +2,7 @@
 import React from 'react';
 import { Tabs } from '@/components/ui/tabs';
 import { TabsHeader } from './TabsHeader';
+import { TranslationSearch } from './TranslationSearch';
 import { LanguageTabContent } from './LanguageTabContent';
 import { SideBySideTabContent } from './SideBySideTabContent';
 import { Translation } from '@/types/admin';
@@ -16,6 +17,8 @@ interface TranslationTabsProps {
   onPublishSingle?: (language: 'en' | 'sv', key: string) => Promise<void>;
   loading: boolean;
   saving: boolean;
+  searchTerm?: string;
+  onSearchChange?: (value: string) => void;
 }
 
 export const TranslationTabs: React.FC<TranslationTabsProps> = ({
@@ -27,11 +30,21 @@ export const TranslationTabs: React.FC<TranslationTabsProps> = ({
   onDelete,
   onPublishSingle,
   loading,
-  saving
+  saving,
+  searchTerm = '',
+  onSearchChange = () => {}
 }) => {
   return (
     <Tabs value={activeLanguage} onValueChange={(value) => onLanguageChange(value as 'en' | 'sv' | 'both')}>
       <TabsHeader translations={translations} />
+
+      {/* Search filter positioned below tabs */}
+      <div className="px-1 py-4 border-b bg-gray-50/50">
+        <TranslationSearch
+          searchTerm={searchTerm}
+          onSearchChange={onSearchChange}
+        />
+      </div>
 
       <div className="bg-white">
         <LanguageTabContent

@@ -22,13 +22,28 @@ export const ThemeTranslations: React.FC<ThemeTranslationsProps> = ({ themeId })
   } = useTranslations(themeId);
 
   const [activeLanguage, setActiveLanguage] = useState<'en' | 'sv' | 'both'>('en');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const filteredTranslations = useMemo(() => {
+    let allTranslations: Translation[] = [];
+    
     if (activeLanguage === 'both') {
-      return [...translations.en, ...translations.sv];
+      allTranslations = [...translations.en, ...translations.sv];
+    } else {
+      allTranslations = translations[activeLanguage] || [];
     }
-    return translations[activeLanguage] || [];
-  }, [translations, activeLanguage]);
+
+    if (!searchTerm) {
+      return allTranslations;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+    return allTranslations.filter(translation => {
+      const keyMatch = translation.translation_key.toLowerCase().includes(searchLower);
+      const valueMatch = (translation.draft_value || translation.published_value || '').toLowerCase().includes(searchLower);
+      return keyMatch || valueMatch;
+    });
+  }, [translations, activeLanguage, searchTerm]);
 
   return (
     <div className="space-y-6">
@@ -57,6 +72,8 @@ export const ThemeTranslations: React.FC<ThemeTranslationsProps> = ({ themeId })
               onPublishSingle={publishSingleTranslation}
               loading={loading}
               saving={saving}
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
             />
           </div>
         </CardContent>

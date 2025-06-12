@@ -60,6 +60,9 @@ export const useTranslations = (themeId: string) => {
   };
 
   const saveTranslation = async (language: 'en' | 'sv', key: string, value: string) => {
+    // Store current scroll position
+    const scrollPosition = window.scrollY;
+    
     setSaving(true);
     try {
       console.log('🔧 ADMIN TRANSLATIONS: Saving translation:', { language, key, value });
@@ -95,6 +98,11 @@ export const useTranslations = (themeId: string) => {
       }
 
       await loadTranslations();
+      
+      // Restore scroll position after a short delay to ensure DOM is updated
+      setTimeout(() => {
+        window.scrollTo(0, scrollPosition);
+      }, 50);
     } catch (error) {
       console.error('🔧 ADMIN TRANSLATIONS: Error saving translation:', error);
       throw error;
@@ -104,6 +112,9 @@ export const useTranslations = (themeId: string) => {
   };
 
   const publishSingleTranslation = async (language: 'en' | 'sv', key: string) => {
+    // Store current scroll position
+    const scrollPosition = window.scrollY;
+    
     try {
       console.log('🔧 ADMIN TRANSLATIONS: Publishing single translation:', { language, key });
       
@@ -133,6 +144,11 @@ export const useTranslations = (themeId: string) => {
 
       console.log('🔧 ADMIN TRANSLATIONS: Successfully published translation');
       await loadTranslations();
+      
+      // Restore scroll position
+      setTimeout(() => {
+        window.scrollTo(0, scrollPosition);
+      }, 50);
     } catch (error) {
       console.error('🔧 ADMIN TRANSLATIONS: Error publishing translation:', error);
       throw error;
@@ -140,6 +156,9 @@ export const useTranslations = (themeId: string) => {
   };
 
   const deleteTranslation = async (language: 'en' | 'sv', key: string) => {
+    // Store current scroll position
+    const scrollPosition = window.scrollY;
+    
     try {
       console.log('🔧 ADMIN TRANSLATIONS: Deleting translation:', { language, key });
       
@@ -156,6 +175,11 @@ export const useTranslations = (themeId: string) => {
       if (error) throw error;
 
       await loadTranslations();
+      
+      // Restore scroll position
+      setTimeout(() => {
+        window.scrollTo(0, scrollPosition);
+      }, 50);
     } catch (error) {
       console.error('🔧 ADMIN TRANSLATIONS: Error deleting translation:', error);
       throw error;
