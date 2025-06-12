@@ -1,4 +1,5 @@
 
+
 import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
 
 export const Footer = () => {
@@ -20,7 +21,7 @@ export const Footer = () => {
               
               {/* Crafted with care section */}
               <div className="space-y-4">
-                <p className="text-gray-700 text-xs sm:text-xs md:text-sm leading-relaxed font-light max-w-2xl mx-auto">
+                <p className="text-gray-700 text-sm sm:text-xs md:text-sm leading-relaxed font-light max-w-2xl mx-auto">
                   {t('footer.text').split('Lovable')[0]}
                   <a 
                     href="https://lovable.dev" 
@@ -63,7 +64,7 @@ export const Footer = () => {
               </div>
 
               {/* Experimental showcase description */}
-              <div className="text-xs sm:text-xs md:text-sm text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
+              <div className="text-sm sm:text-xs md:text-sm text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
                 {t('footer.experimental')}
               </div>
             </div>
@@ -80,3 +81,4 @@ export const Footer = () => {
     </footer>
   );
 };
+
