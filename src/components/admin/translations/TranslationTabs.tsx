@@ -38,12 +38,14 @@ export const TranslationTabs: React.FC<TranslationTabsProps> = ({
     <Tabs value={activeLanguage} onValueChange={(value) => onLanguageChange(value as 'en' | 'sv' | 'both')}>
       <TabsHeader translations={translations} />
 
-      {/* Search filter positioned below tabs */}
-      <div className="px-1 py-4 border-b bg-gray-50/50">
-        <TranslationSearch
-          searchTerm={searchTerm}
-          onSearchChange={onSearchChange}
-        />
+      {/* Search filter positioned below tabs - centered and smaller width */}
+      <div className="flex justify-center py-4 bg-gray-50/50">
+        <div className="w-full max-w-md">
+          <TranslationSearch
+            searchTerm={searchTerm}
+            onSearchChange={onSearchChange}
+          />
+        </div>
       </div>
 
       <div className="bg-white">
