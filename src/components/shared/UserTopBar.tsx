@@ -1,9 +1,12 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Settings, Lock, CircleCheck, CircleMinus, CircleX } from 'lucide-react';
 import { useOpportunity } from '@/contexts/OpportunityContext';
 import { PresentationUserMenu } from '@/components/shared/PresentationUserMenu';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface UserTopBarProps {
   onDashboardClick: () => void;
@@ -11,6 +14,8 @@ interface UserTopBarProps {
 
 export const UserTopBar: React.FC<UserTopBarProps> = ({ onDashboardClick }) => {
   const { opportunity } = useOpportunity();
+  const { toast } = useToast();
+  const [isToggling, setIsToggling] = useState(false);
 
   if (!opportunity) return null;
 
@@ -53,6 +58,50 @@ export const UserTopBar: React.FC<UserTopBarProps> = ({ onDashboardClick }) => {
     }
   };
 
+  const handleStatusToggle = async () => {
+    if (isToggling || opportunity.status === 'archived') return;
+
+    const newStatus = opportunity.status === 'published' ? 'unpublished' : 'published';
+    
+    setIsToggling(true);
+    try {
+      const { error } = await supabase
+        .from('opportunities')
+        .update({ status: newStatus })
+        .eq('opportunity_id', opportunity.opportunity_id);
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Status Updated",
+        description: `Opportunity ${newStatus === 'published' ? 'published' : 'unpublished'} successfully`,
+      });
+
+      // Reload the page to reflect the changes
+      window.location.reload();
+    } catch (error) {
+      console.error('Error updating status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update opportunity status",
+        variant: "destructive",
+      });
+    } finally {
+      setIsToggling(false);
+    }
+  };
+
+  const getTooltipText = () => {
+    if (opportunity.status === 'archived') {
+      return `Status: ${getStatusLabel(opportunity.status)}`;
+    }
+    const currentStatus = getStatusLabel(opportunity.status);
+    const nextStatus = opportunity.status === 'published' ? 'Unpublished' : 'Published';
+    return `Status: ${currentStatus} - Click to make ${nextStatus}`;
+  };
+
   const StatusIcon = getStatusIcon(opportunity.status);
 
   return (
@@ -60,19 +109,23 @@ export const UserTopBar: React.FC<UserTopBarProps> = ({ onDashboardClick }) => {
       <div className="bg-white rounded-full shadow-lg border border-gray-200 px-3 py-2 pointer-events-auto">
         <TooltipProvider>
           <div className="flex items-center gap-2">
-            {/* Status Icon */}
+            {/* Status Icon - now clickable */}
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className={`h-8 w-8 p-0 rounded-full border border-gray-100 bg-white ${getStatusColor(opportunity.status)}`}
+                  onClick={handleStatusToggle}
+                  disabled={isToggling || opportunity.status === 'archived'}
+                  className={`h-8 w-8 p-0 rounded-full border border-gray-100 bg-white ${getStatusColor(opportunity.status)} ${
+                    opportunity.status !== 'archived' ? 'cursor-pointer hover:scale-105 transition-transform' : 'cursor-default'
+                  }`}
                 >
-                  <StatusIcon className="h-5 w-5" />
+                  <StatusIcon className={`h-5 w-5 ${isToggling ? 'animate-pulse' : ''}`} />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Status: {getStatusLabel(opportunity.status)}</p>
+                <p>{getTooltipText()}</p>
               </TooltipContent>
             </Tooltip>
 
