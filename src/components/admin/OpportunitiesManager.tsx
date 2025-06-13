@@ -1,11 +1,13 @@
 
 import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Plus, Briefcase } from 'lucide-react';
+import { Plus, Briefcase, Eye, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { LazyOpportunityEditor } from './shared/LazyComponents';
 import { OpportunitiesList } from './shared/OpportunitiesList';
+import { StatsOverview } from './shared/StatsOverview';
 import { useOpportunitiesData } from './hooks/useOpportunitiesData';
 import { MemoizedLoadingState, MemoizedErrorState } from './shared/MemoizedComponents';
+import type { StatsCardProps } from '@/types/admin';
 
 export const OpportunitiesManager: React.FC = () => {
   const { opportunities, loading, error, refreshOpportunities, copyOpportunity, copying } = useOpportunitiesData();
@@ -29,6 +31,34 @@ export const OpportunitiesManager: React.FC = () => {
   const handleCopy = useCallback(async (opportunity: any) => {
     await copyOpportunity(opportunity);
   }, [copyOpportunity]);
+
+  // Calculate stats from opportunities data
+  const statsCards: StatsCardProps[] = [
+    {
+      title: "Total Opportunities",
+      value: opportunities.length,
+      icon: Briefcase,
+      iconColor: "text-blue-600"
+    },
+    {
+      title: "Published",
+      value: opportunities.filter(opp => opp.status === 'published').length,
+      icon: CheckCircle,
+      iconColor: "text-green-600"
+    },
+    {
+      title: "Draft",
+      value: opportunities.filter(opp => opp.status === 'draft').length,
+      icon: Clock,
+      iconColor: "text-orange-600"
+    },
+    {
+      title: "Unpublished",
+      value: opportunities.filter(opp => opp.status === 'unpublished').length,
+      icon: AlertCircle,
+      iconColor: "text-purple-600"
+    }
+  ];
 
   if (loading) {
     return <MemoizedLoadingState message="Loading opportunities..." />;
@@ -66,6 +96,9 @@ export const OpportunitiesManager: React.FC = () => {
           Add Opportunity
         </Button>
       </div>
+
+      {/* Stats Overview */}
+      <StatsOverview stats={statsCards} />
 
       <OpportunitiesList 
         opportunities={opportunities}
