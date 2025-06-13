@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 
 interface VideoPlayerProps {
@@ -51,39 +51,30 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        {/* Custom overlay with lighter background and blur */}
-        <div 
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm"
-          onClick={onClose}
-        />
-        
-        {/* Video content */}
-        <div className="relative z-10 w-full max-w-4xl mx-4">
-          <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl">
-            {/* Close button */}
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 z-50 bg-black/70 hover:bg-black/90 text-white rounded-full p-2 transition-all duration-200"
-            >
-              <X className="h-5 w-5" />
-              <span className="sr-only">Close</span>
-            </button>
-            
-            {/* Video container with proper aspect ratio */}
-            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              <iframe
-                src={embedUrl}
-                className="absolute inset-0 w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title={title}
-              />
-            </div>
+      <DialogContent className="max-w-4xl w-[95vw] p-0 border-0 bg-transparent">
+        <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl">
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-50 bg-black/70 hover:bg-black/90 text-white rounded-full p-2 transition-all duration-200"
+          >
+            <X className="h-5 w-5" />
+            <span className="sr-only">Close</span>
+          </button>
+          
+          {/* Video container with proper aspect ratio */}
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              src={embedUrl}
+              className="absolute inset-0 w-full h-full"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title={title}
+            />
           </div>
         </div>
-      </div>
+      </DialogContent>
     </Dialog>
   );
 };
