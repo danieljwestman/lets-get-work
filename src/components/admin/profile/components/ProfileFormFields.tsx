@@ -99,9 +99,6 @@ export const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({ formData, 
           onChange={(e) => setFormData(prev => ({ ...prev, intro_video_url_en: e.target.value }))}
           placeholder="https://www.tella.tv/video/..."
         />
-        <p className="text-xs text-gray-500 mt-1">
-          Supported platforms: Tella.tv, YouTube, Vimeo, Loom. Use the shareable/embed URL from your video platform.
-        </p>
       </div>
 
       <div className="space-y-2">
@@ -113,9 +110,17 @@ export const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({ formData, 
           onChange={(e) => setFormData(prev => ({ ...prev, intro_video_url_sv: e.target.value }))}
           placeholder="https://www.tella.tv/video/..."
         />
-        <p className="text-xs text-gray-500 mt-1">
-          Examples: https://www.tella.tv/video/abc123, https://youtube.com/watch?v=abc123, https://vimeo.com/123456789
-        </p>
+      </div>
+
+      {/* Unified Video URL Description */}
+      <div className="md:col-span-2 -mt-2">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+          <p className="text-xs text-blue-800 leading-relaxed">
+            <strong>Supported platforms:</strong> Tella.tv, YouTube, Vimeo, Loom. Use the shareable/embed URL from your video platform.
+            <br />
+            <strong>Examples:</strong> https://www.tella.tv/video/abc123, https://youtube.com/watch?v=abc123, https://vimeo.com/123456789
+          </p>
+        </div>
       </div>
     </div>
   );
