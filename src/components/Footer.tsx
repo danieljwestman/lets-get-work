@@ -1,5 +1,6 @@
 
 import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const Footer = () => {
   const { t } = useOpportunityTranslations();
@@ -9,14 +10,9 @@ export const Footer = () => {
       {/* Main footer container with increased top and bottom padding */}
       <div className="text-center pb-12 sm:pb-20 pt-16 sm:pt-24 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl">
-          {/* Main unified card container */}
-          <div className="relative">
-            {/* Enhanced background with multiple layers */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-gray-50/70 to-white/90 rounded-3xl shadow-2xl backdrop-blur-md border border-white/20" />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-50/30 via-purple-50/30 to-pink-50/30 rounded-3xl" />
-            
-            {/* Content container with responsive padding - reduced on desktop */}
-            <div className="relative py-12 sm:py-16 md:py-12 lg:py-10 px-6 sm:px-10 md:px-12 lg:px-10 space-y-10 sm:space-y-12 md:space-y-8 lg:space-y-6">
+          {/* Main unified card container using consistent card styling */}
+          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+            <CardContent className="py-12 sm:py-16 md:py-12 lg:py-10 px-6 sm:px-10 md:px-12 lg:px-10 space-y-10 sm:space-y-12 md:space-y-8 lg:space-y-6">
               
               {/* Crafted with care section */}
               <div className="space-y-4">
@@ -66,12 +62,8 @@ export const Footer = () => {
               <div className="text-sm sm:text-base text-gray-700 font-light leading-relaxed max-w-3xl mx-auto">
                 {t('footer.experimental')}
               </div>
-            </div>
-
-            {/* Enhanced outer glow effect */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 rounded-3xl blur-3xl opacity-60 -z-10" />
-            <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 rounded-3xl blur-2xl opacity-40 -z-10" />
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
