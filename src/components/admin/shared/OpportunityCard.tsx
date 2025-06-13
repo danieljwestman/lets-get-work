@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Building2, Target, Palette, Edit, Eye, Copy, Lock } from 'lucide-react';
+import { Building2, Target, Palette, Edit, Eye, Copy, Lock, BarChart3 } from 'lucide-react';
 import { DeleteConfirmation } from './DeleteConfirmation';
 import { useDeleteEntity } from '@/hooks/useDeleteEntity';
 import { useToast } from '@/hooks/use-toast';
@@ -15,6 +15,7 @@ interface OpportunityCardProps {
   onRefresh: () => void;
   onCopy?: (opportunity: Opportunity) => Promise<void>;
   copying?: boolean;
+  viewCount?: number;
 }
 
 export const OpportunityCard: React.FC<OpportunityCardProps> = ({
@@ -22,7 +23,8 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   onEdit,
   onRefresh,
   onCopy,
-  copying = false
+  copying = false,
+  viewCount = 0
 }) => {
   const { toast } = useToast();
   const { deleteEntity, isDeleting } = useDeleteEntity({
@@ -114,6 +116,10 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Palette className="h-4 w-4" />
             <span>Theme: {opportunity.theme_id}</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            <BarChart3 className="h-4 w-4" />
+            <span>Number of views: {viewCount.toLocaleString()}</span>
           </div>
           <div className="flex gap-2 pt-3">
             <Button
