@@ -88,41 +88,20 @@ export const AboutSection = () => {
           <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] overflow-hidden mb-6">
             <CardContent className="p-0">
               <div 
-                className={`relative aspect-video flex items-center justify-center group ${hasVideo ? 'cursor-pointer' : ''} ${
-                  hasVideo 
-                    ? 'bg-black' 
-                    : 'bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400'
-                }`}
+                className="relative aspect-video flex items-center justify-center group cursor-pointer bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400"
                 onClick={handleVideoClick}
               >
-                {!loadingProfile && hasVideo ? (
-                  // Video thumbnail/preview
-                  <>
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
-                    <div className="relative z-10 text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
-                        <Play className="w-6 h-6 ml-1" />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2">{t('about.videoTitle')}</h3>
-                      <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
-                    </div>
-                  </>
-                ) : (
-                  // Fallback gradient placeholder
-                  <>
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
-                    <div className="relative z-10 text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
-                        <Play className="w-6 h-6 ml-1" />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2">{t('about.videoTitle')}</h3>
-                      <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
-                    </div>
-                    <div className="absolute top-4 left-4 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
-                    <div className="absolute bottom-6 right-6 w-1.5 h-1.5 bg-white/40 rounded-full animate-ping"></div>
-                    <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
-                  </>
-                )}
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
+                <div className="relative z-10 text-center text-white">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
+                    <Play className="w-6 h-6 ml-1" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{t('about.videoTitle')}</h3>
+                  <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
+                </div>
+                <div className="absolute top-4 left-4 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
+                <div className="absolute bottom-6 right-6 w-1.5 h-1.5 bg-white/40 rounded-full animate-ping"></div>
+                <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
               </div>
             </CardContent>
           </Card>
@@ -154,41 +133,20 @@ export const AboutSection = () => {
               <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full">
                 <CardContent className="p-0 h-full">
                   <div 
-                    className={`relative flex items-center justify-center group h-full ${hasVideo ? 'cursor-pointer' : ''} ${
-                      hasVideo 
-                        ? 'bg-black' 
-                        : 'bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400'
-                    }`}
+                    className="relative flex items-center justify-center group h-full cursor-pointer bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400"
                     onClick={handleVideoClick}
                   >
-                    {!loadingProfile && hasVideo ? (
-                      // Video thumbnail/preview
-                      <>
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
-                        <div className="relative z-10 text-center text-white">
-                          <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
-                            <Play className="w-8 h-8 ml-1" />
-                          </div>
-                          <h3 className="text-xl font-semibold mb-2">{t('about.videoTitle')}</h3>
-                          <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
-                        </div>
-                      </>
-                    ) : (
-                      // Fallback gradient placeholder
-                      <>
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
-                        <div className="relative z-10 text-center text-white">
-                          <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
-                            <Play className="w-8 h-8 ml-1" />
-                          </div>
-                          <h3 className="text-xl font-semibold mb-2">{t('about.videoTitle')}</h3>
-                          <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
-                        </div>
-                        <div className="absolute top-4 left-4 w-3 h-3 bg-white/30 rounded-full animate-pulse"></div>
-                        <div className="absolute bottom-6 right-6 w-2 h-2 bg-white/40 rounded-full animate-ping"></div>
-                        <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
-                      </>
-                    )}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
+                    <div className="relative z-10 text-center text-white">
+                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
+                        <Play className="w-8 h-8 ml-1" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2">{t('about.videoTitle')}</h3>
+                      <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
+                    </div>
+                    <div className="absolute top-4 left-4 w-3 h-3 bg-white/30 rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-6 right-6 w-2 h-2 bg-white/40 rounded-full animate-ping"></div>
+                    <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
                   </div>
                 </CardContent>
               </Card>
