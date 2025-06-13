@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Briefcase } from 'lucide-react';
 import { OpportunityCard } from './OpportunityCard';
 import { EmptyState } from './EmptyState';
 import { useAuth } from '@/contexts/AuthContext';
@@ -63,6 +64,7 @@ export const OpportunitiesList: React.FC<OpportunitiesListProps> = ({
   if (opportunities.length === 0) {
     return (
       <EmptyState
+        icon={Briefcase}
         title="No opportunities yet"
         description="Create your first opportunity to start tracking your outreach campaigns."
         actionLabel="Add Opportunity"
