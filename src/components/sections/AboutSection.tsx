@@ -41,6 +41,7 @@ export const AboutSection = () => {
           console.error('Error fetching user profile:', error);
         } else {
           setUserProfile(data);
+          console.log('Profile data loaded:', data);
         }
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -63,13 +64,19 @@ export const AboutSection = () => {
     return userProfile.intro_video_url_en;
   };
 
-  const hasVideo = getCurrentVideoUrl() !== null;
+  const currentVideoUrl = getCurrentVideoUrl();
+  const hasVideo = currentVideoUrl !== null && currentVideoUrl !== undefined && currentVideoUrl.trim() !== '';
 
   const handleVideoClick = () => {
+    console.log('Video click handler called', { hasVideo, currentVideoUrl });
     if (hasVideo) {
       setIsVideoOpen(true);
+    } else {
+      console.log('No video URL available');
     }
   };
+
+  console.log('AboutSection render:', { hasVideo, currentVideoUrl, userProfile, language });
 
   return (
     <section id="about" className="px-6 py-16">
@@ -173,7 +180,7 @@ export const AboutSection = () => {
 
       {/* Video Player Modal */}
       <VideoPlayer
-        videoUrl={getCurrentVideoUrl()}
+        videoUrl={currentVideoUrl}
         isOpen={isVideoOpen}
         onClose={() => setIsVideoOpen(false)}
         title={`${userProfile?.full_name || 'Introduction'} - ${t('about.videoTitle')}`}
