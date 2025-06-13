@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Plus, Briefcase, Eye, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { Plus, Briefcase, Eye, CircleCheck, CircleMinus, CircleX } from 'lucide-react';
 import { LazyOpportunityEditor } from './shared/LazyComponents';
 import { OpportunitiesList } from './shared/OpportunitiesList';
 import { StatsOverview } from './shared/StatsOverview';
@@ -43,20 +43,20 @@ export const OpportunitiesManager: React.FC = () => {
     {
       title: "Published",
       value: opportunities.filter(opp => opp.status === 'published').length,
-      icon: CheckCircle,
+      icon: CircleCheck,
       iconColor: "text-green-600"
     },
     {
       title: "Unpublished",
       value: opportunities.filter(opp => opp.status === 'unpublished').length,
-      icon: Clock,
+      icon: CircleMinus,
       iconColor: "text-orange-600"
     },
     {
       title: "Archived",
       value: opportunities.filter(opp => opp.status === 'archived').length,
-      icon: AlertCircle,
-      iconColor: "text-purple-600"
+      icon: CircleX,
+      iconColor: "text-gray-600"
     }
   ];
 
