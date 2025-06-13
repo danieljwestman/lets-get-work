@@ -51,21 +51,20 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-full h-[80vh] p-0 border-0">
-        {/* Custom header with close button */}
-        <div className="flex items-center justify-between p-4 border-b bg-white rounded-t-lg">
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+      <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 border-0 bg-black rounded-lg overflow-hidden">
+        {/* Minimal header with close button */}
+        <div className="absolute top-4 right-4 z-50">
           <button
             onClick={onClose}
-            className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 p-1"
+            className="bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-200"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
             <span className="sr-only">Close</span>
           </button>
         </div>
         
-        {/* Video container */}
-        <div className="flex-1 bg-black rounded-b-lg overflow-hidden">
+        {/* Video container taking full space */}
+        <div className="w-full h-full">
           <iframe
             src={embedUrl}
             className="w-full h-full"
