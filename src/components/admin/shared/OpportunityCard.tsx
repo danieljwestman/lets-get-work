@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { Building2, Target, Palette, Edit, Eye, Copy, Lock } from 'lucide-react'
 import { DeleteConfirmation } from './DeleteConfirmation';
 import { useDeleteEntity } from '@/hooks/useDeleteEntity';
 import { useToast } from '@/hooks/use-toast';
+import { domainConfig } from '@/services/domainConfig';
 import type { Opportunity } from '@/types/admin';
 
 interface OpportunityCardProps {
@@ -35,9 +35,17 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
   const handleDelete = () => deleteEntity(opportunity.opportunity_id);
   const isDefaultOpportunity = opportunity.opportunity_id === 'default';
 
-  const handleView = () => {
-    const url = opportunity.subdomain === 'default' ? '/' : `https://${opportunity.subdomain}.getdaniel.work`;
-    window.open(url, '_blank');
+  const handleView = async () => {
+    try {
+      const mainDomain = await domainConfig.getMainDomain();
+      const url = opportunity.subdomain === 'default' ? '/' : `https://${opportunity.subdomain}.${mainDomain}`;
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error('Error getting main domain:', error);
+      // Fallback to current behavior if domain config fails
+      const url = opportunity.subdomain === 'default' ? '/' : `https://${opportunity.subdomain}.getdaniel.work`;
+      window.open(url, '_blank');
+    }
   };
 
   const handleCopy = async () => {
