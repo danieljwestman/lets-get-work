@@ -11,7 +11,7 @@ export const Footer = () => {
       <div className="text-center pb-12 sm:pb-20 pt-16 sm:pt-24 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl">
           {/* Main unified card container using consistent card styling */}
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+          <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
             <CardContent className="py-12 sm:py-16 md:py-12 lg:py-10 px-6 sm:px-10 md:px-12 lg:px-10 space-y-10 sm:space-y-12 md:space-y-8 lg:space-y-6">
               
               {/* Crafted with care section */}
