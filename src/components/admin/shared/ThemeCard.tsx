@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Palette, Edit, Chrome, Shield, Copy } from 'lucide-react';
+import { Palette, Edit, Chrome, Copy } from 'lucide-react';
 import { DeleteConfirmation } from './DeleteConfirmation';
 import { useDeleteEntity } from '@/hooks/useDeleteEntity';
 import { useToast } from '@/hooks/use-toast';
@@ -75,14 +75,8 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({
               <Palette className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <CardTitle className="text-lg flex items-center gap-2">
+              <CardTitle className="text-lg">
                 {theme.name}
-                {isDefaultTheme && (
-                  <Badge variant="secondary" className="text-xs flex items-center gap-1">
-                    <Shield className="h-3 w-3" />
-                    Protected
-                  </Badge>
-                )}
               </CardTitle>
               <p className="text-sm text-gray-600 mt-1 font-mono">{theme.theme_id}</p>
             </div>
