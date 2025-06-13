@@ -37,10 +37,28 @@ export const OpportunitiesList: React.FC<OpportunitiesListProps> = ({
         
         console.log('🔍 Fetching view counts for opportunity IDs:', opportunityIds);
         
+        // First, let's check what opportunity_id values actually exist in analytics_events
+        const { data: allAnalyticsData, error: allError } = await supabase
+          .from('analytics_events')
+          .select('opportunity_id, event_type, user_id')
+          .eq('event_type', 'page_view')
+          .eq('user_id', user.id)
+          .not('opportunity_id', 'is', null);
+
+        if (allError) {
+          console.error('❌ Error fetching all analytics data:', allError);
+          return;
+        }
+
+        console.log('📊 All analytics data for user:', allAnalyticsData);
+        console.log('📊 Unique opportunity IDs in analytics:', [...new Set(allAnalyticsData?.map(e => e.opportunity_id) || [])]);
+
+        // Now fetch analytics data for the specific opportunities
         const { data: analyticsData, error } = await supabase
           .from('analytics_events')
           .select('opportunity_id')
           .eq('event_type', 'page_view')
+          .eq('user_id', user.id)
           .in('opportunity_id', opportunityIds);
 
         if (error) {
@@ -48,7 +66,7 @@ export const OpportunitiesList: React.FC<OpportunitiesListProps> = ({
           return;
         }
 
-        console.log('📊 Raw analytics data:', analyticsData);
+        console.log('📊 Filtered analytics data:', analyticsData);
 
         // Count views per opportunity
         const counts: Record<string, number> = {};
@@ -66,6 +84,7 @@ export const OpportunitiesList: React.FC<OpportunitiesListProps> = ({
         });
 
         console.log('📈 Calculated view counts:', counts);
+        console.log('📈 Total analytics events found:', analyticsData?.length || 0);
         setViewCounts(counts);
       } catch (error) {
         console.error('❌ Error fetching view counts:', error);
