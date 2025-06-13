@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Globe, Target, Palette, Edit, Eye, Copy, Lock } from 'lucide-react';
+import { Building2, Target, Palette, Edit, Eye, Copy, Lock } from 'lucide-react';
 import { DeleteConfirmation } from './DeleteConfirmation';
 import { useDeleteEntity } from '@/hooks/useDeleteEntity';
 import { useToast } from '@/hooks/use-toast';
@@ -83,7 +83,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
                 <Lock className="h-4 w-4 text-amber-600" />
               )}
             </CardTitle>
-            <p className="text-sm text-gray-600 mt-1">{opportunity.company_name}</p>
+            <p className="text-sm text-gray-600 mt-1 font-mono">{opportunity.opportunity_id}</p>
           </div>
           <Badge 
             variant={getStatusBadgeVariant(opportunity.status)}
@@ -96,8 +96,8 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
       <CardContent className="pt-0">
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Globe className="h-4 w-4" />
-            <span className="font-mono">{opportunity.subdomain}</span>
+            <Building2 className="h-4 w-4" />
+            <span>{opportunity.company_name || 'No company name set'}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Target className="h-4 w-4" />
