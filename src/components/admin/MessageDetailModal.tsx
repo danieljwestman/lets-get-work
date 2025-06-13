@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { formatTooltipDateInTimezone } from '@/components/analytics/utils/timezoneUtils';
 import { TimezoneIndicator } from '@/components/analytics/components/TimezoneIndicator';
+import { format, toZonedTime } from 'date-fns-tz';
 import type { Message } from '@/types/admin';
 
 interface MessageDetailModalProps {
@@ -20,6 +21,21 @@ export const MessageDetailModal: React.FC<MessageDetailModalProps> = ({
   timezone
 }) => {
   if (!message) return null;
+
+  const formatDateTimeInTimezone = (dateStr: string, timezone: string): string => {
+    try {
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) {
+        return dateStr;
+      }
+      
+      const zonedDate = toZonedTime(date, timezone);
+      return format(zonedDate, 'MMMM do, yyyy \'at\' HH:mm', { timeZone: timezone });
+    } catch (error) {
+      console.error('Error formatting date time:', error);
+      return dateStr;
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -42,7 +58,7 @@ export const MessageDetailModal: React.FC<MessageDetailModalProps> = ({
               <div>
                 <label className="text-sm font-medium text-gray-600">Date</label>
                 <div className="mt-1 flex items-center gap-2">
-                  <span>{formatTooltipDateInTimezone(message.created_at, 'all', timezone)}</span>
+                  <span>{formatDateTimeInTimezone(message.created_at, timezone)}</span>
                   <TimezoneIndicator timezone={timezone} />
                 </div>
               </div>
