@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useProfile } from '@/hooks/useProfile';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UserAvatarProps {
   size?: 'sm' | 'md' | 'lg';
@@ -13,6 +15,7 @@ interface UserAvatarProps {
 
 export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = false }) => {
   const { profile, updateProfile } = useProfile();
+  const { user } = useAuth();
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
 
@@ -22,35 +25,141 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
     lg: 'h-20 w-20'
   };
 
+  // Helper function to resize image
+  const resizeImage = (file: File, maxWidth: number = 300, maxHeight: number = 300, quality: number = 0.8): Promise<Blob> => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d')!;
+      const img = new Image();
+
+      img.onload = () => {
+        // Calculate new dimensions
+        let { width, height } = img;
+        
+        if (width > height) {
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = (width * maxHeight) / height;
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw and compress
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(resolve, 'image/jpeg', quality);
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file || !profile) return;
+    if (!file || !profile || !user) return;
 
-    // For now, we'll just simulate upload and use a placeholder
-    // In a real implementation, you'd upload to Supabase Storage
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a JPEG, PNG, or WebP image.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (2MB limit)
+    if (file.size > 2 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please upload an image smaller than 2MB.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setUploading(true);
     
     try {
-      // Simulate upload delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Starting avatar upload for user:', user.id);
       
-      // For demo purposes, we'll just use a placeholder URL
-      const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${profile.full_name || profile.email}`;
-      
-      await updateProfile({ avatar_url: avatarUrl });
+      // Resize image before upload
+      const resizedBlob = await resizeImage(file, 300, 300, 0.8);
+      if (!resizedBlob) {
+        throw new Error('Failed to resize image');
+      }
+
+      // Create file from blob
+      const resizedFile = new File([resizedBlob], file.name, { type: 'image/jpeg' });
+
+      // Generate unique filename
+      const fileExt = 'jpg'; // Always save as JPG after compression
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+      console.log('Uploading to path:', fileName);
+
+      // Delete old avatar if exists
+      if (profile.avatar_url) {
+        try {
+          // Extract file path from URL
+          const oldPath = profile.avatar_url.split('/storage/v1/object/public/avatars/')[1];
+          if (oldPath) {
+            console.log('Deleting old avatar:', oldPath);
+            await supabase.storage.from('avatars').remove([oldPath]);
+          }
+        } catch (error) {
+          console.warn('Failed to delete old avatar:', error);
+          // Continue with upload even if deletion fails
+        }
+      }
+
+      // Upload to Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, resizedFile, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw new Error(uploadError.message);
+      }
+
+      console.log('Upload successful:', uploadData);
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName);
+
+      console.log('Public URL:', publicUrl);
+
+      // Update profile with new avatar URL
+      await updateProfile({ avatar_url: publicUrl });
       
       toast({
         title: "Avatar updated",
         description: "Your profile picture has been updated successfully.",
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Avatar upload error:', error);
       toast({
         title: "Upload failed",
-        description: "Failed to update your profile picture. Please try again.",
+        description: error.message || "Failed to update your profile picture. Please try again.",
         variant: "destructive",
       });
     } finally {
       setUploading(false);
+      // Reset input
+      event.target.value = '';
     }
   };
 
@@ -82,7 +191,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
         <>
           <input
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
             onChange={handleFileUpload}
             className="hidden"
             id="avatar-upload"
