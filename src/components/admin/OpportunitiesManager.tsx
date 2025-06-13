@@ -47,14 +47,14 @@ export const OpportunitiesManager: React.FC = () => {
       iconColor: "text-green-600"
     },
     {
-      title: "Draft",
-      value: opportunities.filter(opp => opp.status === 'draft').length,
+      title: "Unpublished",
+      value: opportunities.filter(opp => opp.status === 'unpublished').length,
       icon: Clock,
       iconColor: "text-orange-600"
     },
     {
-      title: "Unpublished",
-      value: opportunities.filter(opp => opp.status === 'unpublished').length,
+      title: "Archived",
+      value: opportunities.filter(opp => opp.status === 'archived').length,
       icon: AlertCircle,
       iconColor: "text-purple-600"
     }
