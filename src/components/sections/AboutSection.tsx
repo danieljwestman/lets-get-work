@@ -26,11 +26,14 @@ export const AboutSection = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (!opportunity?.user_id) {
+        console.log('🎥 VIDEO DEBUG: No user_id found in opportunity', { opportunity });
         setLoadingProfile(false);
         return;
       }
 
       try {
+        console.log('🎥 VIDEO DEBUG: Fetching profile for user_id:', opportunity.user_id);
+        
         const { data, error } = await supabase
           .from('profiles')
           .select('intro_video_url_en, intro_video_url_sv, full_name')
@@ -38,13 +41,19 @@ export const AboutSection = () => {
           .single();
 
         if (error) {
-          console.error('Error fetching user profile:', error);
+          console.error('🎥 VIDEO DEBUG: Error fetching user profile:', error);
         } else {
+          console.log('🎥 VIDEO DEBUG: Profile data loaded:', {
+            data,
+            hasEnglishVideo: !!data?.intro_video_url_en,
+            hasSwedishVideo: !!data?.intro_video_url_sv,
+            englishUrl: data?.intro_video_url_en,
+            swedishUrl: data?.intro_video_url_sv
+          });
           setUserProfile(data);
-          console.log('Profile data loaded:', data);
         }
       } catch (error) {
-        console.error('Error fetching user profile:', error);
+        console.error('🎥 VIDEO DEBUG: Error fetching user profile:', error);
       } finally {
         setLoadingProfile(false);
       }
@@ -54,13 +63,25 @@ export const AboutSection = () => {
   }, [opportunity?.user_id]);
 
   const getCurrentVideoUrl = () => {
-    if (!userProfile) return null;
+    if (!userProfile) {
+      console.log('🎥 VIDEO DEBUG: No userProfile available');
+      return null;
+    }
+    
+    console.log('🎥 VIDEO DEBUG: Getting current video URL', {
+      language,
+      userProfile,
+      swedishUrl: userProfile.intro_video_url_sv,
+      englishUrl: userProfile.intro_video_url_en
+    });
     
     // Return video URL based on current language, fallback to English if Swedish not available
     if (language === 'sv' && userProfile.intro_video_url_sv) {
+      console.log('🎥 VIDEO DEBUG: Returning Swedish video URL');
       return userProfile.intro_video_url_sv;
     }
     
+    console.log('🎥 VIDEO DEBUG: Returning English video URL or null');
     return userProfile.intro_video_url_en;
   };
 
@@ -68,15 +89,29 @@ export const AboutSection = () => {
   const hasVideo = currentVideoUrl !== null && currentVideoUrl !== undefined && currentVideoUrl.trim() !== '';
 
   const handleVideoClick = () => {
-    console.log('Video click handler called', { hasVideo, currentVideoUrl });
+    console.log('🎥 VIDEO DEBUG: Video click handler called', { 
+      hasVideo, 
+      currentVideoUrl, 
+      userProfile,
+      loadingProfile 
+    });
+    
     if (hasVideo) {
+      console.log('🎥 VIDEO DEBUG: Opening video modal');
       setIsVideoOpen(true);
     } else {
-      console.log('No video URL available');
+      console.log('🎥 VIDEO DEBUG: No video URL available');
     }
   };
 
-  console.log('AboutSection render:', { hasVideo, currentVideoUrl, userProfile, language });
+  console.log('🎥 VIDEO DEBUG: AboutSection render:', { 
+    hasVideo, 
+    currentVideoUrl, 
+    userProfile, 
+    language,
+    loadingProfile,
+    opportunityUserId: opportunity?.user_id
+  });
 
   return (
     <section id="about" className="px-6 py-16">
