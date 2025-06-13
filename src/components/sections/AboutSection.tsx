@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Play } from "lucide-react";
@@ -32,28 +31,27 @@ export const AboutSection = () => {
       }
 
       try {
-        console.log('🎥 VIDEO DEBUG: Fetching profile for user_id:', opportunity.user_id);
+        console.log('🎥 VIDEO DEBUG: Fetching profile videos using public function for user_id:', opportunity.user_id);
         
+        // Use the new public function that doesn't require authentication
         const { data, error } = await supabase
-          .from('profiles')
-          .select('intro_video_url_en, intro_video_url_sv, full_name')
-          .eq('id', opportunity.user_id)
-          .single();
+          .rpc('get_public_profile_videos', { user_id_param: opportunity.user_id });
 
         if (error) {
-          console.error('🎥 VIDEO DEBUG: Error fetching user profile:', error);
+          console.error('🎥 VIDEO DEBUG: Error fetching user profile videos:', error);
         } else {
-          console.log('🎥 VIDEO DEBUG: Profile data loaded:', {
+          console.log('🎥 VIDEO DEBUG: Profile videos loaded via public function:', {
             data,
-            hasEnglishVideo: !!data?.intro_video_url_en,
-            hasSwedishVideo: !!data?.intro_video_url_sv,
-            englishUrl: data?.intro_video_url_en,
-            swedishUrl: data?.intro_video_url_sv
+            hasEnglishVideo: !!data?.[0]?.intro_video_url_en,
+            hasSwedishVideo: !!data?.[0]?.intro_video_url_sv,
+            englishUrl: data?.[0]?.intro_video_url_en,
+            swedishUrl: data?.[0]?.intro_video_url_sv
           });
-          setUserProfile(data);
+          // The RPC function returns an array, so we need to get the first item
+          setUserProfile(data?.[0] || null);
         }
       } catch (error) {
-        console.error('🎥 VIDEO DEBUG: Error fetching user profile:', error);
+        console.error('🎥 VIDEO DEBUG: Error fetching user profile videos:', error);
       } finally {
         setLoadingProfile(false);
       }

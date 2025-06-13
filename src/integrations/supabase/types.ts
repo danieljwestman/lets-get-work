@@ -491,6 +491,14 @@ export type Database = {
           full_name: string
         }[]
       }
+      get_public_profile_videos: {
+        Args: { user_id_param: string }
+        Returns: {
+          intro_video_url_en: string
+          intro_video_url_sv: string
+          full_name: string
+        }[]
+      }
       get_public_theme: {
         Args: { theme_id_param: string }
         Returns: {
