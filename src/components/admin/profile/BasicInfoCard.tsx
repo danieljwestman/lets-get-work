@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Mail, Calendar, Edit3, Check, X, Globe, User, Bot, UserCheck } from 'lucide-react';
+import { Mail, Calendar, Edit3, Check, X, Globe, User, Bot, UserCheck, Video } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,6 +28,8 @@ interface Profile {
   notification_preferences: any | null;
   birth_date: string | null;
   assistant_name: string | null;
+  intro_video_url_en: string | null;
+  intro_video_url_sv: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -48,7 +50,9 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
     full_name: '',
     timezone: 'Europe/Stockholm',
     birth_date: '',
-    assistant_name: 'Career Assistant'
+    assistant_name: 'Career Assistant',
+    intro_video_url_en: '',
+    intro_video_url_sv: ''
   });
 
   React.useEffect(() => {
@@ -58,7 +62,9 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
         full_name: profile.full_name || '',
         timezone: profile.timezone || 'Europe/Stockholm',
         birth_date: profile.birth_date || '',
-        assistant_name: profile.assistant_name || 'Career Assistant'
+        assistant_name: profile.assistant_name || 'Career Assistant',
+        intro_video_url_en: profile.intro_video_url_en || '',
+        intro_video_url_sv: profile.intro_video_url_sv || ''
       });
     }
   }, [profile]);
@@ -74,7 +80,9 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
         full_name: profile.full_name || '',
         timezone: profile.timezone || 'Europe/Stockholm',
         birth_date: profile.birth_date || '',
-        assistant_name: profile.assistant_name || 'Career Assistant'
+        assistant_name: profile.assistant_name || 'Career Assistant',
+        intro_video_url_en: profile.intro_video_url_en || '',
+        intro_video_url_sv: profile.intro_video_url_sv || ''
       });
     }
     setIsEditing(false);
@@ -89,7 +97,9 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
         full_name: formData.full_name,
         timezone: formData.timezone,
         birth_date: formData.birth_date || null,
-        assistant_name: formData.assistant_name
+        assistant_name: formData.assistant_name,
+        intro_video_url_en: formData.intro_video_url_en || null,
+        intro_video_url_sv: formData.intro_video_url_sv || null
       });
 
       toast({
@@ -220,6 +230,22 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
                     <span>{profile?.created_at ? formatMemberSince(profile.created_at) : 'Not available'}</span>
                   </div>
                 </div>
+
+                <div className="space-y-1">
+                  <Label className="text-sm font-medium text-gray-700">Intro Video (English)</Label>
+                  <div className="flex items-center gap-3 text-gray-900">
+                    <Video className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                    <span className="truncate">{formData.intro_video_url_en || 'Not set'}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <Label className="text-sm font-medium text-gray-700">Intro Video (Swedish)</Label>
+                  <div className="flex items-center gap-3 text-gray-900">
+                    <Video className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                    <span className="truncate">{formData.intro_video_url_sv || 'Not set'}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -309,6 +335,28 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
                       <UserCheck className="h-4 w-4 flex-shrink-0" />
                       <span className="text-sm">{profile?.created_at ? formatMemberSince(profile.created_at) : 'Not available'}</span>
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="intro_video_url_en">Intro Video URL (English)</Label>
+                    <Input
+                      id="intro_video_url_en"
+                      type="url"
+                      value={formData.intro_video_url_en}
+                      onChange={(e) => setFormData(prev => ({ ...prev, intro_video_url_en: e.target.value }))}
+                      placeholder="https://www.tella.tv/video/..."
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="intro_video_url_sv">Intro Video URL (Swedish)</Label>
+                    <Input
+                      id="intro_video_url_sv"
+                      type="url"
+                      value={formData.intro_video_url_sv}
+                      onChange={(e) => setFormData(prev => ({ ...prev, intro_video_url_sv: e.target.value }))}
+                      placeholder="https://www.tella.tv/video/..."
+                    />
                   </div>
                 </div>
               </div>

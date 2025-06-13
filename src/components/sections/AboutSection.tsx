@@ -1,11 +1,75 @@
 
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Play } from "lucide-react";
 import { useOpportunityTranslations } from "@/hooks/useOpportunityTranslations";
+import { useOpportunity } from "@/contexts/OpportunityContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { ResponsiveTitle } from "@/components/shared/ResponsiveTitle";
+import { VideoPlayer } from "@/components/shared/VideoPlayer";
+import { supabase } from "@/integrations/supabase/client";
+
+interface UserProfile {
+  intro_video_url_en: string | null;
+  intro_video_url_sv: string | null;
+  full_name: string | null;
+}
 
 export const AboutSection = () => {
   const { t } = useOpportunityTranslations();
+  const { opportunity } = useOpportunity();
+  const { language } = useLanguage();
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!opportunity?.user_id) {
+        setLoadingProfile(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('intro_video_url_en, intro_video_url_sv, full_name')
+          .eq('id', opportunity.user_id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching user profile:', error);
+        } else {
+          setUserProfile(data);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      } finally {
+        setLoadingProfile(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, [opportunity?.user_id]);
+
+  const getCurrentVideoUrl = () => {
+    if (!userProfile) return null;
+    
+    // Return video URL based on current language, fallback to English if Swedish not available
+    if (language === 'sv' && userProfile.intro_video_url_sv) {
+      return userProfile.intro_video_url_sv;
+    }
+    
+    return userProfile.intro_video_url_en;
+  };
+
+  const hasVideo = getCurrentVideoUrl() !== null;
+
+  const handleVideoClick = () => {
+    if (hasVideo) {
+      setIsVideoOpen(true);
+    }
+  };
 
   return (
     <section id="about" className="px-6 py-16">
@@ -23,18 +87,42 @@ export const AboutSection = () => {
         <div className="block lg:hidden mb-8">
           <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] overflow-hidden mb-6">
             <CardContent className="p-0">
-              <div className="relative aspect-video bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 flex items-center justify-center group cursor-pointer">
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
-                <div className="relative z-10 text-center text-white">
-                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
-                    <Play className="w-6 h-6 ml-1" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{t('about.videoTitle')}</h3>
-                  <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
-                </div>
-                <div className="absolute top-4 left-4 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
-                <div className="absolute bottom-6 right-6 w-1.5 h-1.5 bg-white/40 rounded-full animate-ping"></div>
-                <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
+              <div 
+                className={`relative aspect-video flex items-center justify-center group ${hasVideo ? 'cursor-pointer' : ''} ${
+                  hasVideo 
+                    ? 'bg-black' 
+                    : 'bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400'
+                }`}
+                onClick={handleVideoClick}
+              >
+                {!loadingProfile && hasVideo ? (
+                  // Video thumbnail/preview
+                  <>
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
+                    <div className="relative z-10 text-center text-white">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
+                        <Play className="w-6 h-6 ml-1" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">{t('about.videoTitle')}</h3>
+                      <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
+                    </div>
+                  </>
+                ) : (
+                  // Fallback gradient placeholder
+                  <>
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
+                    <div className="relative z-10 text-center text-white">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
+                        <Play className="w-6 h-6 ml-1" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">{t('about.videoTitle')}</h3>
+                      <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
+                    </div>
+                    <div className="absolute top-4 left-4 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-6 right-6 w-1.5 h-1.5 bg-white/40 rounded-full animate-ping"></div>
+                    <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
+                  </>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -65,18 +153,42 @@ export const AboutSection = () => {
             <div className="order-2 lg:order-1">
               <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full">
                 <CardContent className="p-0 h-full">
-                  <div className="relative bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 flex items-center justify-center group cursor-pointer h-full">
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
-                    <div className="relative z-10 text-center text-white">
-                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
-                        <Play className="w-8 h-8 ml-1" />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2">{t('about.videoTitle')}</h3>
-                      <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
-                    </div>
-                    <div className="absolute top-4 left-4 w-3 h-3 bg-white/30 rounded-full animate-pulse"></div>
-                    <div className="absolute bottom-6 right-6 w-2 h-2 bg-white/40 rounded-full animate-ping"></div>
-                    <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
+                  <div 
+                    className={`relative flex items-center justify-center group h-full ${hasVideo ? 'cursor-pointer' : ''} ${
+                      hasVideo 
+                        ? 'bg-black' 
+                        : 'bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400'
+                    }`}
+                    onClick={handleVideoClick}
+                  >
+                    {!loadingProfile && hasVideo ? (
+                      // Video thumbnail/preview
+                      <>
+                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
+                        <div className="relative z-10 text-center text-white">
+                          <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
+                            <Play className="w-8 h-8 ml-1" />
+                          </div>
+                          <h3 className="text-xl font-semibold mb-2">{t('about.videoTitle')}</h3>
+                          <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
+                        </div>
+                      </>
+                    ) : (
+                      // Fallback gradient placeholder
+                      <>
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
+                        <div className="relative z-10 text-center text-white">
+                          <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-all duration-300">
+                            <Play className="w-8 h-8 ml-1" />
+                          </div>
+                          <h3 className="text-xl font-semibold mb-2">{t('about.videoTitle')}</h3>
+                          <p className="text-sm opacity-90">{t('about.videoDescription')}</p>
+                        </div>
+                        <div className="absolute top-4 left-4 w-3 h-3 bg-white/30 rounded-full animate-pulse"></div>
+                        <div className="absolute bottom-6 right-6 w-2 h-2 bg-white/40 rounded-full animate-ping"></div>
+                        <div className="absolute top-1/3 right-8 w-1 h-1 bg-white/50 rounded-full animate-bounce"></div>
+                      </>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -100,6 +212,14 @@ export const AboutSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Video Player Modal */}
+      <VideoPlayer
+        videoUrl={getCurrentVideoUrl()}
+        isOpen={isVideoOpen}
+        onClose={() => setIsVideoOpen(false)}
+        title={`${userProfile?.full_name || 'Introduction'} - ${t('about.videoTitle')}`}
+      />
     </section>
   );
 };

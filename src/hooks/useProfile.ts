@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,6 +13,8 @@ interface Profile {
   notification_preferences: any | null;
   birth_date: string | null;
   assistant_name: string | null;
+  intro_video_url_en: string | null;
+  intro_video_url_sv: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -26,6 +29,8 @@ interface DatabaseProfile {
   notification_preferences?: any | null;
   birth_date?: string | null;
   assistant_name?: string | null;
+  intro_video_url_en?: string | null;
+  intro_video_url_sv?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -68,7 +73,9 @@ export const useProfile = () => {
           debug_tools_enabled: (data as DatabaseProfile).debug_tools_enabled || false,
           notification_preferences: (data as DatabaseProfile).notification_preferences || null,
           birth_date: (data as DatabaseProfile).birth_date || null,
-          assistant_name: (data as DatabaseProfile).assistant_name || 'Career Assistant'
+          assistant_name: (data as DatabaseProfile).assistant_name || 'Career Assistant',
+          intro_video_url_en: (data as DatabaseProfile).intro_video_url_en || null,
+          intro_video_url_sv: (data as DatabaseProfile).intro_video_url_sv || null
         };
         setProfile(profileData);
       }
@@ -90,6 +97,8 @@ export const useProfile = () => {
     notification_preferences?: any;
     birth_date?: string;
     assistant_name?: string;
+    intro_video_url_en?: string;
+    intro_video_url_sv?: string;
   }) => {
     if (!user) {
       throw new Error('No user logged in');
@@ -122,7 +131,9 @@ export const useProfile = () => {
         debug_tools_enabled: (data as DatabaseProfile).debug_tools_enabled || false,
         notification_preferences: (data as DatabaseProfile).notification_preferences || null,
         birth_date: (data as DatabaseProfile).birth_date || null,
-        assistant_name: (data as DatabaseProfile).assistant_name || 'Career Assistant'
+        assistant_name: (data as DatabaseProfile).assistant_name || 'Career Assistant',
+        intro_video_url_en: (data as DatabaseProfile).intro_video_url_en || null,
+        intro_video_url_sv: (data as DatabaseProfile).intro_video_url_sv || null
       };
       setProfile(profileData);
       return profileData;

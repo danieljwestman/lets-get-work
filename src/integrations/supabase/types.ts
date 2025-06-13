@@ -247,6 +247,8 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          intro_video_url_en: string | null
+          intro_video_url_sv: string | null
           notification_preferences: Json | null
           timezone: string | null
           updated_at: string
@@ -260,6 +262,8 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          intro_video_url_en?: string | null
+          intro_video_url_sv?: string | null
           notification_preferences?: Json | null
           timezone?: string | null
           updated_at?: string
@@ -273,6 +277,8 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          intro_video_url_en?: string | null
+          intro_video_url_sv?: string | null
           notification_preferences?: Json | null
           timezone?: string | null
           updated_at?: string
