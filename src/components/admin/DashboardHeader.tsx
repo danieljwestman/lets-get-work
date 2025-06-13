@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { BarChart3, Mail, Palette, Briefcase, LayoutDashboard } from 'lucide-react';
+import { BarChart3, Mail, Palette, Briefcase, LayoutDashboard, User } from 'lucide-react';
 import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DashboardNotificationCenter } from '@/components/notifications/DashboardNotificationCenter';
 import { DashboardUserMenu } from '@/components/shared/DashboardUserMenu';
@@ -21,7 +22,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const navItems = [
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'messages', label: 'Messages', icon: Mail },
-    { id: 'profile', label: 'Profile', icon: LayoutDashboard },
+    { id: 'profile', label: 'Profile', icon: User },
     { id: 'themes', label: 'Themes', icon: Palette },
     { id: 'opportunities', label: 'Opportunities', icon: Briefcase },
   ];
