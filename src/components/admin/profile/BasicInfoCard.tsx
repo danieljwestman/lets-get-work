@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Mail, Calendar, Edit3, Check, X, Globe, User, Bot, UserCheck, Video } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,6 +38,28 @@ interface BasicInfoCardProps {
   loading: boolean;
   updateProfile: (updates: any) => Promise<any>;
 }
+
+// Helper function to format video URL for display
+const formatVideoUrlDisplay = (url: string | null): string => {
+  if (!url || url.trim() === '') return 'Not set';
+  
+  // Check for different video platforms
+  if (url.includes('tella.tv')) {
+    return 'Tella video available';
+  }
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    return 'YouTube video available';
+  }
+  if (url.includes('vimeo.com')) {
+    return 'Vimeo video available';
+  }
+  if (url.includes('loom.com')) {
+    return 'Loom video available';
+  }
+  
+  // Generic video URL
+  return 'Video available';
+};
 
 export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, updateProfile }) => {
   const { toast } = useToast();
@@ -235,7 +256,7 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
                   <Label className="text-sm font-medium text-gray-700">Intro Video (English)</Label>
                   <div className="flex items-center gap-3 text-gray-900">
                     <Video className="h-4 w-4 text-gray-400 flex-shrink-0" />
-                    <span className="truncate">{formData.intro_video_url_en || 'Not set'}</span>
+                    <span>{formatVideoUrlDisplay(formData.intro_video_url_en)}</span>
                   </div>
                 </div>
 
@@ -243,7 +264,7 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
                   <Label className="text-sm font-medium text-gray-700">Intro Video (Swedish)</Label>
                   <div className="flex items-center gap-3 text-gray-900">
                     <Video className="h-4 w-4 text-gray-400 flex-shrink-0" />
-                    <span className="truncate">{formData.intro_video_url_sv || 'Not set'}</span>
+                    <span>{formatVideoUrlDisplay(formData.intro_video_url_sv)}</span>
                   </div>
                 </div>
               </div>
@@ -346,6 +367,9 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
                       onChange={(e) => setFormData(prev => ({ ...prev, intro_video_url_en: e.target.value }))}
                       placeholder="https://www.tella.tv/video/..."
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Supported platforms: Tella.tv, YouTube, Vimeo, Loom. Use the shareable/embed URL from your video platform.
+                    </p>
                   </div>
 
                   <div className="space-y-2">
@@ -357,6 +381,9 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
                       onChange={(e) => setFormData(prev => ({ ...prev, intro_video_url_sv: e.target.value }))}
                       placeholder="https://www.tella.tv/video/..."
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Examples: https://www.tella.tv/video/abc123, https://youtube.com/watch?v=abc123, https://vimeo.com/123456789
+                    </p>
                   </div>
                 </div>
               </div>
