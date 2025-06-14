@@ -22,11 +22,17 @@ export const useAvatarUpload = ({
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      console.log('No file selected');
+      return;
+    }
+
+    console.log('File selected:', file.name, file.type, file.size);
 
     // Validate file
     const validation = validateImageFile(file);
     if (!validation.isValid) {
+      console.error('File validation failed:', validation.error);
       toast({
         title: "Invalid file",
         description: validation.error,
@@ -110,6 +116,7 @@ export const useAvatarUpload = ({
       });
     } finally {
       setUploading(false);
+      // Clear the input value to allow selecting the same file again
       event.target.value = '';
     }
   };

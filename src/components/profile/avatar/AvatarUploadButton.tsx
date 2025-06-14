@@ -12,6 +12,15 @@ export const AvatarUploadButton: React.FC<AvatarUploadButtonProps> = ({
   uploading, 
   onFileChange 
 }) => {
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   return (
     <>
       <input
@@ -22,22 +31,19 @@ export const AvatarUploadButton: React.FC<AvatarUploadButtonProps> = ({
         id="avatar-upload"
         disabled={uploading}
       />
-      <label
-        htmlFor="avatar-upload"
-        className="absolute bottom-0 right-0 transform translate-x-1 translate-y-1"
+      <Button
+        type="button"
+        size="sm"
+        className="absolute bottom-0 right-0 transform translate-x-1 translate-y-1 h-6 w-6 p-0 rounded-full shadow-lg"
+        disabled={uploading}
+        onClick={handleButtonClick}
       >
-        <Button
-          size="sm"
-          className="h-6 w-6 p-0 rounded-full shadow-lg"
-          disabled={uploading}
-        >
-          {uploading ? (
-            <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
-          ) : (
-            <Camera className="h-3 w-3" />
-          )}
-        </Button>
-      </label>
+        {uploading ? (
+          <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
+        ) : (
+          <Camera className="h-3 w-3" />
+        )}
+      </Button>
     </>
   );
 };
