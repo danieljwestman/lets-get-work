@@ -128,8 +128,8 @@ export const BillingManager: React.FC = () => {
             </div>
           </div>
 
-          {/* Beta Promise */}
-          <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
+          {/* Beta Promise - Removed blue background */}
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <div className="text-center space-y-3">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
                 <Gift className="h-8 w-8 text-blue-600" />
