@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Camera, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,16 +14,22 @@ interface UserAvatarProps {
 }
 
 export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = false }) => {
-  const { profile, updateProfile } = useProfile();
+  const { profile, updateProfile, refetch } = useProfile();
   const { user } = useAuth();
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   const sizeClasses = {
     sm: 'h-8 w-8',
     md: 'h-12 w-12',
     lg: 'h-20 w-20'
   };
+
+  // Update local avatar URL when profile changes
+  useEffect(() => {
+    setAvatarUrl(profile?.avatar_url || null);
+  }, [profile?.avatar_url]);
 
   // Helper function to resize image
   const resizeImage = (file: File, maxWidth: number = 300, maxHeight: number = 300, quality: number = 0.8): Promise<Blob> => {
@@ -142,8 +148,17 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
 
       console.log('Public URL:', publicUrl);
 
+      // Add cache busting parameter to ensure immediate update
+      const cacheBustingUrl = `${publicUrl}?t=${Date.now()}`;
+
       // Update profile with new avatar URL
-      await updateProfile({ avatar_url: publicUrl });
+      await updateProfile({ avatar_url: cacheBustingUrl });
+      
+      // Update local state immediately
+      setAvatarUrl(cacheBustingUrl);
+      
+      // Refetch profile to ensure consistency
+      await refetch();
       
       toast({
         title: "Avatar updated",
@@ -181,7 +196,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
   return (
     <div className="relative">
       <Avatar className={sizeClasses[size]}>
-        <AvatarImage src={profile?.avatar_url || undefined} alt="Profile" />
+        <AvatarImage src={avatarUrl || undefined} alt="Profile" />
         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
           {getInitials()}
         </AvatarFallback>

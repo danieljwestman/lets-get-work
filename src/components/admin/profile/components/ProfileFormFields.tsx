@@ -112,10 +112,10 @@ export const ProfileFormFields: React.FC<ProfileFormFieldsProps> = ({ formData, 
         />
       </div>
 
-      {/* Unified Video URL Description */}
+      {/* Unified Video URL Description - Changed to light gray */}
       <div className="md:col-span-2 -mt-2">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-          <p className="text-xs text-blue-800 leading-relaxed">
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+          <p className="text-xs text-gray-700 leading-relaxed">
             <strong>Supported platforms:</strong> Tella.tv, YouTube, Vimeo, Loom. Use the shareable/embed URL from your video platform.
             <br />
             <strong>Examples:</strong> https://www.tella.tv/video/abc123, https://youtube.com/watch?v=abc123, https://vimeo.com/123456789
