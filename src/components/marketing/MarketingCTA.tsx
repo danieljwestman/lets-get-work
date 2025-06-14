@@ -41,10 +41,10 @@ export const MarketingCTA: React.FC = () => {
               <Button 
                 onClick={handleGetStarted}
                 size="lg"
-                className="bg-white text-purple-600 hover:bg-gray-100 px-10 py-6 text-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+                className="bg-white text-purple-600 hover:bg-gray-100 px-6 py-4 sm:px-10 sm:py-6 text-lg sm:text-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
               >
                 Start Free Today
-                <ArrowRight className="ml-3 h-6 w-6" />
+                <ArrowRight className="ml-3 h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
             </div>
 

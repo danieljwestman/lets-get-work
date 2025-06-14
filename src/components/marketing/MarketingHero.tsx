@@ -56,17 +56,17 @@ export const MarketingHero: React.FC = () => {
           <Button 
             onClick={handleGetStarted}
             size="lg"
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-3 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
           >
             Get Started Free
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
           
           <Button 
             onClick={handleViewDemo}
             variant="outline"
             size="lg"
-            className="relative bg-white/90 backdrop-blur-sm px-8 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0 overflow-hidden group"
+            className="relative bg-white/90 backdrop-blur-sm px-4 py-3 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0 overflow-hidden group"
           >
             {/* Gradient border */}
             <div className="absolute inset-0 rounded-md p-[2px] bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
