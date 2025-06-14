@@ -12,10 +12,6 @@ export const MarketingCTA: React.FC = () => {
     navigate('/dashboard');
   };
 
-  const handleContactSales = () => {
-    navigate('/dashboard#messages');
-  };
-
   return (
     <section className="px-4 sm:px-6 py-20 sm:py-32">
       <div className="mx-auto max-w-6xl">
@@ -40,8 +36,8 @@ export const MarketingCTA: React.FC = () => {
               </p>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
+            {/* CTA Button */}
+            <div className="flex justify-center mb-12">
               <Button 
                 onClick={handleGetStarted}
                 size="lg"
@@ -49,15 +45,6 @@ export const MarketingCTA: React.FC = () => {
               >
                 Start Free Today
                 <ArrowRight className="ml-3 h-6 w-6" />
-              </Button>
-              
-              <Button 
-                onClick={handleContactSales}
-                variant="outline"
-                size="lg"
-                className="border-2 border-white text-white hover:bg-white hover:text-purple-600 px-10 py-6 text-xl font-semibold transition-all duration-300 hover:scale-105"
-              >
-                Contact Sales
               </Button>
             </div>
 
