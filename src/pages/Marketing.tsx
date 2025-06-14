@@ -17,8 +17,8 @@ const Marketing: React.FC = () => {
       <FeaturesGrid />
       <MarketingCTA />
       
-      {/* Marketing-specific footer with reduced top spacing */}
-      <div className="pt-4 sm:pt-8">
+      {/* Marketing-specific footer with reduced spacing */}
+      <div className="pt-2">
         <MarketingFooter />
       </div>
     </div>
