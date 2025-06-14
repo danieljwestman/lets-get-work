@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Zap, Shield, Globe, Users, TrendingUp, Heart } from 'lucide-react';
+import { Zap, Shield, Globe, Palette, TrendingUp, Heart } from 'lucide-react';
 
 export const FeaturesGrid: React.FC = () => {
   const features = [
@@ -30,9 +30,9 @@ export const FeaturesGrid: React.FC = () => {
       iconColor: "text-emerald-600"
     },
     {
-      icon: Users,
-      title: "Team Collaboration",
-      description: "Share profiles with mentors, get feedback, and collaborate on your job search strategy.",
+      icon: Palette,
+      title: "Unlimited Customization",
+      description: "Create stunning, pixel-perfect presentations with our advanced theme engine. Over 50+ professional templates and unlimited design possibilities to match your unique brand.",
       gradient: "from-purple-100 to-violet-100",
       iconBg: "from-purple-200 to-violet-200",
       iconColor: "text-violet-600"
@@ -47,7 +47,7 @@ export const FeaturesGrid: React.FC = () => {
     },
     {
       icon: Heart,
-      title: "24/7 Support",
+      title: "Quick Support",
       description: "Dedicated support team and comprehensive resources to help you succeed at every step.",
       gradient: "from-red-100 to-pink-100",
       iconBg: "from-red-200 to-pink-200",

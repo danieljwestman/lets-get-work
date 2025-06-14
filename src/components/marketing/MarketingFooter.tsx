@@ -28,12 +28,8 @@ export const MarketingFooter = () => {
                 </p>
               </div>
 
-              {/* Powered by section */}
+              {/* LetsGetWork logo section - removed "Powered by" text */}
               <div className="space-y-3 sm:space-y-4">
-                <div className="text-xs text-gray-500 font-light tracking-wider uppercase">
-                  Powered by
-                </div>
-                
                 {/* LetsGetWork logo - now clickable */}
                 <div className="relative inline-block">
                   <a href="/marketing" className="block">

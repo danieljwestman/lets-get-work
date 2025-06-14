@@ -1,74 +1,31 @@
 
 import React from 'react';
-import { LayoutDashboard } from 'lucide-react';
-import { useAuthForm } from './hooks/useAuthForm';
-import { BetaNotice } from './BetaNotice';
 import { AuthForm } from './AuthForm';
+import { BetaNotice } from './BetaNotice';
 
-export const DashboardAuth: React.FC = () => {
-  const {
-    isResetPassword,
-    isSignUp,
-    showPassword,
-    setShowPassword,
-    formData,
-    error,
-    message,
-    isSubmitting,
-    loading,
-    handleSubmit,
-    handleInputChange,
-    switchToReset,
-    switchToSignIn,
-    switchToSignUp,
-  } = useAuthForm();
-
-  const getTitle = () => {
-    if (isResetPassword) return 'Reset Password';
-    if (isSignUp) return 'Create Account';
-    return 'Dashboard';
-  };
-
-  const getSubtitle = () => {
-    if (isResetPassword) return 'Enter your email to receive a password reset link';
-    if (isSignUp) return 'Create your account to manage your job hunting opportunities';
-    return 'Sign in to manage your job hunting';
-  };
-
+export const DashboardAuth = () => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-pink-400 via-purple-400 via-blue-400 to-cyan-400">
-      <div className="w-full max-w-md mx-4">
-        <div className="bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-lg p-6">
-          <div className="text-center mb-6">
-            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-6 shadow-lg">
-              <LayoutDashboard className="h-10 w-10 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4 pt-8 sm:pt-4">
+      <div className="w-full max-w-md space-y-6">
+        <div className="text-center space-y-4">
+          <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full mx-auto flex items-center justify-center">
+            <div className="text-white text-2xl font-bold">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="7" height="7" fill="currentColor" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" fill="currentColor" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" fill="currentColor" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" fill="currentColor" rx="1"/>
+              </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">{getTitle()}</h1>
-            <p className="text-gray-600">
-              {getSubtitle()}
-            </p>
           </div>
-
-          <AuthForm
-            isResetPassword={isResetPassword}
-            isSignUp={isSignUp}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-            formData={formData}
-            error={error}
-            message={message}
-            isSubmitting={isSubmitting}
-            loading={loading}
-            onSubmit={handleSubmit}
-            onInputChange={handleInputChange}
-            onSwitchToReset={switchToReset}
-            onSwitchToSignIn={switchToSignIn}
-            onSwitchToSignUp={switchToSignUp}
-          />
-
-          {/* Beta Notice moved to bottom and only shown when not in reset password mode */}
-          {!isResetPassword && <BetaNotice />}
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-gray-600 mt-2">Sign in to manage your job hunting</p>
+          </div>
         </div>
+        
+        <AuthForm />
+        <BetaNotice />
       </div>
     </div>
   );

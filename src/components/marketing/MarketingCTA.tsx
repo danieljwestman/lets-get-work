@@ -64,8 +64,8 @@ export const MarketingCTA: React.FC = () => {
               </div>
             </div>
 
-            {/* Social Proof */}
-            <div className="flex items-center justify-center gap-6 text-white/80">
+            {/* Social Proof - Improved mobile layout */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-white/80">
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
                 <span className="text-sm">10,000+ Happy Users</span>
