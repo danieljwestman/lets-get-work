@@ -69,7 +69,7 @@ export const MarketingFooter = () => {
                   href="/" 
                   className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 relative group px-3 py-2 rounded-lg hover:bg-blue-50/50 hover:scale-105 hover:shadow-sm"
                 >
-                  <span className="relative z-10">Made by Daniel - check out his page here</span>
+                  <span className="relative z-10">Made by Daniel - check out his page</span>
                   <div className="absolute inset-0 bg-blue-100/50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 -z-0" />
                 </a>
               </div>
