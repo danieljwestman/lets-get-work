@@ -5,7 +5,6 @@ import { OnboardingShowcase } from '@/components/marketing/OnboardingShowcase';
 import { FeaturesGrid } from '@/components/marketing/FeaturesGrid';
 import { MarketingCTA } from '@/components/marketing/MarketingCTA';
 import { FloatingBubbles } from '@/components/shared/FloatingBubbles';
-import { Footer } from '@/components/Footer';
 
 const Marketing: React.FC = () => {
   return (
@@ -16,7 +15,6 @@ const Marketing: React.FC = () => {
       <OnboardingShowcase />
       <FeaturesGrid />
       <MarketingCTA />
-      <Footer />
     </div>
   );
 };

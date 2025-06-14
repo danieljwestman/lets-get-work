@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap, Target } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const MarketingHero: React.FC = () => {
@@ -20,13 +20,13 @@ export const MarketingHero: React.FC = () => {
       <div className="mx-auto max-w-6xl text-center">
         {/* Logo and Brand */}
         <div className="mb-8">
-          <div className="inline-flex flex-col items-center gap-3 mb-6">
-            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+              <Sparkles className="h-6 w-6 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               LetsGetWork
             </h1>
-            <div className="text-lg sm:text-xl font-medium text-gray-700">
-              The Future of Job Hunting (beta)
-            </div>
           </div>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full text-sm font-medium text-blue-700 mb-8">
             <Zap className="h-4 w-4" />

@@ -34,8 +34,7 @@ function App() {
               <LanguageProvider>
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
                   <Routes>
-                    <Route path="/" element={<Marketing />} />
-                    <Route path="/presentation" element={<Index />} />
+                    <Route path="/" element={<Index />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/help-support" element={<HelpSupport />} />
                     <Route path="/marketing" element={<Marketing />} />
