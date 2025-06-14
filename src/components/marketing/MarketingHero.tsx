@@ -52,7 +52,7 @@ export const MarketingHero: React.FC = () => {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button 
             onClick={handleGetStarted}
             size="lg"
@@ -70,22 +70,6 @@ export const MarketingHero: React.FC = () => {
           >
             View Demo
           </Button>
-        </div>
-
-        {/* Social Proof */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">10x</div>
-            <div className="text-gray-600">Higher Response Rate</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600 mb-2">95%</div>
-            <div className="text-gray-600">User Satisfaction</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-pink-600 mb-2">24h</div>
-            <div className="text-gray-600">Average Response Time</div>
-          </div>
         </div>
 
         {/* Floating Elements */}

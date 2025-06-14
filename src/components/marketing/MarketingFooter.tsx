@@ -4,8 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 export const MarketingFooter = () => {
   return (
     <footer className="relative overflow-hidden">
-      {/* Main footer container with increased top and bottom padding */}
-      <div className="text-center pb-12 sm:pb-20 pt-16 sm:pt-24 px-4 sm:px-6">
+      {/* Main footer container with reduced top padding */}
+      <div className="text-center pb-12 sm:pb-20 pt-8 sm:pt-12 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl">
           {/* Main unified card container using consistent card styling */}
           <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
@@ -67,7 +67,7 @@ export const MarketingFooter = () => {
               <div className="text-sm text-gray-600 font-light">
                 <a 
                   href="/" 
-                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 relative group px-3 py-2 rounded-lg hover:bg-blue-50/50"
+                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 relative group px-3 py-2 rounded-lg hover:bg-blue-50/50 hover:scale-105 hover:shadow-sm"
                 >
                   <span className="relative z-10">Made by Daniel - check out his page here</span>
                   <div className="absolute inset-0 bg-blue-100/50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 -z-0" />
