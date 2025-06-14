@@ -66,9 +66,18 @@ export const MarketingHero: React.FC = () => {
             onClick={handleViewDemo}
             variant="outline"
             size="lg"
-            className="border-2 border-gray-300 hover:border-purple-400 hover:bg-purple-50 px-8 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg bg-white/80 backdrop-blur-sm"
+            className="relative bg-white/90 backdrop-blur-sm px-8 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border-0 overflow-hidden group"
           >
-            View Demo
+            {/* Gradient border */}
+            <div className="absolute inset-0 rounded-md p-[2px] bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+              <div className="flex h-full w-full items-center justify-center rounded-md bg-white/90 backdrop-blur-sm group-hover:bg-gradient-to-r group-hover:from-blue-50/90 group-hover:to-purple-50/90 transition-all duration-300">
+              </div>
+            </div>
+            
+            {/* Button content with gradient text */}
+            <span className="relative z-10 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-purple-700 transition-all duration-300">
+              View Demo
+            </span>
           </Button>
         </div>
 
