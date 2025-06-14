@@ -16,7 +16,11 @@ const Marketing: React.FC = () => {
       <OnboardingShowcase />
       <FeaturesGrid />
       <MarketingCTA />
-      <Footer />
+      
+      {/* Footer with reduced top spacing */}
+      <div className="pt-4 sm:pt-8">
+        <Footer />
+      </div>
     </div>
   );
 };
