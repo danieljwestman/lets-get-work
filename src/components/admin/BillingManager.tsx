@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { CreditCard, Sparkles, Gift, Bell, Star, Zap } from 'lucide-react';
+import { CreditCard, Gift, Bell, Star, Zap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 export const BillingManager: React.FC = () => {
@@ -24,7 +23,7 @@ export const BillingManager: React.FC = () => {
       {/* Current Plan Status - Enhanced Design */}
       <Card className="overflow-hidden border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-white bg-opacity-10 bg-[url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=0 0 60 60 xmlns=http://www.w3.org/2000/svg%3E%3Cg fill=none fill-rule=evenodd%3E%3Cg fill=%23ffffff fill-opacity=0.1%3E%3Ccircle cx=30 cy=30 r=2/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+          <div className="absolute inset-0 bg-white bg-opacity-10 bg-[url('data:image/svg+xml;utf8,<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" fill-rule=\"evenodd\"><g fill=\"%23ffffff\" fill-opacity=\"0.1\"><circle cx=\"30\" cy=\"30\" r=\"2\"/></g></g></svg>')]"></div>
           <div className="relative flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -35,10 +34,6 @@ export const BillingManager: React.FC = () => {
                 <p className="text-blue-100 text-sm">Active since beta launch</p>
               </div>
             </div>
-            <Badge className="bg-green-500 hover:bg-green-600 text-white border-0 px-3 py-1">
-              <Sparkles className="h-3 w-3 mr-1" />
-              BETA
-            </Badge>
           </div>
         </CardHeader>
         
@@ -90,7 +85,7 @@ export const BillingManager: React.FC = () => {
       <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-yellow-500" />
+            <Star className="h-5 w-5 text-yellow-500" />
             What's Coming Next
           </CardTitle>
         </CardHeader>
