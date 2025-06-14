@@ -9,41 +9,15 @@ interface AvatarUploadButtonProps {
 }
 
 export const AvatarUploadButton: React.FC<AvatarUploadButtonProps> = ({ 
-  uploading, 
-  onFileChange 
+  uploading
 }) => {
-  const handleButtonClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
-  };
-
   return (
-    <>
-      <input
-        type="file"
-        accept="image/jpeg,image/jpg,image/png,image/webp"
-        onChange={onFileChange}
-        className="hidden"
-        id="avatar-upload"
-        disabled={uploading}
-      />
-      <Button
-        type="button"
-        size="sm"
-        className="absolute bottom-0 right-0 transform translate-x-1 translate-y-1 h-6 w-6 p-0 rounded-full shadow-lg"
-        disabled={uploading}
-        onClick={handleButtonClick}
-      >
-        {uploading ? (
-          <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
-        ) : (
-          <Camera className="h-3 w-3" />
-        )}
-      </Button>
-    </>
+    <div className="absolute bottom-0 right-0 transform translate-x-1 translate-y-1 h-6 w-6 rounded-full bg-primary shadow-lg flex items-center justify-center pointer-events-none">
+      {uploading ? (
+        <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
+      ) : (
+        <Camera className="h-3 w-3 text-white" />
+      )}
+    </div>
   );
 };

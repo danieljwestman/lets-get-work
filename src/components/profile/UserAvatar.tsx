@@ -32,6 +32,15 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
 
   const getInitials = () => generateInitials(profile?.full_name, profile?.email);
 
+  const handleAvatarClick = () => {
+    if (editable && !uploading) {
+      const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.click();
+      }
+    }
+  };
+
   if (!user || !profile) {
     return (
       <Avatar className={AVATAR_SIZE_CLASSES[size]}>
@@ -44,19 +53,35 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
 
   return (
     <div className="relative">
-      <Avatar className={AVATAR_SIZE_CLASSES[size]}>
-        <AvatarImage src={avatarUrl || undefined} alt="Profile" />
-        <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
-          {getInitials()}
-        </AvatarFallback>
-      </Avatar>
-      
       {editable && (
-        <AvatarUploadButton 
-          uploading={uploading}
-          onFileChange={handleFileUpload}
+        <input
+          type="file"
+          accept="image/jpeg,image/jpg,image/png,image/webp"
+          onChange={handleFileUpload}
+          className="hidden"
+          id="avatar-upload"
+          disabled={uploading}
         />
       )}
+      
+      <div 
+        className={`${editable ? 'cursor-pointer hover:opacity-75 transition-opacity' : ''}`}
+        onClick={handleAvatarClick}
+      >
+        <Avatar className={AVATAR_SIZE_CLASSES[size]}>
+          <AvatarImage src={avatarUrl || undefined} alt="Profile" />
+          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
+            {getInitials()}
+          </AvatarFallback>
+        </Avatar>
+        
+        {editable && (
+          <AvatarUploadButton 
+            uploading={uploading}
+            onFileChange={handleFileUpload}
+          />
+        )}
+      </div>
     </div>
   );
 };
