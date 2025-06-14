@@ -43,10 +43,11 @@ export const validateImageFile = (file: File): { isValid: boolean; error?: strin
     };
   }
 
-  if (file.size > 2 * 1024 * 1024) {
+  // Increased file size limit from 2MB to 10MB
+  if (file.size > 10 * 1024 * 1024) {
     return {
       isValid: false,
-      error: 'Please upload an image smaller than 2MB.'
+      error: 'Please upload an image smaller than 10MB.'
     };
   }
 
