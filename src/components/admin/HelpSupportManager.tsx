@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HelpCircle, User, Palette, Briefcase, BarChart3, Mail, ArrowRight, CheckCircle } from 'lucide-react';
+import { HelpCircle, User, Palette, Briefcase, BarChart3, Mail, ArrowRight, CheckCircle, MessageSquare } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,11 @@ export const HelpSupportManager: React.FC = () => {
   const handleNavigateToStep = (step: string) => {
     // Navigate to the specific dashboard section
     navigate(`/dashboard#${step}`);
+  };
+
+  const handleGetSupport = () => {
+    // Navigate to settings page for support options
+    navigate('/settings');
   };
 
   return (
@@ -26,6 +31,10 @@ export const HelpSupportManager: React.FC = () => {
             </p>
           </div>
         </div>
+        <Button onClick={handleGetSupport} className="flex items-center gap-2">
+          <MessageSquare className="h-4 w-4" />
+          Get Support
+        </Button>
       </div>
 
       {/* Onboarding Tutorial Card */}
