@@ -26,23 +26,12 @@ export const OnboardingShowcase: React.FC = () => {
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> 3 Simple Steps</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Follow our proven framework to create compelling job applications that get noticed by top employers
+            From search to success — we guide you step by step to create a beautiful personal presentation that's easy to share and hard to forget.
           </p>
         </div>
 
         {/* Onboarding Tutorial Card */}
         <Card className="overflow-hidden shadow-2xl border-0">
-          <CardHeader className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border-b">
-            <div className="text-center space-y-2">
-              <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                🚀 Your Path to Success
-              </CardTitle>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Transform your job search with our step-by-step guidance system
-              </p>
-            </div>
-          </CardHeader>
-          
           <CardContent className="p-8">
             {/* Main Setup Steps */}
             <div className="space-y-8">
