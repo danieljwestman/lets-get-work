@@ -4,18 +4,23 @@ import { HelpCircle, User, Palette, Briefcase, BarChart3, Mail, ArrowRight, Chec
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 export const HelpSupportManager: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleNavigateToStep = (step: string) => {
-    // Navigate to the specific dashboard section
-    navigate(`/dashboard#${step}`);
+    // Navigate to the dashboard with the specific section hash
+    navigate(`/dashboard`, { state: { activeTab: step } });
   };
 
   const handleGetSupport = () => {
-    // Navigate to settings page for support options
-    navigate('/settings');
+    toast({
+      title: "Support Coming Soon",
+      description: "We're currently in closed beta and preparing an amazing support experience. Stay tuned for updates!",
+      variant: "info"
+    });
   };
 
   return (
