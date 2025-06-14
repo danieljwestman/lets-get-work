@@ -36,7 +36,7 @@ export const OnboardingStep: React.FC<OnboardingStepProps> = ({
             <div className={`w-16 h-16 mx-auto bg-gradient-to-br ${gradientFrom} ${gradientTo} rounded-full flex items-center justify-center group-hover:from-${gradientFrom.split('-')[1]}-200 group-hover:to-${gradientTo.split('-')[1]}-300 transition-all duration-300`}>
               <Icon className={`h-8 w-8 ${iconColor}`} />
             </div>
-            <div className={`absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r ${gradientFrom.replace('100', '500')} ${gradientTo.replace('200', '500')} rounded-full flex items-center justify-center text-white text-sm font-bold`}>
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-900 text-sm font-bold shadow-lg border-2 border-gray-100">
               {step}
             </div>
           </div>
