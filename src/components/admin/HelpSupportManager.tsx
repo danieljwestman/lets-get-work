@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { HelpCircle, User, Palette, Briefcase, BarChart3, Mail, ArrowRight, CheckCircle, MessageSquare } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,8 +10,8 @@ export const HelpSupportManager: React.FC = () => {
   const { toast } = useToast();
 
   const handleNavigateToStep = (step: string) => {
-    // Navigate to the dashboard with the specific section hash
-    navigate(`/dashboard`, { state: { activeTab: step } });
+    // Navigate to the dashboard with hash-based routing
+    navigate(`/dashboard#${step}`);
   };
 
   const handleGetSupport = () => {
