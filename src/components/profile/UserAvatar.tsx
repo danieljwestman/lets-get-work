@@ -12,15 +12,31 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
   const { profile, updateProfile, refetch } = useProfile();
   const { user } = useAuth();
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [key, setKey] = useState(0); // Force re-render key
 
   // Update local avatar URL when profile changes
   useEffect(() => {
-    setAvatarUrl(profile?.avatar_url || null);
+    const newAvatarUrl = profile?.avatar_url || null;
+    setAvatarUrl(newAvatarUrl);
+    // Force re-render to ensure image cache is bypassed
+    setKey(prev => prev + 1);
   }, [profile?.avatar_url]);
 
   const handleUploadSuccess = async (newAvatarUrl: string) => {
+    // Update profile in database
     await updateProfile({ avatar_url: newAvatarUrl });
+    
+    // Update local state immediately
+    setAvatarUrl(newAvatarUrl);
+    setKey(prev => prev + 1);
+    
+    // Refetch profile to ensure consistency across all components
     await refetch();
+    
+    // Dispatch a custom event to notify other avatar components
+    window.dispatchEvent(new CustomEvent('avatar-updated', { 
+      detail: { avatarUrl: newAvatarUrl } 
+    }));
   };
 
   const { uploading, handleFileUpload } = useAvatarUpload({
@@ -29,6 +45,19 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
     onUploadSuccess: handleUploadSuccess,
     onAvatarUrlChange: setAvatarUrl
   });
+
+  // Listen for avatar updates from other components
+  useEffect(() => {
+    const handleAvatarUpdate = (event: CustomEvent) => {
+      setAvatarUrl(event.detail.avatarUrl);
+      setKey(prev => prev + 1);
+    };
+
+    window.addEventListener('avatar-updated', handleAvatarUpdate as EventListener);
+    return () => {
+      window.removeEventListener('avatar-updated', handleAvatarUpdate as EventListener);
+    };
+  }, []);
 
   const getInitials = () => generateInitials(profile?.full_name, profile?.email);
 
@@ -43,7 +72,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
 
   if (!user || !profile) {
     return (
-      <Avatar className={AVATAR_SIZE_CLASSES[size]}>
+      <Avatar className={AVATAR_SIZE_CLASSES[size]} key={key}>
         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
           U
         </AvatarFallback>
@@ -68,8 +97,12 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ size = 'md', editable = 
         className={`${editable ? 'cursor-pointer hover:opacity-75 transition-opacity' : ''}`}
         onClick={handleAvatarClick}
       >
-        <Avatar className={AVATAR_SIZE_CLASSES[size]}>
-          <AvatarImage src={avatarUrl || undefined} alt="Profile" />
+        <Avatar className={AVATAR_SIZE_CLASSES[size]} key={key}>
+          <AvatarImage 
+            src={avatarUrl || undefined} 
+            alt="Profile"
+            key={`${avatarUrl}-${key}`} // Force image reload with key
+          />
           <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
             {getInitials()}
           </AvatarFallback>

@@ -136,6 +136,12 @@ export const useProfile = () => {
         intro_video_url_sv: (data as DatabaseProfile).intro_video_url_sv || null
       };
       setProfile(profileData);
+      
+      // Dispatch event to notify other components about profile update
+      window.dispatchEvent(new CustomEvent('profile-updated', { 
+        detail: { profile: profileData } 
+      }));
+      
       return profileData;
     } catch (err: any) {
       console.error('Failed to update profile:', err);
@@ -166,6 +172,18 @@ export const useProfile = () => {
   useEffect(() => {
     fetchProfile();
   }, [user]);
+
+  // Listen for profile updates from other components
+  useEffect(() => {
+    const handleProfileUpdate = (event: CustomEvent) => {
+      setProfile(event.detail.profile);
+    };
+
+    window.addEventListener('profile-updated', handleProfileUpdate as EventListener);
+    return () => {
+      window.removeEventListener('profile-updated', handleProfileUpdate as EventListener);
+    };
+  }, []);
 
   return {
     profile,
