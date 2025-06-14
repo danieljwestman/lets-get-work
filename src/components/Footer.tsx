@@ -14,24 +14,7 @@ export const Footer = () => {
           <Card className="bg-white/80 backdrop-blur-sm border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
             <CardContent className="py-12 sm:py-16 md:py-12 lg:py-10 px-6 sm:px-10 md:px-12 lg:px-10 space-y-10 sm:space-y-12 md:space-y-8 lg:space-y-6">
               
-              {/* Crafted with care section */}
-              <div className="space-y-4">
-                <p className="text-gray-700 text-sm sm:text-base leading-relaxed font-light max-w-2xl mx-auto">
-                  {t('footer.text').split('Lovable')[0]}
-                  <a 
-                    href="https://lovable.dev" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-purple-600 hover:text-purple-700 font-semibold relative group"
-                  >
-                    <span className="relative z-10">Lovable</span>
-                    <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 -z-0" />
-                  </a>
-                  {t('footer.text').split('Lovable')[1]}
-                </p>
-              </div>
-
-              {/* Powered by section */}
+              {/* Powered by section - now first */}
               <div className="space-y-3 sm:space-y-4">
                 <div className="text-xs text-gray-500 font-light tracking-wider uppercase">
                   Powered by
@@ -58,6 +41,23 @@ export const Footer = () => {
                     </div>
                   </a>
                 </div>
+              </div>
+
+              {/* Crafted with care section - now second */}
+              <div className="space-y-4">
+                <p className="text-gray-700 text-sm sm:text-base leading-relaxed font-light max-w-2xl mx-auto">
+                  {t('footer.text').split('Lovable')[0]}
+                  <a 
+                    href="https://lovable.dev" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-purple-600 hover:text-purple-700 font-semibold relative group"
+                  >
+                    <span className="relative z-10">Lovable</span>
+                    <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 -z-0" />
+                  </a>
+                  {t('footer.text').split('Lovable')[1]}
+                </p>
               </div>
 
               {/* Experimental showcase description */}
