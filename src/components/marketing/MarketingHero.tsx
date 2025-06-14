@@ -27,7 +27,7 @@ export const MarketingHero: React.FC = () => {
         {/* Logo and Brand */}
         <div className="mb-8">
           <div className="inline-flex flex-col items-center gap-3 mb-6">
-            <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               LetsGetWork
             </h1>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full text-sm font-medium text-blue-700">
