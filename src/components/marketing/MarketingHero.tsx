@@ -3,16 +3,22 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 export const MarketingHero: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleGetStarted = () => {
     navigate('/dashboard');
   };
 
   const handleViewDemo = () => {
-    navigate('/marketing#onboarding');
+    toast({
+      title: "Demo Coming Soon",
+      description: "We're currently in closed beta and preparing an amazing demo experience. Stay tuned for updates!",
+      variant: "info"
+    });
   };
 
   return (
@@ -21,7 +27,7 @@ export const MarketingHero: React.FC = () => {
         {/* Logo and Brand */}
         <div className="mb-8">
           <div className="inline-flex flex-col items-center gap-3 mb-6">
-            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               LetsGetWork
             </h1>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full text-sm font-medium text-blue-700">
@@ -60,7 +66,7 @@ export const MarketingHero: React.FC = () => {
             onClick={handleViewDemo}
             variant="outline"
             size="lg"
-            className="border-2 border-gray-300 hover:border-purple-400 px-8 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105"
+            className="border-2 border-gray-300 hover:border-purple-400 hover:bg-purple-50 px-8 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg bg-white/80 backdrop-blur-sm"
           >
             View Demo
           </Button>
