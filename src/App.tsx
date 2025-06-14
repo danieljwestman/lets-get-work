@@ -10,6 +10,7 @@ import { DebugPanel } from '@/components/shared/DebugPanel';
 import Index from '@/pages/Index';
 import Dashboard from '@/pages/Dashboard';
 import HelpSupport from '@/pages/HelpSupport';
+import Marketing from '@/pages/Marketing';
 import NotFound from '@/pages/NotFound';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 
@@ -36,6 +37,7 @@ function App() {
                     <Route path="/" element={<Index />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/help-support" element={<HelpSupport />} />
+                    <Route path="/marketing" element={<Marketing />} />
                     <Route path="/404" element={<NotFound />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
