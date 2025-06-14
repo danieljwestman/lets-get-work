@@ -2,8 +2,26 @@
 import React from 'react';
 import { AuthForm } from './AuthForm';
 import { BetaNotice } from './BetaNotice';
+import { useAuthForm } from './hooks/useAuthForm';
 
 export const DashboardAuth = () => {
+  const {
+    isResetPassword,
+    isSignUp,
+    showPassword,
+    setShowPassword,
+    formData,
+    error,
+    message,
+    isSubmitting,
+    loading,
+    handleSubmit,
+    handleInputChange,
+    switchToReset,
+    switchToSignIn,
+    switchToSignUp,
+  } = useAuthForm();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
@@ -24,7 +42,22 @@ export const DashboardAuth = () => {
           </div>
         </div>
         
-        <AuthForm />
+        <AuthForm
+          isResetPassword={isResetPassword}
+          isSignUp={isSignUp}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          formData={formData}
+          error={error}
+          message={message}
+          isSubmitting={isSubmitting}
+          loading={loading}
+          onSubmit={handleSubmit}
+          onInputChange={handleInputChange}
+          onSwitchToReset={switchToReset}
+          onSwitchToSignIn={switchToSignIn}
+          onSwitchToSignUp={switchToSignUp}
+        />
         <BetaNotice />
       </div>
     </div>
