@@ -23,7 +23,7 @@ export const BillingManager: React.FC = () => {
       {/* Current Plan Status - Enhanced Design */}
       <Card className="overflow-hidden border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-white bg-opacity-10 bg-[url('data:image/svg+xml;utf8,<svg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"none\" fill-rule=\"evenodd\"><g fill=\"%23ffffff\" fill-opacity=\"0.1\"><circle cx=\"30\" cy=\"30\" r=\"2\"/></g></g></svg>')]"></div>
+          <div className="absolute inset-0 bg-white/10"></div>
           <div className="relative flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -123,8 +123,8 @@ export const BillingManager: React.FC = () => {
             </div>
           </div>
 
-          {/* Beta Promise - Removed blue background */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+          {/* Beta Promise - Removed gray border */}
+          <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="text-center space-y-3">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
                 <Gift className="h-8 w-8 text-blue-600" />
