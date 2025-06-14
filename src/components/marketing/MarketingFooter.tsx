@@ -34,24 +34,26 @@ export const MarketingFooter = () => {
                   Powered by
                 </div>
                 
-                {/* LetsGetWork logo */}
+                {/* LetsGetWork logo - now clickable */}
                 <div className="relative inline-block">
-                  {/* Multiple glow layers for depth */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl blur-3xl scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl blur-2xl scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg blur-xl" />
-                  
-                  {/* Main logo text */}
-                  <div className="relative">
-                    <div className="text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent tracking-tight leading-none">
-                      LetsGetWork
-                    </div>
+                  <a href="/marketing" className="block">
+                    {/* Multiple glow layers for depth */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl blur-3xl scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl blur-2xl scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg blur-xl" />
                     
-                    {/* Subtle reflection effect */}
-                    <div className="absolute inset-0 text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-700/20 bg-clip-text text-transparent tracking-tight leading-none transform translate-y-1 blur-sm -z-10">
-                      LetsGetWork
+                    {/* Main logo text */}
+                    <div className="relative">
+                      <div className="text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent tracking-tight leading-none">
+                        LetsGetWork
+                      </div>
+                      
+                      {/* Subtle reflection effect */}
+                      <div className="absolute inset-0 text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-700/20 bg-clip-text text-transparent tracking-tight leading-none transform translate-y-1 blur-sm -z-10">
+                        LetsGetWork
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
 
@@ -61,13 +63,14 @@ export const MarketingFooter = () => {
                 LetsGetWork represents the future of digital career presentations - where technology meets opportunity.
               </div>
 
-              {/* Personal attribution */}
+              {/* Personal attribution with improved styling */}
               <div className="text-sm text-gray-600 font-light">
                 <a 
                   href="/" 
-                  className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 relative group px-3 py-2 rounded-lg hover:bg-blue-50/50"
                 >
-                  Made by Daniel - check out his page here
+                  <span className="relative z-10">Made by Daniel - check out his page here</span>
+                  <div className="absolute inset-0 bg-blue-100/50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 -z-0" />
                 </a>
               </div>
             </CardContent>
