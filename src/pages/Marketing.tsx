@@ -5,7 +5,7 @@ import { OnboardingShowcase } from '@/components/marketing/OnboardingShowcase';
 import { FeaturesGrid } from '@/components/marketing/FeaturesGrid';
 import { MarketingCTA } from '@/components/marketing/MarketingCTA';
 import { FloatingBubbles } from '@/components/shared/FloatingBubbles';
-import { Footer } from '@/components/Footer';
+import { MarketingFooter } from '@/components/marketing/MarketingFooter';
 
 const Marketing: React.FC = () => {
   return (
@@ -17,9 +17,9 @@ const Marketing: React.FC = () => {
       <FeaturesGrid />
       <MarketingCTA />
       
-      {/* Footer with reduced top spacing */}
+      {/* Marketing-specific footer with reduced top spacing */}
       <div className="pt-4 sm:pt-8">
-        <Footer />
+        <MarketingFooter />
       </div>
     </div>
   );
