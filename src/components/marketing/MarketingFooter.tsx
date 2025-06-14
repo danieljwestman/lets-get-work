@@ -60,6 +60,18 @@ export const MarketingFooter = () => {
                 This is a showcase application demonstrating the power of modern web development. 
                 LetsGetWork represents the future of digital career presentations - where technology meets opportunity.
               </div>
+
+              {/* Personal attribution */}
+              <div className="text-sm text-gray-600 font-light">
+                Made by{' '}
+                <a 
+                  href="/" 
+                  className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+                >
+                  Daniel
+                </a>
+                {' '}- check out his page here
+              </div>
             </CardContent>
           </Card>
         </div>
