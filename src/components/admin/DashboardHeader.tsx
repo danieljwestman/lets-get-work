@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart3, Mail, Palette, Briefcase, LayoutDashboard, User } from 'lucide-react';
+import { BarChart3, Mail, Palette, Briefcase, Grid3x3, User } from 'lucide-react';
 import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DashboardNotificationCenter } from '@/components/notifications/DashboardNotificationCenter';
 import { DashboardUserMenu } from '@/components/shared/DashboardUserMenu';
@@ -33,8 +33,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg">
-              <LayoutDashboard className="h-4 w-4 text-white" />
+            <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full">
+              <Grid3x3 className="h-4 w-4 text-white" />
             </div>
             {/* Hide text on mobile, show on sm and larger */}
             <h1 className="hidden sm:block text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
