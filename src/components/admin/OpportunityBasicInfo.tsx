@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Target, Building2, User, Lock, Shield } from 'lucide-react';
+import { Target, Building2, Lock, Shield } from 'lucide-react';
 import { useThemesData } from './hooks/useThemesData';
 import { OPPORTUNITY_STATUSES, type OpportunityStatusType } from '@/constants/opportunityStatuses';
 import type { Opportunity } from '@/types/admin';
@@ -68,20 +68,6 @@ export const OpportunityBasicInfo: React.FC<OpportunityBasicInfoProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="subdomain">Subdomain</Label>
-              <Input
-                id="subdomain"
-                value={opportunity.subdomain}
-                onChange={(e) => onChange({ subdomain: e.target.value })}
-                placeholder="e.g., techcorp or default"
-                className="font-mono"
-              />
-              <p className="text-xs text-gray-500">
-                Used in URLs: {opportunity.subdomain}.getdaniel.work
-              </p>
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="theme_id">Theme</Label>
               <Select
                 value={opportunity.theme_id}
@@ -99,9 +85,7 @@ export const OpportunityBasicInfo: React.FC<OpportunityBasicInfoProps> = ({
                 </SelectContent>
               </Select>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
               <Select
@@ -120,7 +104,9 @@ export const OpportunityBasicInfo: React.FC<OpportunityBasicInfoProps> = ({
                 </SelectContent>
               </Select>
             </div>
+          </div>
 
+          <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="passcode_protection" className="flex items-center gap-2">
                 <Shield className="h-4 w-4" />
@@ -140,27 +126,27 @@ export const OpportunityBasicInfo: React.FC<OpportunityBasicInfoProps> = ({
                 </Label>
               </div>
             </div>
-          </div>
 
-          {opportunity.is_passcode_protected && (
-            <div className="space-y-2">
-              <Label htmlFor="access_passcode" className="flex items-center gap-2">
-                <Lock className="h-4 w-4" />
-                Access Passcode
-              </Label>
-              <Input
-                id="access_passcode"
-                type="text"
-                value={opportunity.access_passcode || ''}
-                onChange={(e) => onChange({ access_passcode: e.target.value })}
-                placeholder="Enter a simple passcode (e.g., 1234, hello, welcome)"
-                className="max-w-md"
-              />
-              <p className="text-xs text-gray-500">
-                Keep it simple and easy to share. Visitors can access with ?passcode=XXX in the URL.
-              </p>
-            </div>
-          )}
+            {opportunity.is_passcode_protected && (
+              <div className="space-y-2">
+                <Label htmlFor="access_passcode" className="flex items-center gap-2">
+                  <Lock className="h-4 w-4" />
+                  Access Passcode
+                </Label>
+                <Input
+                  id="access_passcode"
+                  type="text"
+                  value={opportunity.access_passcode || ''}
+                  onChange={(e) => onChange({ access_passcode: e.target.value })}
+                  placeholder="Enter a simple passcode (e.g., 1234, hello, welcome)"
+                  className="max-w-md"
+                />
+                <p className="text-xs text-gray-500">
+                  Keep it simple and easy to share. Visitors can access with ?passcode=XXX in the URL.
+                </p>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 

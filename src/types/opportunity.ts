@@ -6,7 +6,6 @@ export interface Opportunity {
   id: string;
   opportunity_id: string;
   name: string;
-  subdomain: string;
   theme_id: string;
   company_name?: string;
   contact_person?: string;

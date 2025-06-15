@@ -8,7 +8,6 @@ interface Opportunity {
   id: string;
   opportunity_id: string;
   name: string;
-  subdomain: string;
   theme_id: string;
   company_name?: string;
   contact_person?: string;
@@ -42,7 +41,7 @@ export const useOpportunitiesData = () => {
         .from('opportunities')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: true }); // Changed to oldest first
+        .order('created_at', { ascending: true });
 
       if (fetchError) {
         throw fetchError;
@@ -65,34 +64,29 @@ export const useOpportunitiesData = () => {
     }
   };
 
-  const generateUniqueOpportunityId = async (baseId: string): Promise<{ opportunityId: string; subdomain: string }> => {
+  const generateUniqueOpportunityId = async (baseId: string): Promise<string> => {
     let proposedOpportunityId = `${baseId}-copy`;
-    let proposedSubdomain = `${baseId}-copy`; // Using same logic for subdomain
     let counter = 1;
 
     while (true) {
       const { data, error } = await supabase
         .from('opportunities')
-        .select('opportunity_id, subdomain')
+        .select('opportunity_id')
         .eq('user_id', user!.id)
-        .or(`opportunity_id.eq.${proposedOpportunityId},subdomain.eq.${proposedSubdomain}`);
+        .eq('opportunity_id', proposedOpportunityId);
 
       if (error) {
         throw error;
       }
 
       if (!data || data.length === 0) {
-        // No conflicts found, IDs are unique
-        return {
-          opportunityId: proposedOpportunityId,
-          subdomain: proposedSubdomain
-        };
+        // No conflicts found, ID is unique
+        return proposedOpportunityId;
       }
 
       // If we found conflicts, try the next increment
       counter++;
       proposedOpportunityId = `${baseId}-copy${counter}`;
-      proposedSubdomain = `${baseId}-copy${counter}`;
     }
   };
 
@@ -102,14 +96,13 @@ export const useOpportunitiesData = () => {
     try {
       setCopying(originalOpportunity.opportunity_id);
 
-      // Generate unique opportunity_id and subdomain
-      const { opportunityId, subdomain } = await generateUniqueOpportunityId(originalOpportunity.opportunity_id);
+      // Generate unique opportunity_id
+      const opportunityId = await generateUniqueOpportunityId(originalOpportunity.opportunity_id);
 
       // Create the new opportunity
       const newOpportunity = {
         opportunity_id: opportunityId,
         name: `${originalOpportunity.name} Copy`,
-        subdomain: subdomain,
         theme_id: originalOpportunity.theme_id,
         company_name: originalOpportunity.company_name,
         contact_person: originalOpportunity.contact_person,

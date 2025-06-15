@@ -17,10 +17,10 @@ export const createAnalyticsDemoData = async () => {
     // Always target the "default" opportunity for demo data
     const { data: defaultOpportunity, error: oppError } = await supabase
       .from('opportunities')
-      .select('opportunity_id, theme_id, subdomain')
+      .select('opportunity_id, theme_id')
       .eq('user_id', user.id)
       .eq('opportunity_id', 'default')
-      .eq('status', 'published') // Fixed: Use 'published' instead of 'active'
+      .eq('status', 'published')
       .single();
 
     if (oppError) {
@@ -37,9 +37,8 @@ export const createAnalyticsDemoData = async () => {
 
     const opportunityId = defaultOpportunity.opportunity_id;
     const themeId = defaultOpportunity.theme_id;
-    const subdomain = defaultOpportunity.subdomain;
 
-    console.log('📊 Creating demo data for default opportunity:', { opportunityId, themeId, subdomain });
+    console.log('📊 Creating demo data for default opportunity:', { opportunityId, themeId });
     
     // CRITICAL FIX: Calculate date range dynamically to include current date
     const today = new Date();
@@ -113,7 +112,7 @@ export const createAnalyticsDemoData = async () => {
             viewport_width: Math.random() > 0.7 ? 375 : 1920,
             viewport_height: Math.random() > 0.7 ? 667 : 1080
           },
-          page_url: `https://${subdomain}.example.com/`,
+          page_url: `https://example.letsget.work/`,
           referrer: Math.random() > 0.5 ? 'https://google.com' : '',
           session_id: sessionId,
           user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -137,7 +136,7 @@ export const createAnalyticsDemoData = async () => {
           event_data: {
             source: Math.random() > 0.5 ? 'hero' : 'floating_button'
           },
-          page_url: `https://${subdomain}.example.com/`,
+          page_url: `https://example.letsget.work/`,
           referrer: '',
           session_id: sessionId,
           user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -162,7 +161,7 @@ export const createAnalyticsDemoData = async () => {
             prompt_length: Math.floor(Math.random() * 100) + 20,
             prompt_preview: 'What are your skills in...'
           },
-          page_url: `https://${subdomain}.example.com/`,
+          page_url: `https://example.letsget.work/`,
           referrer: '',
           session_id: sessionId,
           user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -188,7 +187,7 @@ export const createAnalyticsDemoData = async () => {
             button_name: buttonNames[Math.floor(Math.random() * buttonNames.length)],
             context: 'hero_section'
           },
-          page_url: `https://${subdomain}.example.com/`,
+          page_url: `https://example.letsget.work/`,
           referrer: '',
           session_id: sessionId,
           user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -213,7 +212,7 @@ export const createAnalyticsDemoData = async () => {
           event_data: {
             section_id: sections[Math.floor(Math.random() * sections.length)]
           },
-          page_url: `https://${subdomain}.example.com/`,
+          page_url: `https://example.letsget.work/`,
           referrer: '',
           session_id: sessionId,
           user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -237,7 +236,7 @@ export const createAnalyticsDemoData = async () => {
             platform: Math.random() > 0.5 ? 'github' : 'linkedin',
             context: 'header'
           },
-          page_url: `https://${subdomain}.example.com/`,
+          page_url: `https://example.letsget.work/`,
           referrer: '',
           session_id: sessionId,
           user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -260,7 +259,7 @@ export const createAnalyticsDemoData = async () => {
           event_data: {
             inquiry_type: Math.random() > 0.5 ? 'job_opportunity' : 'collaboration'
           },
-          page_url: `https://${subdomain}.example.com/`,
+          page_url: `https://example.letsget.work/`,
           referrer: '',
           session_id: sessionId,
           user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',

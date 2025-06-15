@@ -13,6 +13,7 @@ export interface CustomDomain {
   dns_configured: boolean;
   created_at: string;
   updated_at: string;
+  user_id: string;
 }
 
 export class CustomDomainsService {
@@ -27,17 +28,27 @@ export class CustomDomainsService {
       throw error;
     }
 
-    return data || [];
+    return (data || []).map(domain => ({
+      ...domain,
+      target_type: domain.target_type as 'profile' | 'opportunity'
+    }));
   }
 
-  static async createDomain(domain: CustomDomain): Promise<CustomDomain> {
+  static async createDomain(domainData: Partial<CustomDomain>): Promise<CustomDomain> {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
     const { data, error } = await supabase
       .from('custom_domains')
       .insert([{
-        domain: domain.domain,
-        target_type: domain.target_type,
-        target_profile_id: domain.target_profile_id,
-        target_opportunity_id: domain.target_opportunity_id,
+        domain: domainData.domain!,
+        target_type: domainData.target_type!,
+        target_profile_id: domainData.target_profile_id!,
+        target_opportunity_id: domainData.target_opportunity_id,
+        user_id: user.id,
         verification_token: this.generateVerificationToken()
       }])
       .select()
@@ -48,7 +59,10 @@ export class CustomDomainsService {
       throw error;
     }
 
-    return data;
+    return {
+      ...data,
+      target_type: data.target_type as 'profile' | 'opportunity'
+    };
   }
 
   static async updateDomain(id: string, updates: Partial<CustomDomain>): Promise<CustomDomain> {
@@ -64,7 +78,10 @@ export class CustomDomainsService {
       throw error;
     }
 
-    return data;
+    return {
+      ...data,
+      target_type: data.target_type as 'profile' | 'opportunity'
+    };
   }
 
   static async deleteDomain(id: string): Promise<void> {
