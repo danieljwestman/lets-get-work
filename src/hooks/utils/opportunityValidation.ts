@@ -1,16 +1,16 @@
 
 import { OpportunityWithTheme } from '@/types/opportunity';
 
-export const validateOpportunitySubdomain = (
+export const validateOpportunityProfile = (
   opportunity: OpportunityWithTheme | null, 
-  expectedSubdomain: string
+  expectedProfileId: string
 ): boolean => {
   if (!opportunity) return true; // null is valid
-  const isValid = opportunity.subdomain === expectedSubdomain;
+  const isValid = opportunity.profile_id === expectedProfileId;
   if (!isValid) {
-    console.error('🔧 OPPORTUNITY VALIDATION: Subdomain mismatch!', {
-      opportunitySubdomain: opportunity.subdomain,
-      expectedSubdomain,
+    console.error('🔧 OPPORTUNITY VALIDATION: Profile ID mismatch!', {
+      opportunityProfileId: opportunity.profile_id,
+      expectedProfileId,
       opportunityId: opportunity.opportunity_id
     });
   }
@@ -19,13 +19,13 @@ export const validateOpportunitySubdomain = (
 
 export const validateFetchedOpportunity = (
   opportunity: any,
-  subdomain: string,
+  profileId: string,
   requestId: string
 ): boolean => {
-  if (opportunity.subdomain !== subdomain) {
-    console.error('🔧 OPPORTUNITY VALIDATION: Critical error - fetched opportunity has wrong subdomain!', {
-      expectedSubdomain: subdomain,
-      actualSubdomain: opportunity.subdomain,
+  if (opportunity.profile_id !== profileId) {
+    console.error('🔧 OPPORTUNITY VALIDATION: Critical error - fetched opportunity has wrong profile ID!', {
+      expectedProfileId: profileId,
+      actualProfileId: opportunity.profile_id,
       opportunityId: opportunity.opportunity_id,
       requestId
     });
@@ -36,13 +36,13 @@ export const validateFetchedOpportunity = (
 
 export const validateOpportunityBeforeSet = (
   opportunity: OpportunityWithTheme,
-  subdomain: string,
+  profileId: string,
   requestId: string
 ): boolean => {
-  if (!validateOpportunitySubdomain(opportunity, subdomain)) {
+  if (!validateOpportunityProfile(opportunity, profileId)) {
     console.error('🔧 OPPORTUNITY VALIDATION: Final validation failed:', {
-      opportunitySubdomain: opportunity.subdomain,
-      expectedSubdomain: subdomain,
+      opportunityProfileId: opportunity.profile_id,
+      expectedProfileId: profileId,
       requestId
     });
     return false;

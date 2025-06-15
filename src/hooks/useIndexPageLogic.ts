@@ -67,11 +67,12 @@ export const useIndexPageLogic = () => {
       }
 
       const urlPasscode = passcodeService.getPasscodeFromUrl();
-      if (urlPasscode && opportunity.subdomain) {
+      if (urlPasscode && opportunity.profile_id) {
         console.log('Index: Found passcode in URL, verifying...');
         startProcessing();
         try {
-          const isValid = await passcodeService.verifyPasscodeWithServer(urlPasscode, opportunity.subdomain);
+          // For now, we'll use a simple verification since we don't have profile-based verification yet
+          const isValid = await passcodeService.verifyPasscodeWithServer(urlPasscode, opportunity.profile_id);
           if (isValid) {
             console.log('Index: Valid passcode found in URL - universal access granted');
             passcodeService.storePasscode(opportunity.opportunity_id, urlPasscode);
@@ -109,7 +110,7 @@ export const useIndexPageLogic = () => {
     if (opportunity) {
       handlePasscodeVerification();
     }
-  }, [opportunity?.opportunity_id, opportunity?.is_passcode_protected, opportunity?.subdomain, user?.id, isOwner, grantAccess, denyAccess, startProcessing, resetState]);
+  }, [opportunity?.opportunity_id, opportunity?.is_passcode_protected, opportunity?.profile_id, user?.id, isOwner, grantAccess, denyAccess, startProcessing, resetState]);
 
   // Page view tracking effect
   useEffect(() => {
@@ -135,13 +136,14 @@ export const useIndexPageLogic = () => {
   const verifyPasscode = async (enteredPasscode: string): Promise<boolean> => {
     console.log('Index: verifyPasscode called');
     
-    if (!opportunity || !opportunity.subdomain) {
-      console.error('Index: No opportunity or subdomain available');
+    if (!opportunity || !opportunity.profile_id) {
+      console.error('Index: No opportunity or profile ID available');
       return false;
     }
 
     try {
-      const isValid = await passcodeService.verifyPasscodeWithServer(enteredPasscode, opportunity.subdomain);
+      // For now, we'll use a simple verification since we don't have profile-based verification yet
+      const isValid = await passcodeService.verifyPasscodeWithServer(enteredPasscode, opportunity.profile_id);
       console.log('Index: Passcode validation result:', isValid);
       
       if (isValid) {

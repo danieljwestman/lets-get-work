@@ -6,7 +6,7 @@ import { UserAvatar } from '@/components/profile/UserAvatar';
 import { Profile, ProfileFormData } from '../types/profileTypes';
 import { formatVideoUrlDisplay } from '../utils/videoUtils';
 import { getTimezoneLabel, formatMemberSince, formatBirthDate } from '../utils/formatters';
-import { TIMEZONE_OPTIONS } from '../constants/timezoneOptions';
+import { timezoneOptions } from '../constants/timezoneOptions';
 
 interface ProfileDisplayModeProps {
   formData: ProfileFormData;
@@ -47,7 +47,7 @@ export const ProfileDisplayMode: React.FC<ProfileDisplayModeProps> = ({ formData
             <Label className="text-sm font-medium text-gray-700">Timezone</Label>
             <div className="flex items-center gap-3 text-gray-900">
               <Globe className="h-4 w-4 text-gray-400 flex-shrink-0" />
-              <span>{getTimezoneLabel(formData.timezone, TIMEZONE_OPTIONS)}</span>
+              <span>{getTimezoneLabel(formData.timezone, timezoneOptions)}</span>
             </div>
           </div>
 

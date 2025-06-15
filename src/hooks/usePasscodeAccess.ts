@@ -49,13 +49,14 @@ export const usePasscodeAccess = (opportunity: OpportunityWithTheme | null) => {
     setIsProcessing(false);
     
     // Check localStorage before showing modal
-    if (opportunity?.opportunity_id && opportunity?.subdomain) {
+    if (opportunity?.opportunity_id && opportunity?.profile_id) {
       const storedPasscode = passcodeService.getStoredPasscode(opportunity.opportunity_id);
       
       if (storedPasscode) {
         console.log('usePasscodeAccess: Found stored passcode, verifying...');
         try {
-          const isValid = await passcodeService.verifyPasscodeWithServer(storedPasscode, opportunity.subdomain);
+          // For now, we'll use a simple verification since we don't have profile-based verification yet
+          const isValid = await passcodeService.verifyPasscodeWithServer(storedPasscode, opportunity.profile_id);
           if (isValid) {
             console.log('usePasscodeAccess: Valid stored passcode found, granting access');
             setHasAccess(true);
@@ -75,7 +76,7 @@ export const usePasscodeAccess = (opportunity: OpportunityWithTheme | null) => {
     // Show modal if no valid stored passcode
     console.log('usePasscodeAccess: Showing passcode modal');
     setShowPasscodeModal(true);
-  }, [opportunity?.opportunity_id, opportunity?.subdomain]);
+  }, [opportunity?.opportunity_id, opportunity?.profile_id]);
 
   const startProcessing = useCallback(() => {
     console.log('usePasscodeAccess: Starting processing');

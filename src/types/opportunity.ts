@@ -18,6 +18,7 @@ export interface Opportunity {
   owner_full_name?: string;
   created_at?: string;
   updated_at?: string;
+  profile_id?: string; // Add profile_id to identify which profile this opportunity belongs to
 }
 
 export interface OpportunityWithTheme extends Opportunity {

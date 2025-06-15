@@ -30,7 +30,7 @@ export const useOpportunityDebugInfo = () => {
         opportunityId: opportunity.opportunity_id,
         actualOpportunityId: showActualId ? actualId : undefined,
         name: opportunity.name,
-        subdomain: opportunity.subdomain,
+        profileId: opportunity.profile_id,
         themeId: opportunity.theme.theme_id,
         themeName: opportunity.theme.name,
         companyName: opportunity.company_name,

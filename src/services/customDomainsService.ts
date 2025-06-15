@@ -30,7 +30,8 @@ export class CustomDomainsService {
 
     return (data || []).map(domain => ({
       ...domain,
-      target_type: domain.target_type as 'profile' | 'opportunity'
+      target_type: domain.target_type as 'profile' | 'opportunity',
+      ssl_status: (domain.ssl_status || 'pending') as 'pending' | 'active' | 'failed'
     }));
   }
 
@@ -61,7 +62,8 @@ export class CustomDomainsService {
 
     return {
       ...data,
-      target_type: data.target_type as 'profile' | 'opportunity'
+      target_type: data.target_type as 'profile' | 'opportunity',
+      ssl_status: (data.ssl_status || 'pending') as 'pending' | 'active' | 'failed'
     };
   }
 
@@ -80,7 +82,8 @@ export class CustomDomainsService {
 
     return {
       ...data,
-      target_type: data.target_type as 'profile' | 'opportunity'
+      target_type: data.target_type as 'profile' | 'opportunity',
+      ssl_status: (data.ssl_status || 'pending') as 'pending' | 'active' | 'failed'
     };
   }
 

@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useMemo } from 'react';
 import { OpportunityWithTheme, OpportunityContextType } from '@/types/opportunity';
-import { useSubdomain } from '@/hooks/useSubdomain';
+import { useDomainContext } from '@/hooks/useDomainContext';
 import { useOpportunityConfig } from '@/hooks/useOpportunityConfig';
 
 const OpportunityContext = createContext<OpportunityContextType | undefined>(undefined);
@@ -25,7 +25,7 @@ export const useCompany = () => {
     return {
       id: opportunity.theme.theme_id,
       name: opportunity.theme.name,
-      subdomain: opportunity.subdomain,
+      profileId: opportunity.profile_id,
       browserTitle: opportunity.theme.browser_title,
       branding: opportunity.theme.branding,
       content: opportunity.theme.content,
@@ -37,26 +37,30 @@ export const useCompany = () => {
 };
 
 export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const subdomain = useSubdomain();
-  const { opportunity, isLoading, error } = useOpportunityConfig(subdomain);
+  const domainInfo = useDomainContext();
+  
+  // For now, we'll use a placeholder profile ID until the routing is fully implemented
+  const profileId = domainInfo?.profileId || 'default';
+  
+  const { opportunity, isLoading, error } = useOpportunityConfig(profileId);
 
   // Enhanced logging with validation
   console.log('🔧 OPPORTUNITY CONTEXT: Provider render:', {
-    subdomain,
+    profileId,
     hasOpportunity: !!opportunity,
     opportunityId: opportunity?.opportunity_id,
-    opportunitySubdomain: opportunity?.subdomain,
+    opportunityProfileId: opportunity?.profile_id,
     themeId: opportunity?.theme?.theme_id,
     isLoading,
     error,
-    subdomainMatch: opportunity ? opportunity.subdomain === subdomain : 'N/A'
+    profileIdMatch: opportunity ? opportunity.profile_id === profileId : 'N/A'
   });
 
-  // Validation check - ensure opportunity matches subdomain
-  if (opportunity && subdomain && opportunity.subdomain !== subdomain) {
-    console.error('🔧 OPPORTUNITY CONTEXT: CRITICAL ERROR - Opportunity subdomain mismatch in provider!', {
-      currentSubdomain: subdomain,
-      opportunitySubdomain: opportunity.subdomain,
+  // Validation check - ensure opportunity matches profile ID
+  if (opportunity && profileId && opportunity.profile_id !== profileId) {
+    console.error('🔧 OPPORTUNITY CONTEXT: CRITICAL ERROR - Opportunity profile ID mismatch in provider!', {
+      currentProfileId: profileId,
+      opportunityProfileId: opportunity.profile_id,
       opportunityId: opportunity.opportunity_id
     });
   }

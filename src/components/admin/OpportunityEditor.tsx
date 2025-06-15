@@ -61,7 +61,6 @@ export const OpportunityEditor: React.FC<OpportunityEditorProps> = ({
   };
 
   const opportunityName = opportunity?.name || 'New Opportunity';
-  const subdomain = opportunity?.subdomain || '';
 
   return (
     <div className="space-y-6">
@@ -79,11 +78,11 @@ export const OpportunityEditor: React.FC<OpportunityEditorProps> = ({
                 <Lock className="h-5 w-5 text-gray-500" />
               )}
             </h1>
-            {subdomain && (
+            {opportunity?.opportunity_id && (
               <div className="flex items-center gap-2 mt-1">
                 <Globe className="h-4 w-4 text-gray-400" />
                 <span className="text-sm text-gray-600">
-                  {subdomain === 'default' ? 'default' : `${subdomain}.getdaniel.work`}
+                  Opportunity ID: {opportunity.opportunity_id}
                 </span>
               </div>
             )}
@@ -91,18 +90,6 @@ export const OpportunityEditor: React.FC<OpportunityEditorProps> = ({
         </div>
         
         <div className="flex gap-2">
-          {!isCreating && subdomain && (
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                const url = subdomain === 'default' ? '/' : `https://${subdomain}.getdaniel.work`;
-                window.open(url, '_blank');
-              }}
-            >
-              <Eye className="h-4 w-4 mr-2" />
-              Preview
-            </Button>
-          )}
           <Button onClick={handleSave} disabled={isSaving}>
             <Save className="h-4 w-4 mr-2" />
             {isSaving ? 'Saving...' : 'Save'}

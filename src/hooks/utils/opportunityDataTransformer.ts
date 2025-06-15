@@ -37,7 +37,7 @@ export const transformOpportunityData = (
   opportunity: any,
   theme: any,
   requestId: string,
-  ownerProfile?: { full_name: string } | null
+  ownerProfile?: { full_name: string; profile_id?: string } | null
 ): OpportunityWithTheme => {
   console.log('🔧 OPPORTUNITY TRANSFORM: Transforming opportunity data:', {
     opportunityId: opportunity.opportunity_id,
@@ -47,6 +47,7 @@ export const transformOpportunityData = (
     isPasscodeProtected: opportunity.is_passcode_protected,
     hasPasscode: !!opportunity.access_passcode,
     ownerFullName: ownerProfile?.full_name,
+    ownerProfileId: ownerProfile?.profile_id,
     requestId
   });
 
@@ -62,7 +63,7 @@ export const transformOpportunityData = (
     id: opportunity.id || opportunity.opportunity_id, // Use actual UUID id if available, fallback to opportunity_id
     opportunity_id: opportunity.opportunity_id,
     name: opportunity.name,
-    subdomain: opportunity.subdomain,
+    profile_id: ownerProfile?.profile_id || '', // Set from owner profile
     theme_id: opportunity.theme_id,
     company_name: opportunity.company_name,
     contact_person: contactPerson,
@@ -107,7 +108,7 @@ export const transformOpportunityData = (
     opportunity_id: transformedOpportunity.opportunity_id,
     actual_id: transformedOpportunity.id,
     theme_id: transformedOpportunity.theme.theme_id,
-    subdomain: transformedOpportunity.subdomain,
+    profile_id: transformedOpportunity.profile_id,
     originalStatus: opportunity.status,
     mappedStatus: transformedOpportunity.status,
     is_passcode_protected: transformedOpportunity.is_passcode_protected,

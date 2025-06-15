@@ -8,40 +8,40 @@ import { useOpportunityState } from './utils/useOpportunityState';
 const requestManager = new OpportunityRequestManager();
 const opportunityFetcher = new OpportunityFetcher(requestManager);
 
-export const useOpportunityConfig = (subdomain: string | null) => {
+export const useOpportunityConfig = (profileId: string | null) => {
   const { state, updateState, resetState, refs } = useOpportunityState();
 
   // Single consolidated useEffect to handle all opportunity loading logic
   useEffect(() => {
     const fetchOpportunityConfig = async () => {
-      // Don't fetch if subdomain is null (not yet initialized)
-      if (subdomain === null) {
-        console.log('🔧 OPPORTUNITY CONFIG: Subdomain is null, waiting for initialization');
+      // Don't fetch if profileId is null (not yet initialized)
+      if (profileId === null) {
+        console.log('🔧 OPPORTUNITY CONFIG: Profile ID is null, waiting for initialization');
         return;
       }
 
-      // Skip if subdomain hasn't changed
-      if (refs.lastSubdomain.current === subdomain) {
-        console.log('🔧 OPPORTUNITY CONFIG: Subdomain unchanged, skipping fetch:', subdomain);
+      // Skip if profileId hasn't changed
+      if (refs.lastSubdomain.current === profileId) {
+        console.log('🔧 OPPORTUNITY CONFIG: Profile ID unchanged, skipping fetch:', profileId);
         return;
       }
 
-      const requestId = `opp-${subdomain}-${Date.now()}-${Math.random()}`;
+      const requestId = `opp-${profileId}-${Date.now()}-${Math.random()}`;
       updateState({ currentRequestId: requestId });
 
-      // Clear cache for previous subdomain to prevent contamination
-      if (refs.lastSubdomain.current && refs.lastSubdomain.current !== subdomain) {
+      // Clear cache for previous profile ID to prevent contamination
+      if (refs.lastSubdomain.current && refs.lastSubdomain.current !== profileId) {
         requestManager.clearCacheForSubdomain(refs.lastSubdomain.current);
       }
 
       updateState({ 
         isLoading: true, 
         error: null, 
-        lastSubdomain: subdomain 
+        lastSubdomain: profileId 
       });
 
       const result = await opportunityFetcher.fetchOpportunityConfig(
-        subdomain, 
+        profileId, 
         requestId, 
         state.opportunity
       );
@@ -55,14 +55,14 @@ export const useOpportunityConfig = (subdomain: string | null) => {
         });
       }
 
-      console.log('🔧 OPPORTUNITY CONFIG: Fetch completed for subdomain:', subdomain, 'RequestID:', requestId);
+      console.log('🔧 OPPORTUNITY CONFIG: Fetch completed for profile ID:', profileId, 'RequestID:', requestId);
     };
 
-    if (subdomain !== null) {
-      console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with subdomain:', subdomain);
+    if (profileId !== null) {
+      console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with profile ID:', profileId);
       fetchOpportunityConfig();
     } else {
-      console.log('🔧 OPPORTUNITY CONFIG: Subdomain is null, waiting for initialization');
+      console.log('🔧 OPPORTUNITY CONFIG: Profile ID is null, waiting for initialization');
       updateState({
         isLoading: true,
         error: null,
@@ -77,14 +77,14 @@ export const useOpportunityConfig = (subdomain: string | null) => {
         requestManager.dequeueRequest(refs.currentRequestId.current);
       }
     };
-  }, [subdomain]); // FIXED: Only depend on subdomain, not state.opportunity
+  }, [profileId]); // FIXED: Only depend on profileId, not state.opportunity
 
   // Log whenever opportunity state changes
   console.log('🔧 OPPORTUNITY CONFIG: State changed:', {
     hasOpportunity: !!state.opportunity,
     opportunityId: state.opportunity?.opportunity_id,
-    opportunitySubdomain: state.opportunity?.subdomain,
-    currentSubdomain: subdomain,
+    opportunityProfileId: state.opportunity?.profile_id,
+    currentProfileId: profileId,
     themeId: state.opportunity?.theme.theme_id,
     userId: state.opportunity?.user_id,
     isLoading: state.isLoading,
