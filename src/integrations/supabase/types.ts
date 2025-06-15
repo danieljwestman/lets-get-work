@@ -62,6 +62,51 @@ export type Database = {
           },
         ]
       }
+      custom_domains: {
+        Row: {
+          created_at: string
+          dns_configured: boolean
+          domain: string
+          id: string
+          is_verified: boolean
+          ssl_status: string | null
+          target_opportunity_id: string | null
+          target_profile_id: string | null
+          target_type: string
+          updated_at: string
+          user_id: string
+          verification_token: string | null
+        }
+        Insert: {
+          created_at?: string
+          dns_configured?: boolean
+          domain: string
+          id?: string
+          is_verified?: boolean
+          ssl_status?: string | null
+          target_opportunity_id?: string | null
+          target_profile_id?: string | null
+          target_type: string
+          updated_at?: string
+          user_id: string
+          verification_token?: string | null
+        }
+        Update: {
+          created_at?: string
+          dns_configured?: boolean
+          domain?: string
+          id?: string
+          is_verified?: boolean
+          ssl_status?: string | null
+          target_opportunity_id?: string | null
+          target_profile_id?: string | null
+          target_type?: string
+          updated_at?: string
+          user_id?: string
+          verification_token?: string | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           conversation_context: string | null
@@ -180,7 +225,6 @@ export type Database = {
           notes: string | null
           opportunity_id: string
           status: string | null
-          subdomain: string
           target_role: string | null
           theme_id: string
           updated_at: string | null
@@ -197,7 +241,6 @@ export type Database = {
           notes?: string | null
           opportunity_id: string
           status?: string | null
-          subdomain: string
           target_role?: string | null
           theme_id: string
           updated_at?: string | null
@@ -214,7 +257,6 @@ export type Database = {
           notes?: string | null
           opportunity_id?: string
           status?: string | null
-          subdomain?: string
           target_role?: string | null
           theme_id?: string
           updated_at?: string | null
@@ -250,6 +292,7 @@ export type Database = {
           intro_video_url_en: string | null
           intro_video_url_sv: string | null
           notification_preferences: Json | null
+          profile_id: string | null
           timezone: string | null
           updated_at: string
         }
@@ -265,6 +308,7 @@ export type Database = {
           intro_video_url_en?: string | null
           intro_video_url_sv?: string | null
           notification_preferences?: Json | null
+          profile_id?: string | null
           timezone?: string | null
           updated_at?: string
         }
@@ -280,6 +324,7 @@ export type Database = {
           intro_video_url_en?: string | null
           intro_video_url_sv?: string | null
           notification_preferences?: Json | null
+          profile_id?: string | null
           timezone?: string | null
           updated_at?: string
         }
@@ -469,6 +514,21 @@ export type Database = {
           status: string
         }[]
       }
+      get_public_opportunity_by_profile: {
+        Args: { profile_id_param: string; opportunity_id_param: string }
+        Returns: {
+          id: string
+          opportunity_id: string
+          name: string
+          theme_id: string
+          company_name: string
+          target_role: string
+          status: string
+          user_id: string
+          is_passcode_protected: boolean
+          access_passcode: string
+        }[]
+      }
       get_public_opportunity_with_id: {
         Args: { subdomain_param: string }
         Returns: {
@@ -483,6 +543,14 @@ export type Database = {
           user_id: string
           is_passcode_protected: boolean
           access_passcode: string
+        }[]
+      }
+      get_public_profile_by_profile_id: {
+        Args: { profile_id_param: string }
+        Returns: {
+          id: string
+          profile_id: string
+          full_name: string
         }[]
       }
       get_public_profile_name: {
@@ -532,6 +600,16 @@ export type Database = {
       get_user_from_theme_secure: {
         Args: { theme_id_param: string }
         Returns: string
+      }
+      resolve_custom_domain: {
+        Args: { domain_param: string }
+        Returns: {
+          user_id: string
+          target_type: string
+          target_profile_id: string
+          target_opportunity_id: string
+          is_verified: boolean
+        }[]
       }
       verify_opportunity_passcode: {
         Args: { subdomain_param: string; passcode_param: string }

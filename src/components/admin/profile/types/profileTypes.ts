@@ -3,6 +3,7 @@ export interface Profile {
   id: string;
   email: string | null;
   full_name: string | null;
+  profile_id: string | null;
   timezone: string | null;
   avatar_url: string | null;
   debug_tools_enabled: boolean | null;
@@ -18,6 +19,7 @@ export interface Profile {
 export interface ProfileFormData {
   email: string;
   full_name: string;
+  profile_id: string;
   timezone: string;
   birth_date: string;
   assistant_name: string;

@@ -1,10 +1,11 @@
 
 import React from 'react';
-import { Settings, Shield, Bell, HelpCircle } from 'lucide-react';
+import { Settings, Shield, Bell, HelpCircle, Globe } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SecuritySettings } from '@/components/profile/SecuritySettings';
 import { NotificationPreferences } from '@/components/profile/NotificationPreferences';
 import { DeveloperSettings } from '@/components/profile/DeveloperSettings';
+import { CustomDomainsCard } from './settings/CustomDomainsCard';
 
 export const SettingsManager: React.FC = () => {
   return (
@@ -16,7 +17,7 @@ export const SettingsManager: React.FC = () => {
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
             <p className="text-gray-600 mt-1">
-              Manage your account security, notifications, and support preferences
+              Manage your account security, notifications, domains, and support preferences
             </p>
           </div>
         </div>
@@ -50,7 +51,7 @@ export const SettingsManager: React.FC = () => {
           </Card>
         </div>
 
-        <div>
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -62,6 +63,8 @@ export const SettingsManager: React.FC = () => {
               <NotificationPreferences />
             </CardContent>
           </Card>
+
+          <CustomDomainsCard />
         </div>
       </div>
     </div>

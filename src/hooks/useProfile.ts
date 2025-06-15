@@ -7,6 +7,7 @@ interface Profile {
   id: string;
   email: string | null;
   full_name: string | null;
+  profile_id: string | null;
   timezone: string | null;
   avatar_url: string | null;
   debug_tools_enabled: boolean | null;
@@ -23,6 +24,7 @@ interface DatabaseProfile {
   id: string;
   email: string | null;
   full_name: string | null;
+  profile_id?: string | null;
   timezone?: string | null;
   avatar_url?: string | null;
   debug_tools_enabled?: boolean | null;
@@ -68,6 +70,7 @@ export const useProfile = () => {
         // Ensure timezone has a default value if null
         const profileData: Profile = {
           ...data,
+          profile_id: (data as DatabaseProfile).profile_id || null,
           timezone: (data as DatabaseProfile).timezone || 'Europe/Stockholm',
           avatar_url: (data as DatabaseProfile).avatar_url || null,
           debug_tools_enabled: (data as DatabaseProfile).debug_tools_enabled || false,
@@ -91,6 +94,7 @@ export const useProfile = () => {
   const updateProfile = async (updates: { 
     full_name?: string; 
     email?: string; 
+    profile_id?: string;
     timezone?: string;
     avatar_url?: string;
     debug_tools_enabled?: boolean;
@@ -126,6 +130,7 @@ export const useProfile = () => {
       // Ensure timezone has a default value if null
       const profileData: Profile = {
         ...data,
+        profile_id: (data as DatabaseProfile).profile_id || null,
         timezone: (data as DatabaseProfile).timezone || 'Europe/Stockholm',
         avatar_url: (data as DatabaseProfile).avatar_url || null,
         debug_tools_enabled: (data as DatabaseProfile).debug_tools_enabled || false,

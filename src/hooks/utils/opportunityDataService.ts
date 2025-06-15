@@ -1,11 +1,17 @@
+
 import { supabase } from '@/integrations/supabase/client';
 
-export const fetchOpportunityData = async (
-  subdomain: string,
+export const fetchOpportunityByProfile = async (
+  profileId: string,
+  opportunityId: string,
   controller: AbortController,
   requestId: string
 ) => {
-  console.log('🔧 OPPORTUNITY SERVICE: Fetching opportunity for subdomain:', subdomain, 'RequestID:', requestId);
+  console.log('🔧 OPPORTUNITY SERVICE: Fetching opportunity by profile:', {
+    profileId,
+    opportunityId,
+    requestId
+  });
 
   // Check if user is authenticated to determine which function to use
   const { data: { session } } = await supabase.auth.getSession();
@@ -17,42 +23,42 @@ export const fetchOpportunityData = async (
   let opportunityError;
 
   if (isAuthenticated) {
-    // Use direct query for authenticated users - include ALL statuses for ownership validation
+    // For authenticated users, use direct query with profile join
     const { data, error } = await supabase
       .from('opportunities')
-      .select('id, opportunity_id, name, subdomain, theme_id, company_name, target_role, status, user_id, is_passcode_protected, access_passcode')
-      .eq('subdomain', subdomain)
+      .select(`
+        id, opportunity_id, name, theme_id, company_name, target_role, status, user_id, 
+        is_passcode_protected, access_passcode,
+        profiles!inner(profile_id)
+      `)
+      .eq('profiles.profile_id', profileId)
+      .eq('opportunity_id', opportunityId)
       .abortSignal(controller.signal)
       .limit(1);
     
     opportunityData = data;
     opportunityError = error;
 
-    // If opportunity found, validate access for unpublished opportunities
+    // Validate access for unpublished opportunities
     if (opportunityData && opportunityData.length > 0) {
       const opportunity = opportunityData[0];
       
-      // If opportunity is unpublished, ensure the user is the owner
       if (opportunity.status === 'unpublished' && opportunity.user_id !== session.user.id) {
         console.log('🔧 OPPORTUNITY SERVICE: Unpublished opportunity access denied - not owner:', {
           opportunityUserId: opportunity.user_id,
           sessionUserId: session.user.id,
           requestId
         });
-        // Treat as not found for non-owners
         opportunityData = [];
-      } else {
-        console.log('🔧 OPPORTUNITY SERVICE: Opportunity access granted:', {
-          status: opportunity.status,
-          isOwner: opportunity.user_id === session.user.id,
-          requestId
-        });
       }
     }
   } else {
-    // Use the security definer function for public access - only published opportunities
+    // For public access, use the security definer function
     const { data, error } = await supabase
-      .rpc('get_public_opportunity_with_id', { subdomain_param: subdomain })
+      .rpc('get_public_opportunity_by_profile', { 
+        profile_id_param: profileId, 
+        opportunity_id_param: opportunityId 
+      })
       .abortSignal(controller.signal);
     
     opportunityData = data;
@@ -108,51 +114,37 @@ export const fetchOwnerProfile = async (
   console.log('🔧 OPPORTUNITY SERVICE: Fetching owner profile for user_id:', userId, 'RequestID:', requestId);
   
   try {
-    // Use the new secure function that safely exposes only full_name to all users
     const { data: profileData, error: profileError } = await supabase
       .rpc('get_public_profile_name', { user_id_param: userId })
       .abortSignal(controller.signal)
       .maybeSingle();
 
-    console.log('🔧 OPPORTUNITY SERVICE: Profile query result using secure function:', {
+    console.log('🔧 OPPORTUNITY SERVICE: Profile query result:', {
       profileData,
       profileError,
       hasFullName: !!profileData?.full_name,
       fullName: profileData?.full_name,
-      errorCode: profileError?.code,
-      errorMessage: profileError?.message,
       requestId
     });
 
     if (profileError) {
-      console.error('🔧 OPPORTUNITY SERVICE: Profile fetch error with secure function:', {
-        error: profileError,
-        code: profileError.code,
-        message: profileError.message,
-        hint: profileError.hint,
-        details: profileError.details,
-        requestId
-      });
+      console.error('🔧 OPPORTUNITY SERVICE: Profile fetch error:', profileError, 'RequestID:', requestId);
       return null;
     }
 
-    if (!profileData) {
-      console.log('🔧 OPPORTUNITY SERVICE: No profile found for user_id:', userId, 'RequestID:', requestId);
-      return null;
-    }
-
-    console.log('🔧 OPPORTUNITY SERVICE: Successfully fetched owner profile using secure function:', {
-      full_name: profileData?.full_name,
-      requestId
-    });
     return profileData;
   } catch (err) {
-    console.error('🔧 OPPORTUNITY SERVICE: Exception during secure profile fetch:', {
-      error: err,
-      errorMessage: err instanceof Error ? err.message : 'Unknown error',
-      userId,
-      requestId
-    });
+    console.error('🔧 OPPORTUNITY SERVICE: Exception during profile fetch:', err, 'RequestID:', requestId);
     return null;
   }
+};
+
+// Legacy function for backward compatibility
+export const fetchOpportunityData = async (
+  subdomain: string,
+  controller: AbortController,
+  requestId: string
+) => {
+  // For now, treat subdomain as profile_id and default opportunity
+  return fetchOpportunityByProfile(subdomain, 'default', controller, requestId);
 };

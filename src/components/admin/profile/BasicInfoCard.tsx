@@ -22,6 +22,7 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
   const [formData, setFormData] = React.useState<ProfileFormData>({
     email: '',
     full_name: '',
+    profile_id: '',
     timezone: 'Europe/Stockholm',
     birth_date: '',
     assistant_name: 'Career Assistant',
@@ -34,6 +35,7 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
       setFormData({
         email: profile.email || '',
         full_name: profile.full_name || '',
+        profile_id: profile.profile_id || '',
         timezone: profile.timezone || 'Europe/Stockholm',
         birth_date: profile.birth_date || '',
         assistant_name: profile.assistant_name || 'Career Assistant',
@@ -52,6 +54,7 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
       setFormData({
         email: profile.email || '',
         full_name: profile.full_name || '',
+        profile_id: profile.profile_id || '',
         timezone: profile.timezone || 'Europe/Stockholm',
         birth_date: profile.birth_date || '',
         assistant_name: profile.assistant_name || 'Career Assistant',
@@ -62,13 +65,30 @@ export const BasicInfoCard: React.FC<BasicInfoCardProps> = ({ profile, loading, 
     setIsEditing(false);
   };
 
+  const validateProfileId = (profileId: string) => {
+    const profileIdRegex = /^[a-z0-9_-]+$/;
+    return profileId.length >= 3 && profileId.length <= 50 && profileIdRegex.test(profileId);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
 
+    // Validate profile_id if provided
+    if (formData.profile_id && !validateProfileId(formData.profile_id)) {
+      toast({
+        title: 'Invalid Profile ID',
+        description: 'Profile ID must be 3-50 characters, lowercase letters, numbers, hyphens, and underscores only.',
+        variant: 'destructive',
+      });
+      setSaving(false);
+      return;
+    }
+
     try {
       await updateProfile({
         full_name: formData.full_name,
+        profile_id: formData.profile_id || null,
         timezone: formData.timezone,
         birth_date: formData.birth_date || null,
         assistant_name: formData.assistant_name,
