@@ -14,7 +14,7 @@ export interface OpportunityDebugInfo {
   opportunityId: string;
   actualOpportunityId?: string;
   name: string;
-  subdomain: string;
+  profileId: string;
   themeId: string;
   themeName: string;
   companyName?: string;

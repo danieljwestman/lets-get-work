@@ -71,9 +71,9 @@ export const OpportunityInfo: React.FC<OpportunityInfoProps> = ({
           </div>
 
           <div className="grid grid-cols-[100px_1fr] gap-2 items-start">
-            <span className="text-gray-600 font-medium">Subdomain:</span>
+            <span className="text-gray-600 font-medium">Profile ID:</span>
             <code className="bg-gray-100 px-2 py-1 rounded text-xs text-gray-800 break-all">
-              {opportunityDebugInfo.subdomain}
+              {opportunityDebugInfo.profileId}
             </code>
           </div>
 
