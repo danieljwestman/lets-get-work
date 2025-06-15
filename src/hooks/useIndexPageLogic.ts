@@ -32,26 +32,6 @@ export const useIndexPageLogic = () => {
   // Check if current user is the owner of this opportunity
   const isOwner = user && opportunity && user.id === opportunity.user_id;
 
-  // For main domains, we don't need opportunity logic
-  if (domainInfo?.isMainDomain) {
-    console.log('IndexPageLogic: Main domain detected, skipping opportunity logic');
-    return {
-      opportunity: null,
-      opportunityLoading: false,
-      error: null,
-      user,
-      isOwner: false,
-      hasAccess: true,
-      showPasscodeModal: false,
-      isProcessing: false,
-      isChatOpen,
-      setIsChatOpen,
-      isContactModalOpen,
-      setIsContactModalOpen,
-      verifyPasscode: async () => false
-    };
-  }
-
   console.log('Index: Render state:', {
     hasOpportunity: !!opportunity,
     opportunityLoading,
@@ -62,11 +42,18 @@ export const useIndexPageLogic = () => {
     showPasscodeModal,
     isProcessing,
     isProtected: opportunity?.is_passcode_protected,
-    passcodeSet: !!opportunity?.access_passcode
+    passcodeSet: !!opportunity?.access_passcode,
+    isMainDomain: domainInfo?.isMainDomain
   });
 
-  // Handle passcode verification logic
+  // Handle passcode verification logic - only for non-main domains
   useEffect(() => {
+    // Skip passcode logic for main domains
+    if (domainInfo?.isMainDomain) {
+      console.log('IndexPageLogic: Main domain detected, skipping passcode logic');
+      return;
+    }
+
     const handlePasscodeVerification = async () => {
       console.log('Index: handlePasscodeVerification triggered with opportunity:', {
         hasOpportunity: !!opportunity,
@@ -93,7 +80,6 @@ export const useIndexPageLogic = () => {
         console.log('Index: Found passcode in URL, verifying...');
         startProcessing();
         try {
-          // For now, we'll use a simple verification since we don't have profile-based verification yet
           const isValid = await passcodeService.verifyPasscodeWithServer(urlPasscode, opportunity.profile_id);
           if (isValid) {
             console.log('Index: Valid passcode found in URL - universal access granted');
@@ -132,10 +118,15 @@ export const useIndexPageLogic = () => {
     if (opportunity) {
       handlePasscodeVerification();
     }
-  }, [opportunity?.opportunity_id, opportunity?.is_passcode_protected, opportunity?.profile_id, user?.id, isOwner, grantAccess, denyAccess, startProcessing, resetState]);
+  }, [opportunity?.opportunity_id, opportunity?.is_passcode_protected, opportunity?.profile_id, user?.id, isOwner, grantAccess, denyAccess, startProcessing, resetState, domainInfo?.isMainDomain]);
 
-  // Page view tracking effect
+  // Page view tracking effect - only for non-main domains
   useEffect(() => {
+    // Skip analytics for main domains
+    if (domainInfo?.isMainDomain) {
+      return;
+    }
+
     if (opportunity?.opportunity_id && !opportunityLoading && analytics.isReady() && 
         (hasAccess || !opportunity.is_passcode_protected) && !pageViewTracked.current) {
       console.log('Index: Tracking page view for opportunity:', opportunity.opportunity_id);
@@ -147,7 +138,7 @@ export const useIndexPageLogic = () => {
       });
       pageViewTracked.current = true;
     }
-  }, [opportunity?.opportunity_id, opportunityLoading, analytics, hasAccess, language]);
+  }, [opportunity?.opportunity_id, opportunityLoading, analytics, hasAccess, language, domainInfo?.isMainDomain]);
 
   // Reset page view tracking when opportunity changes
   useEffect(() => {
@@ -164,7 +155,6 @@ export const useIndexPageLogic = () => {
     }
 
     try {
-      // For now, we'll use a simple verification since we don't have profile-based verification yet
       const isValid = await passcodeService.verifyPasscodeWithServer(enteredPasscode, opportunity.profile_id);
       console.log('Index: Passcode validation result:', isValid);
       

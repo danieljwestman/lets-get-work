@@ -9,16 +9,8 @@ import { useDomainContext } from '@/hooks/useDomainContext';
 const Index = () => {
   const domainInfo = useDomainContext();
   
-  // Update browser title based on opportunity config
+  // Always call hooks regardless of domain type
   useBrowserTitle();
-  
-  // For main domains, redirect to dashboard or show marketing page
-  if (domainInfo?.isMainDomain) {
-    console.log('Index: Main domain detected, redirecting to dashboard');
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  // For subdomains and custom domains, show the opportunity presentation
   const {
     opportunity,
     opportunityLoading,
@@ -34,6 +26,12 @@ const Index = () => {
     setIsContactModalOpen,
     verifyPasscode
   } = useIndexPageLogic();
+
+  // For main domains, redirect to dashboard after hooks have been called
+  if (domainInfo?.isMainDomain) {
+    console.log('Index: Main domain detected, redirecting to dashboard');
+    return <Navigate to="/dashboard" replace />;
+  }
 
   return (
     <IndexPageStates
