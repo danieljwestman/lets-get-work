@@ -39,13 +39,17 @@ export const useCompany = () => {
 export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const domainInfo = useDomainContext();
   
-  // For now, we'll use a placeholder profile ID until the routing is fully implemented
-  const profileId = domainInfo?.profileId || 'default';
+  // Only fetch opportunities for subdomains and custom domains, not main domains
+  const shouldFetchOpportunity = domainInfo && !domainInfo.isMainDomain;
+  const profileId = shouldFetchOpportunity ? domainInfo.profileId : null;
   
   const { opportunity, isLoading, error } = useOpportunityConfig(profileId);
 
   // Enhanced logging with validation
   console.log('🔧 OPPORTUNITY CONTEXT: Provider render:', {
+    domainType: domainInfo?.type,
+    isMainDomain: domainInfo?.isMainDomain,
+    shouldFetchOpportunity,
     profileId,
     hasOpportunity: !!opportunity,
     opportunityId: opportunity?.opportunity_id,
@@ -56,7 +60,7 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     profileIdMatch: opportunity ? opportunity.profile_id === profileId : 'N/A'
   });
 
-  // Validation check - ensure opportunity matches profile ID
+  // Validation check - ensure opportunity matches profile ID (only for subdomains)
   if (opportunity && profileId && opportunity.profile_id !== profileId) {
     console.error('🔧 OPPORTUNITY CONTEXT: CRITICAL ERROR - Opportunity profile ID mismatch in provider!', {
       currentProfileId: profileId,

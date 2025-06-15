@@ -1,14 +1,24 @@
 
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { useBrowserTitle } from '@/hooks/useBrowserTitle';
 import { useIndexPageLogic } from '@/hooks/useIndexPageLogic';
 import { IndexPageStates } from '@/components/pages/IndexPageStates';
+import { useDomainContext } from '@/hooks/useDomainContext';
 
 const Index = () => {
+  const domainInfo = useDomainContext();
+  
   // Update browser title based on opportunity config
   useBrowserTitle();
   
-  // Get all the page logic and state
+  // For main domains, redirect to dashboard or show marketing page
+  if (domainInfo?.isMainDomain) {
+    console.log('Index: Main domain detected, redirecting to dashboard');
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  // For subdomains and custom domains, show the opportunity presentation
   const {
     opportunity,
     opportunityLoading,

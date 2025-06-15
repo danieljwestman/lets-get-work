@@ -14,9 +14,14 @@ export const useOpportunityConfig = (profileId: string | null) => {
   // Single consolidated useEffect to handle all opportunity loading logic
   useEffect(() => {
     const fetchOpportunityConfig = async () => {
-      // Don't fetch if profileId is null (not yet initialized)
+      // Don't fetch if profileId is null (main domain or not yet initialized)
       if (profileId === null) {
-        console.log('🔧 OPPORTUNITY CONFIG: Profile ID is null, waiting for initialization');
+        console.log('🔧 OPPORTUNITY CONFIG: Profile ID is null, not fetching (main domain or not initialized)');
+        updateState({
+          opportunity: null,
+          isLoading: false,
+          error: null
+        });
         return;
       }
 
@@ -58,17 +63,8 @@ export const useOpportunityConfig = (profileId: string | null) => {
       console.log('🔧 OPPORTUNITY CONFIG: Fetch completed for profile ID:', profileId, 'RequestID:', requestId);
     };
 
-    if (profileId !== null) {
-      console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with profile ID:', profileId);
-      fetchOpportunityConfig();
-    } else {
-      console.log('🔧 OPPORTUNITY CONFIG: Profile ID is null, waiting for initialization');
-      updateState({
-        isLoading: true,
-        error: null,
-        opportunity: null
-      });
-    }
+    console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with profile ID:', profileId);
+    fetchOpportunityConfig();
 
     // Cleanup function
     return () => {
@@ -77,7 +73,7 @@ export const useOpportunityConfig = (profileId: string | null) => {
         requestManager.dequeueRequest(refs.currentRequestId.current);
       }
     };
-  }, [profileId]); // FIXED: Only depend on profileId, not state.opportunity
+  }, [profileId]); // Only depend on profileId
 
   // Log whenever opportunity state changes
   console.log('🔧 OPPORTUNITY CONFIG: State changed:', {

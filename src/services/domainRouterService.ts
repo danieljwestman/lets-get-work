@@ -14,12 +14,13 @@ export class DomainRouterService {
   static detectDomainType(hostname: string): DomainInfo {
     console.log('🔧 DOMAIN ROUTER: Detecting domain type for:', hostname);
 
-    // Development/preview environments
+    // Development/preview environments - treat as main domain
     if (hostname.includes('localhost') || 
         hostname.includes('127.0.0.1') || 
         hostname.includes('.lovable.app') ||
         hostname.includes('lovableproject.com') ||
         hostname.includes('preview--')) {
+      console.log('🔧 DOMAIN ROUTER: Development/preview environment detected as main domain');
       return {
         type: 'main',
         domain: hostname,
@@ -29,6 +30,7 @@ export class DomainRouterService {
 
     // Check if it's the main domain
     if (hostname === this.MAIN_DOMAIN || hostname === `www.${this.MAIN_DOMAIN}`) {
+      console.log('🔧 DOMAIN ROUTER: Main domain detected');
       return {
         type: 'main',
         domain: hostname,
@@ -40,6 +42,7 @@ export class DomainRouterService {
     const subdomainMatch = hostname.match(this.SUBDOMAIN_PATTERN);
     if (subdomainMatch) {
       const profileId = subdomainMatch[1];
+      console.log('🔧 DOMAIN ROUTER: Subdomain detected with profile ID:', profileId);
       return {
         type: 'subdomain',
         domain: hostname,
@@ -49,6 +52,7 @@ export class DomainRouterService {
     }
 
     // Everything else is treated as a custom domain
+    console.log('🔧 DOMAIN ROUTER: Custom domain detected');
     return {
       type: 'custom',
       domain: hostname,

@@ -6,12 +6,14 @@ import { useAnalytics } from '@/hooks/useAnalytics';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePasscodeAccess } from '@/hooks/usePasscodeAccess';
 import { passcodeService } from '@/services/passcodeService';
+import { useDomainContext } from '@/hooks/useDomainContext';
 
 export const useIndexPageLogic = () => {
   const { opportunity, isLoading: opportunityLoading, error } = useOpportunity();
   const { language } = useLanguage();
   const { user } = useAuth();
   const analytics = useAnalytics();
+  const domainInfo = useDomainContext();
   
   const { 
     hasAccess, 
@@ -29,6 +31,26 @@ export const useIndexPageLogic = () => {
 
   // Check if current user is the owner of this opportunity
   const isOwner = user && opportunity && user.id === opportunity.user_id;
+
+  // For main domains, we don't need opportunity logic
+  if (domainInfo?.isMainDomain) {
+    console.log('IndexPageLogic: Main domain detected, skipping opportunity logic');
+    return {
+      opportunity: null,
+      opportunityLoading: false,
+      error: null,
+      user,
+      isOwner: false,
+      hasAccess: true,
+      showPasscodeModal: false,
+      isProcessing: false,
+      isChatOpen,
+      setIsChatOpen,
+      isContactModalOpen,
+      setIsContactModalOpen,
+      verifyPasscode: async () => false
+    };
+  }
 
   console.log('Index: Render state:', {
     hasOpportunity: !!opportunity,
