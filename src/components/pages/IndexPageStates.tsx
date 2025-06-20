@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Navigate } from 'react-router-dom';
 import { PasscodeModal } from '@/components/auth/PasscodeModal';
 import { AppLoadingWrapper } from '@/components/shared/AppLoadingWrapper';
 import { IndexPageContent } from './IndexPageContent';
 import { OpportunityWithTheme } from '@/types/opportunity';
+import NotFound from '@/pages/NotFound';
 
 interface IndexPageStatesProps {
   opportunity: OpportunityWithTheme | null;
@@ -45,10 +45,10 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
     }
   }, [opportunity, showPasscodeModal]);
 
-  // If there's an error loading the opportunity, redirect to 404
+  // If there's an error loading the opportunity, render NotFound directly (no redirect)
   if (error && !opportunityLoading) {
-    console.log('Index: Error detected, redirecting to NotFound:', error);
-    return <Navigate to="/404" replace />;
+    console.log('🔧 INDEX PAGE STATES: Error detected, rendering NotFound component:', error);
+    return <NotFound />;
   }
 
   // Show passcode modal for protected opportunities that require passcode entry
