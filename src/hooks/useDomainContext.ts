@@ -19,6 +19,22 @@ export const useDomainContext = () => {
     console.log('🔧 DOMAIN CONTEXT: Processing URL change:', currentUrl);
     lastUrl.current = currentUrl;
     
+    // Check if we're on a /profiles/:profileId route
+    const profileMatch = window.location.pathname.match(/^\/profiles\/([^\/]+)$/);
+    if (profileMatch) {
+      const profileId = profileMatch[1];
+      console.log('🔧 DOMAIN CONTEXT: Detected /profiles/ route for profile ID:', profileId);
+      setDomainInfo({
+        type: 'subdomain',
+        domain: window.location.hostname,
+        profileId,
+        opportunityId: 'default',
+        isMainDomain: false
+      });
+      isInitialized.current = true;
+      return;
+    }
+    
     const detectedDomainInfo = await DomainRouterService.detectDomainType(window.location.hostname);
     
     // Check for opportunity parameter in URL

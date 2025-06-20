@@ -11,6 +11,7 @@ import Index from '@/pages/Index';
 import Dashboard from '@/pages/Dashboard';
 import HelpSupport from '@/pages/HelpSupport';
 import Marketing from '@/pages/Marketing';
+import ProfilePresentation from '@/pages/ProfilePresentation';
 import NotFound from '@/pages/NotFound';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 import { DomainRouterService } from '@/services/domainRouterService';
@@ -44,6 +45,7 @@ const DomainAwareRouter: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/profiles/:profileId" element={<ProfilePresentation />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/help-support" element={<HelpSupport />} />
         <Route path="/marketing" element={<Marketing />} />
