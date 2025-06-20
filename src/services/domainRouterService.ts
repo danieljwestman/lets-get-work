@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 
 export interface DomainInfo {
@@ -74,6 +73,7 @@ export class DomainRouterService {
         return {
           type: 'custom',
           domain: hostname,
+          // For custom domains, use the UUID directly as profileId
           profileId: customDomainData.target_profile_id,
           opportunityId: customDomainData.target_opportunity_id || 'default',
           isMainDomain: false,

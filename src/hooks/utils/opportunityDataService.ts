@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 
 export const fetchOpportunityByProfile = async (
@@ -71,6 +70,83 @@ export const fetchOpportunityByProfile = async (
   }
 
   console.log('🔧 OPPORTUNITY SERVICE: Raw opportunity data:', opportunityData, 'RequestID:', requestId);
+  return opportunityData;
+};
+
+export const fetchOpportunityByUserId = async (
+  userId: string,
+  opportunityId: string,
+  controller: AbortController,
+  requestId: string
+) => {
+  console.log('🔧 OPPORTUNITY SERVICE: Fetching opportunity by user ID:', {
+    userId,
+    opportunityId,
+    requestId
+  });
+
+  // Check if user is authenticated
+  const { data: { session } } = await supabase.auth.getSession();
+  const isAuthenticated = !!session?.user;
+  
+  console.log('🔧 OPPORTUNITY SERVICE: User authenticated:', isAuthenticated, 'RequestID:', requestId);
+
+  let opportunityData;
+  let opportunityError;
+
+  if (isAuthenticated) {
+    // For authenticated users, query directly by user_id
+    const { data, error } = await supabase
+      .from('opportunities')
+      .select(`
+        id, opportunity_id, name, theme_id, company_name, target_role, status, user_id, 
+        is_passcode_protected, access_passcode
+      `)
+      .eq('user_id', userId)
+      .eq('opportunity_id', opportunityId)
+      .abortSignal(controller.signal)
+      .limit(1);
+    
+    opportunityData = data;
+    opportunityError = error;
+
+    // Validate access for unpublished opportunities
+    if (opportunityData && opportunityData.length > 0) {
+      const opportunity = opportunityData[0];
+      
+      if (opportunity.status === 'unpublished' && opportunity.user_id !== session.user.id) {
+        console.log('🔧 OPPORTUNITY SERVICE: Unpublished opportunity access denied - not owner:', {
+          opportunityUserId: opportunity.user_id,
+          sessionUserId: session.user.id,
+          requestId
+        });
+        opportunityData = [];
+      }
+    }
+  } else {
+    // For public access, query only published opportunities
+    const { data, error } = await supabase
+      .from('opportunities')
+      .select(`
+        id, opportunity_id, name, theme_id, company_name, target_role, status, user_id, 
+        is_passcode_protected, access_passcode
+      `)
+      .eq('user_id', userId)
+      .eq('opportunity_id', opportunityId)
+      .eq('status', 'published')
+      .abortSignal(controller.signal)
+      .limit(1);
+    
+    opportunityData = data;
+    opportunityError = error;
+  }
+
+  if (opportunityError) {
+    console.error('🔧 OPPORTUNITY SERVICE: Supabase error:', opportunityError, 'RequestID:', requestId);
+    throw opportunityError;
+  }
+
+  console.log('🔧 OPPORTUNITY SERVICE: Raw opportunity data by user ID:', opportunityData, 'RequestID:', requestId);
   return opportunityData;
 };
 
