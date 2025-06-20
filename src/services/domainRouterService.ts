@@ -1,17 +1,24 @@
 
+import { supabase } from '@/integrations/supabase/client';
+
 export interface DomainInfo {
   type: 'main' | 'subdomain' | 'custom';
   domain: string;
   profileId?: string;
   opportunityId?: string;
   isMainDomain: boolean;
+  customDomainData?: {
+    target_type: 'profile' | 'opportunity';
+    target_profile_id: string;
+    target_opportunity_id?: string;
+  };
 }
 
 export class DomainRouterService {
   private static MAIN_DOMAIN = 'letsget.work';
   private static SUBDOMAIN_PATTERN = /^([a-z0-9_-]+)\.letsget\.work$/i;
 
-  static detectDomainType(hostname: string): DomainInfo {
+  static async detectDomainType(hostname: string): Promise<DomainInfo> {
     console.log('🔧 DOMAIN ROUTER: Detecting domain type for:', hostname);
 
     // Development/preview environments - treat as main domain
@@ -51,8 +58,38 @@ export class DomainRouterService {
       };
     }
 
-    // Everything else is treated as a custom domain
-    console.log('🔧 DOMAIN ROUTER: Custom domain detected');
+    // Check if it's a custom domain by querying the database
+    try {
+      console.log('🔧 DOMAIN ROUTER: Checking custom domain:', hostname);
+      const { data, error } = await supabase.rpc('resolve_custom_domain', {
+        domain_param: hostname
+      });
+
+      if (error) {
+        console.error('🔧 DOMAIN ROUTER: Error resolving custom domain:', error);
+      } else if (data && data.length > 0) {
+        const customDomainData = data[0];
+        console.log('🔧 DOMAIN ROUTER: Custom domain resolved:', customDomainData);
+        
+        return {
+          type: 'custom',
+          domain: hostname,
+          profileId: customDomainData.target_profile_id,
+          opportunityId: customDomainData.target_opportunity_id || 'default',
+          isMainDomain: false,
+          customDomainData: {
+            target_type: customDomainData.target_type,
+            target_profile_id: customDomainData.target_profile_id,
+            target_opportunity_id: customDomainData.target_opportunity_id
+          }
+        };
+      }
+    } catch (error) {
+      console.error('🔧 DOMAIN ROUTER: Exception resolving custom domain:', error);
+    }
+
+    // If we can't resolve it as a custom domain, treat it as unknown custom domain
+    console.log('🔧 DOMAIN ROUTER: Unresolved custom domain detected');
     return {
       type: 'custom',
       domain: hostname,

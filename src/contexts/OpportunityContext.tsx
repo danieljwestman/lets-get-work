@@ -39,7 +39,7 @@ export const useCompany = () => {
 export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const domainInfo = useDomainContext();
   
-  // Only fetch opportunities for subdomains and custom domains, not main domains
+  // Only fetch opportunities for non-main domains (subdomains and custom domains)
   const shouldFetchOpportunity = domainInfo && !domainInfo.isMainDomain;
   const profileId = shouldFetchOpportunity ? domainInfo.profileId : null;
   
@@ -57,10 +57,11 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     themeId: opportunity?.theme?.theme_id,
     isLoading,
     error,
-    profileIdMatch: opportunity ? opportunity.profile_id === profileId : 'N/A'
+    profileIdMatch: opportunity ? opportunity.profile_id === profileId : 'N/A',
+    customDomainData: domainInfo?.customDomainData
   });
 
-  // Validation check - ensure opportunity matches profile ID (only for subdomains)
+  // Validation check - ensure opportunity matches profile ID (only for subdomains and custom domains)
   if (opportunity && profileId && opportunity.profile_id !== profileId) {
     console.error('🔧 OPPORTUNITY CONTEXT: CRITICAL ERROR - Opportunity profile ID mismatch in provider!', {
       currentProfileId: profileId,

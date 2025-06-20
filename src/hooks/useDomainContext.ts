@@ -7,7 +7,7 @@ export const useDomainContext = () => {
   const isInitialized = useRef(false);
   const lastUrl = useRef<string>('');
 
-  const updateDomainInfo = () => {
+  const updateDomainInfo = async () => {
     const currentUrl = window.location.href;
     
     // Prevent duplicate processing for the same URL
@@ -19,7 +19,7 @@ export const useDomainContext = () => {
     console.log('🔧 DOMAIN CONTEXT: Processing URL change:', currentUrl);
     lastUrl.current = currentUrl;
     
-    const detectedDomainInfo = DomainRouterService.detectDomainType(window.location.hostname);
+    const detectedDomainInfo = await DomainRouterService.detectDomainType(window.location.hostname);
     
     // Check for opportunity parameter in URL
     const urlParams = new URLSearchParams(window.location.search);
