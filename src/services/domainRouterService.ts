@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 
 export interface DomainInfo {
@@ -64,6 +65,8 @@ export class DomainRouterService {
         domain_param: hostname
       });
 
+      console.log('🔧 DOMAIN ROUTER: Custom domain query result:', { data, error, hostname });
+
       if (error) {
         console.error('🔧 DOMAIN ROUTER: Error resolving custom domain:', error);
       } else if (data && data.length > 0) {
@@ -73,8 +76,8 @@ export class DomainRouterService {
         return {
           type: 'custom',
           domain: hostname,
-          // For custom domains, use the UUID directly as profileId
-          profileId: customDomainData.target_profile_id,
+          // Use the user_id directly as profileId for UUID-based lookups
+          profileId: customDomainData.user_id,
           opportunityId: customDomainData.target_opportunity_id || 'default',
           isMainDomain: false,
           customDomainData: {
@@ -83,6 +86,8 @@ export class DomainRouterService {
             target_opportunity_id: customDomainData.target_opportunity_id
           }
         };
+      } else {
+        console.log('🔧 DOMAIN ROUTER: No custom domain data found for:', hostname);
       }
     } catch (error) {
       console.error('🔧 DOMAIN ROUTER: Exception resolving custom domain:', error);

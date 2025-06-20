@@ -1,4 +1,5 @@
 
+
 import { OpportunityWithTheme } from '@/types/opportunity';
 import { OpportunityRequestManager } from './OpportunityRequestManager';
 import { validateOpportunityProfile, validateFetchedOpportunity, validateOpportunityBeforeSet } from './opportunityValidation';
@@ -51,8 +52,9 @@ export class OpportunityFetcher {
       // Check cache first
       const cached = this.requestManager.getCachedResult(profileId);
       if (cached) {
-        // Validate cached opportunity
-        if (validateOpportunityProfile(cached.opportunity, profileId)) {
+        // For UUID profiles, skip validation as we don't have a string profile_id to match
+        const shouldValidateProfile = !isUUID(profileId);
+        if (!shouldValidateProfile || validateOpportunityProfile(cached.opportunity, profileId)) {
           console.log('🔧 OPPORTUNITY FETCHER: Using cached result for:', profileId);
           return {
             opportunity: cached.opportunity,
@@ -78,9 +80,11 @@ export class OpportunityFetcher {
       let opportunityData;
       if (isProfileIdUUID) {
         // For custom domains with UUID, fetch by user_id
+        console.log('🔧 OPPORTUNITY FETCHER: Fetching by user ID (UUID):', profileId);
         opportunityData = await fetchOpportunityByUserId(profileId, 'default', controller, requestId);
       } else {
         // For subdomains/profile routes with string, fetch by profile_id
+        console.log('🔧 OPPORTUNITY FETCHER: Fetching by profile ID (string):', profileId);
         opportunityData = await fetchOpportunityByProfile(profileId, 'default', controller, requestId);
       }
 
@@ -148,9 +152,11 @@ export class OpportunityFetcher {
             .single();
           
           ownerProfile.profile_id = userProfile?.profile_id || profileId;
+          console.log('🔧 OPPORTUNITY FETCHER: Set profile_id for UUID lookup:', ownerProfile.profile_id);
         } else {
           // For string lookups (subdomains/profile routes), use the profileId directly
           ownerProfile.profile_id = profileId;
+          console.log('🔧 OPPORTUNITY FETCHER: Set profile_id for string lookup:', ownerProfile.profile_id);
         }
       }
 
@@ -163,13 +169,15 @@ export class OpportunityFetcher {
       });
       const transformedOpportunity = transformOpportunityData(fetchedOpportunity, theme, requestId, ownerProfile);
 
-      // For UUID-based lookups, set the profile_id to the original profileId for consistency
+      // For UUID-based lookups, set the profile_id to the resolved profile_id
       if (isProfileIdUUID && ownerProfile?.profile_id) {
         transformedOpportunity.profile_id = ownerProfile.profile_id;
+        console.log('🔧 OPPORTUNITY FETCHER: Updated transformed opportunity profile_id:', transformedOpportunity.profile_id);
       }
 
-      // Final validation before setting state
-      if (!validateOpportunityBeforeSet(transformedOpportunity, transformedOpportunity.profile_id, requestId)) {
+      // Skip final validation for UUID-based profiles as we don't have a string profile_id to match
+      const shouldValidateFinal = !isProfileIdUUID;
+      if (shouldValidateFinal && !validateOpportunityBeforeSet(transformedOpportunity, transformedOpportunity.profile_id, requestId)) {
         const errorMsg = `Final validation failed: opportunity profile ID mismatch`;
         this.requestManager.setCachedResult(profileId, null, errorMsg);
         return { opportunity: null, error: errorMsg };
