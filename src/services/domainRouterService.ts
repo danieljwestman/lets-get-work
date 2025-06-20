@@ -78,7 +78,7 @@ export class DomainRouterService {
           opportunityId: customDomainData.target_opportunity_id || 'default',
           isMainDomain: false,
           customDomainData: {
-            target_type: customDomainData.target_type,
+            target_type: customDomainData.target_type as 'profile' | 'opportunity',
             target_profile_id: customDomainData.target_profile_id,
             target_opportunity_id: customDomainData.target_opportunity_id
           }
