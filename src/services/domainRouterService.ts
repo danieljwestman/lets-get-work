@@ -73,11 +73,33 @@ export class DomainRouterService {
         const customDomainData = data[0];
         console.log('🔧 DOMAIN ROUTER: Custom domain resolved:', customDomainData);
         
+        // For custom domains, we need to resolve the actual profile_id string from the user_id
+        let resolvedProfileId = customDomainData.target_profile_id;
+        
+        if (!resolvedProfileId && customDomainData.user_id) {
+          console.log('🔧 DOMAIN ROUTER: Resolving profile_id for user_id:', customDomainData.user_id);
+          
+          // Fetch the actual profile_id string from the profiles table
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('profile_id')
+            .eq('id', customDomainData.user_id)
+            .single();
+          
+          if (profileError) {
+            console.error('🔧 DOMAIN ROUTER: Error fetching profile_id:', profileError);
+          } else if (profileData?.profile_id) {
+            resolvedProfileId = profileData.profile_id;
+            console.log('🔧 DOMAIN ROUTER: Resolved profile_id:', resolvedProfileId);
+          } else {
+            console.warn('🔧 DOMAIN ROUTER: No profile_id found for user_id:', customDomainData.user_id);
+          }
+        }
+        
         return {
           type: 'custom',
           domain: hostname,
-          // Use the user_id directly as profileId for UUID-based lookups
-          profileId: customDomainData.user_id,
+          profileId: resolvedProfileId,
           opportunityId: customDomainData.target_opportunity_id || 'default',
           isMainDomain: false,
           customDomainData: {
