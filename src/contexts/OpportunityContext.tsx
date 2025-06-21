@@ -45,20 +45,46 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
   let opportunityId: string | null = null;
 
   if (domainInfo) {
+    console.log('🔧 OPPORTUNITY CONTEXT: Processing domain info:', {
+      type: domainInfo.type,
+      isMainDomain: domainInfo.isMainDomain,
+      profileId: domainInfo.profileId,
+      opportunityId: domainInfo.opportunityId,
+      customDomainData: domainInfo.customDomainData
+    });
+
     // For subdomains and custom domains, fetch opportunities
     if (!domainInfo.isMainDomain) {
       shouldFetchOpportunity = true;
       profileId = domainInfo.profileId || null;
-      opportunityId = domainInfo.opportunityId || null;
+      
+      // For custom opportunity domains, use the specific opportunity ID
+      // For other domains (subdomains, custom profile domains), use the path-based opportunity ID or default
+      if (domainInfo.type === 'custom' && domainInfo.customDomainData?.target_type === 'opportunity') {
+        // Custom opportunity domain - use the target_opportunity_id from the domain config
+        opportunityId = domainInfo.customDomainData.target_opportunity_id || 'default';
+        console.log('🔧 OPPORTUNITY CONTEXT: Custom opportunity domain detected, using opportunity ID:', opportunityId);
+      } else {
+        // Subdomain or custom profile domain - use the path-based opportunity ID
+        opportunityId = domainInfo.opportunityId || 'default';
+        console.log('🔧 OPPORTUNITY CONTEXT: Using path-based opportunity ID:', opportunityId);
+      }
     }
     // For main domain /profiles/:profileId routes, also fetch opportunities
     else if (domainInfo.type === 'main' && domainInfo.profileId) {
       shouldFetchOpportunity = true;
       profileId = domainInfo.profileId;
       opportunityId = 'default'; // Profile routes always use default opportunity
+      console.log('🔧 OPPORTUNITY CONTEXT: Main domain profile route, using default opportunity');
     }
   }
   
+  console.log('🔧 OPPORTUNITY CONTEXT: Final fetch parameters:', {
+    shouldFetchOpportunity,
+    profileId,
+    opportunityId
+  });
+
   const { opportunity, isLoading, error } = useOpportunityConfig(
     shouldFetchOpportunity ? profileId : null, 
     shouldFetchOpportunity ? opportunityId : null

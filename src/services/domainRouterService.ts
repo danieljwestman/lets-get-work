@@ -102,6 +102,13 @@ export class DomainRouterService {
           ? customDomainData.target_opportunity_id || 'default'
           : undefined; // Will be set by path-based routing
         
+        console.log('🔧 DOMAIN ROUTER: Final custom domain info:', {
+          type: customDomainData.target_type,
+          profileId: resolvedProfileId,
+          opportunityId,
+          targetOpportunityId: customDomainData.target_opportunity_id
+        });
+        
         return {
           type: 'custom',
           domain: hostname,
@@ -151,4 +158,3 @@ export class DomainRouterService {
     return `https://${profileId}.${this.MAIN_DOMAIN}/${opportunityId}`;
   }
 }
-
