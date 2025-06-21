@@ -32,7 +32,7 @@ export const useIndexPageLogic = () => {
   // Check if current user is the owner of this opportunity
   const isOwner = user && opportunity && user.id === opportunity.user_id;
 
-  console.log('Index: Render state:', {
+  console.log('IndexPageLogic: Render state:', {
     hasOpportunity: !!opportunity,
     opportunityLoading,
     error,
@@ -55,7 +55,7 @@ export const useIndexPageLogic = () => {
     }
 
     const handlePasscodeVerification = async () => {
-      console.log('Index: handlePasscodeVerification triggered with opportunity:', {
+      console.log('IndexPageLogic: handlePasscodeVerification triggered with opportunity:', {
         hasOpportunity: !!opportunity,
         opportunityId: opportunity?.opportunity_id,
         isProtected: opportunity?.is_passcode_protected,
@@ -64,54 +64,54 @@ export const useIndexPageLogic = () => {
       });
 
       if (!opportunity) {
-        console.log('Index: No opportunity, resetting state');
+        console.log('IndexPageLogic: No opportunity, resetting state');
         resetState();
         return;
       }
 
       if (!opportunity.is_passcode_protected) {
-        console.log('Index: Opportunity not protected, granting access');
+        console.log('IndexPageLogic: Opportunity not protected, granting access');
         grantAccess();
         return;
       }
 
       const urlPasscode = passcodeService.getPasscodeFromUrl();
       if (urlPasscode && opportunity.profile_id) {
-        console.log('Index: Found passcode in URL, verifying...');
+        console.log('IndexPageLogic: Found passcode in URL, verifying...');
         startProcessing();
         try {
           const isValid = await passcodeService.verifyPasscodeWithServer(urlPasscode, opportunity.profile_id, opportunity.opportunity_id);
           if (isValid) {
-            console.log('Index: Valid passcode found in URL - universal access granted');
+            console.log('IndexPageLogic: Valid passcode found in URL - universal access granted');
             passcodeService.storePasscode(opportunity.opportunity_id, urlPasscode);
             grantAccess();
             passcodeService.cleanUrlPasscode();
             return;
           } else {
-            console.log('Index: Invalid passcode in URL');
+            console.log('IndexPageLogic: Invalid passcode in URL');
             denyAccess();
             return;
           }
         } catch (error) {
-          console.error('Index: Error verifying URL passcode:', error);
+          console.error('IndexPageLogic: Error verifying URL passcode:', error);
           denyAccess();
           return;
         }
       }
 
       if (!user) {
-        console.log('Index: Protected opportunity, user not authenticated, denying access');
+        console.log('IndexPageLogic: Protected opportunity, user not authenticated, denying access');
         denyAccess();
         return;
       }
 
       if (isOwner) {
-        console.log('Index: User is authenticated owner of protected opportunity, granting access');
+        console.log('IndexPageLogic: User is authenticated owner of protected opportunity, granting access');
         grantAccess();
         return;
       }
 
-      console.log('Index: User is authenticated but not owner, denying access');
+      console.log('IndexPageLogic: User is authenticated but not owner, denying access');
       denyAccess();
     };
 
@@ -129,7 +129,7 @@ export const useIndexPageLogic = () => {
 
     if (opportunity?.opportunity_id && !opportunityLoading && analytics.isReady() && 
         (hasAccess || !opportunity.is_passcode_protected) && !pageViewTracked.current) {
-      console.log('Index: Tracking page view for opportunity:', opportunity.opportunity_id);
+      console.log('IndexPageLogic: Tracking page view for opportunity:', opportunity.opportunity_id);
       analytics.trackPageView({
         opportunity_id: opportunity.opportunity_id,
         theme_id: opportunity.theme_id,
@@ -147,26 +147,26 @@ export const useIndexPageLogic = () => {
 
   // Verify passcode function for modal
   const verifyPasscode = async (enteredPasscode: string): Promise<boolean> => {
-    console.log('Index: verifyPasscode called');
+    console.log('IndexPageLogic: verifyPasscode called');
     
     if (!opportunity || !opportunity.profile_id) {
-      console.error('Index: No opportunity or profile ID available');
+      console.error('IndexPageLogic: No opportunity or profile ID available');
       return false;
     }
 
     try {
       const isValid = await passcodeService.verifyPasscodeWithServer(enteredPasscode, opportunity.profile_id, opportunity.opportunity_id);
-      console.log('Index: Passcode validation result:', isValid);
+      console.log('IndexPageLogic: Passcode validation result:', isValid);
       
       if (isValid) {
         passcodeService.storePasscode(opportunity.opportunity_id, enteredPasscode);
         grantAccess();
-        console.log('Index: Access granted, modal hidden');
+        console.log('IndexPageLogic: Access granted, modal hidden');
       }
 
       return isValid;
     } catch (error) {
-      console.error('Index: Error verifying passcode:', error);
+      console.error('IndexPageLogic: Error verifying passcode:', error);
       return false;
     }
   };

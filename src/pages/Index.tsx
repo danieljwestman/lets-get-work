@@ -1,28 +1,21 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useOpportunity } from '@/contexts/OpportunityContext';
-import { useAuth } from '@/contexts/AuthContext';
-import { usePasscodeAccess } from '@/hooks/usePasscodeAccess';
 import { useIndexPageLogic } from '@/hooks/useIndexPageLogic';
 import { passcodeService } from '@/services/passcodeService';
 import { IndexPageStates } from '@/components/pages/IndexPageStates';
 
 const Index = () => {
   const { opportunity, isLoading: opportunityLoading, error } = useOpportunity();
-  const { user } = useAuth();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   
   const {
+    isOwner,
     hasAccess,
     showPasscodeModal,
     isProcessing,
-    grantAccess,
-    denyAccess,
-    startProcessing,
-    resetState
-  } = usePasscodeAccess(opportunity);
-
-  const { isOwner } = useIndexPageLogic();
+    verifyPasscode: indexPageVerifyPasscode
+  } = useIndexPageLogic();
 
   console.log('Index: Rendering with state:', {
     hasOpportunity: !!opportunity,
@@ -37,72 +30,7 @@ const Index = () => {
     error
   });
 
-  // Handle access verification for protected opportunities
-  useEffect(() => {
-    const handleAccessVerification = async () => {
-      if (!opportunity) {
-        console.log('Index: No opportunity available');
-        return;
-      }
-
-      // Owner always has access
-      if (isOwner) {
-        console.log('Index: User is owner, granting access');
-        grantAccess();
-        return;
-      }
-
-      // If not protected, grant access
-      if (!opportunity.is_passcode_protected) {
-        console.log('Index: Opportunity not protected, granting access');
-        grantAccess();
-        return;
-      }
-
-      console.log('Index: Protected opportunity detected, checking access');
-      
-      // Check if passcode is in URL first
-      const urlPasscode = passcodeService.getPasscodeFromUrl();
-      if (urlPasscode && opportunity.profile_id) {
-        console.log('Index: Found passcode in URL, verifying...');
-        startProcessing();
-        
-        try {
-          const isValid = await passcodeService.verifyPasscodeWithServer(
-            urlPasscode, 
-            opportunity.profile_id, 
-            opportunity.opportunity_id
-          );
-          
-          if (isValid) {
-            console.log('Index: URL passcode is valid, granting access');
-            passcodeService.storePasscode(opportunity.opportunity_id, urlPasscode);
-            passcodeService.cleanUrlPasscode();
-            grantAccess();
-            return;
-          } else {
-            console.log('Index: URL passcode is invalid');
-            passcodeService.cleanUrlPasscode();
-          }
-        } catch (error) {
-          console.error('Index: Error verifying URL passcode:', error);
-          passcodeService.cleanUrlPasscode();
-        }
-      }
-
-      // If no valid URL passcode, deny access (this will check stored passcode)
-      denyAccess();
-    };
-
-    handleAccessVerification();
-  }, [opportunity, isOwner, grantAccess, denyAccess, startProcessing]);
-
-  // Reset access state when opportunity changes
-  useEffect(() => {
-    console.log('Index: Opportunity changed, resetting access state');
-    resetState();
-  }, [opportunity?.opportunity_id, resetState]);
-
+  // Simple wrapper for passcode verification from modal
   const verifyPasscode = async (passcode: string): Promise<boolean> => {
     if (!opportunity?.profile_id) {
       console.error('Index: No profile ID available for passcode verification');
@@ -125,8 +53,8 @@ const Index = () => {
       
       if (isValid) {
         passcodeService.storePasscode(opportunity.opportunity_id, passcode);
-        grantAccess();
-        return true;
+        // Use the verify function from useIndexPageLogic to update state
+        return await indexPageVerifyPasscode(passcode);
       }
       
       return false;
