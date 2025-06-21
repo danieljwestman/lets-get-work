@@ -96,11 +96,17 @@ export class DomainRouterService {
           }
         }
         
+        // For custom opportunity domains, use the target_opportunity_id directly
+        // For custom profile domains, let the path-based routing handle the opportunity ID
+        const opportunityId = customDomainData.target_type === 'opportunity' 
+          ? customDomainData.target_opportunity_id || 'default'
+          : undefined; // Will be set by path-based routing
+        
         return {
           type: 'custom',
           domain: hostname,
           profileId: resolvedProfileId,
-          opportunityId: customDomainData.target_opportunity_id || 'default',
+          opportunityId,
           isMainDomain: false,
           customDomainData: {
             target_type: customDomainData.target_type as 'profile' | 'opportunity',
@@ -137,4 +143,12 @@ export class DomainRouterService {
   static getProfileUrl(profileId: string): string {
     return `https://${profileId}.${this.MAIN_DOMAIN}`;
   }
+  
+  static getOpportunityUrl(profileId: string, opportunityId: string): string {
+    if (opportunityId === 'default') {
+      return `https://${profileId}.${this.MAIN_DOMAIN}`;
+    }
+    return `https://${profileId}.${this.MAIN_DOMAIN}/${opportunityId}`;
+  }
 }
+

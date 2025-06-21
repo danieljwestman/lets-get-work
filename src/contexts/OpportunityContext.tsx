@@ -42,8 +42,9 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
   // Only fetch opportunities for non-main domains (subdomains and custom domains)
   const shouldFetchOpportunity = domainInfo && !domainInfo.isMainDomain;
   const profileId = shouldFetchOpportunity ? domainInfo.profileId : null;
+  const opportunityId = shouldFetchOpportunity ? domainInfo.opportunityId : null;
   
-  const { opportunity, isLoading, error } = useOpportunityConfig(profileId);
+  const { opportunity, isLoading, error } = useOpportunityConfig(profileId, opportunityId);
 
   // Enhanced logging with validation
   console.log('🔧 OPPORTUNITY CONTEXT: Provider render:', {
@@ -51,8 +52,9 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     isMainDomain: domainInfo?.isMainDomain,
     shouldFetchOpportunity,
     profileId,
+    opportunityId,
     hasOpportunity: !!opportunity,
-    opportunityId: opportunity?.opportunity_id,
+    opportunityIdFromOpportunity: opportunity?.opportunity_id,
     opportunityProfileId: opportunity?.profile_id,
     themeId: opportunity?.theme?.theme_id,
     isLoading,
@@ -82,3 +84,4 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     </OpportunityContext.Provider>
   );
 };
+

@@ -8,7 +8,7 @@ import { useOpportunityState } from './utils/useOpportunityState';
 const requestManager = new OpportunityRequestManager();
 const opportunityFetcher = new OpportunityFetcher(requestManager);
 
-export const useOpportunityConfig = (profileId: string | null) => {
+export const useOpportunityConfig = (profileId: string | null, opportunityId: string | null = null) => {
   const { state, updateState, resetState, refs } = useOpportunityState();
 
   // Single consolidated useEffect to handle all opportunity loading logic
@@ -25,28 +25,35 @@ export const useOpportunityConfig = (profileId: string | null) => {
         return;
       }
 
-      // Skip if profileId hasn't changed
-      if (refs.lastSubdomain.current === profileId) {
-        console.log('🔧 OPPORTUNITY CONFIG: Profile ID unchanged, skipping fetch:', profileId);
+      // Use 'default' if no specific opportunity ID is provided
+      const targetOpportunityId = opportunityId || 'default';
+
+      // Create a unique key that includes both profile and opportunity ID
+      const configKey = `${profileId}-${targetOpportunityId}`;
+
+      // Skip if the configuration hasn't changed
+      if (refs.lastSubdomain.current === configKey) {
+        console.log('🔧 OPPORTUNITY CONFIG: Configuration unchanged, skipping fetch:', configKey);
         return;
       }
 
-      const requestId = `opp-${profileId}-${Date.now()}-${Math.random()}`;
+      const requestId = `opp-${profileId}-${targetOpportunityId}-${Date.now()}-${Math.random()}`;
       updateState({ currentRequestId: requestId });
 
-      // Clear cache for previous profile ID to prevent contamination
-      if (refs.lastSubdomain.current && refs.lastSubdomain.current !== profileId) {
+      // Clear cache for previous configuration to prevent contamination
+      if (refs.lastSubdomain.current && refs.lastSubdomain.current !== configKey) {
         requestManager.clearCacheForSubdomain(refs.lastSubdomain.current);
       }
 
       updateState({ 
         isLoading: true, 
         error: null, 
-        lastSubdomain: profileId 
+        lastSubdomain: configKey 
       });
 
       const result = await opportunityFetcher.fetchOpportunityConfig(
         profileId, 
+        targetOpportunityId,
         requestId, 
         state.opportunity
       );
@@ -60,10 +67,10 @@ export const useOpportunityConfig = (profileId: string | null) => {
         });
       }
 
-      console.log('🔧 OPPORTUNITY CONFIG: Fetch completed for profile ID:', profileId, 'RequestID:', requestId);
+      console.log('🔧 OPPORTUNITY CONFIG: Fetch completed for profile ID:', profileId, 'Opportunity ID:', targetOpportunityId, 'RequestID:', requestId);
     };
 
-    console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with profile ID:', profileId);
+    console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with profile ID:', profileId, 'opportunity ID:', opportunityId);
     fetchOpportunityConfig();
 
     // Cleanup function
@@ -73,7 +80,7 @@ export const useOpportunityConfig = (profileId: string | null) => {
         requestManager.dequeueRequest(refs.currentRequestId.current);
       }
     };
-  }, [profileId]); // Only depend on profileId
+  }, [profileId, opportunityId]); // Depend on both profileId and opportunityId
 
   // Log whenever opportunity state changes
   console.log('🔧 OPPORTUNITY CONFIG: State changed:', {
@@ -81,6 +88,7 @@ export const useOpportunityConfig = (profileId: string | null) => {
     opportunityId: state.opportunity?.opportunity_id,
     opportunityProfileId: state.opportunity?.profile_id,
     currentProfileId: profileId,
+    targetOpportunityId: opportunityId,
     themeId: state.opportunity?.theme.theme_id,
     userId: state.opportunity?.user_id,
     isLoading: state.isLoading,
@@ -93,3 +101,4 @@ export const useOpportunityConfig = (profileId: string | null) => {
     error: state.error 
   };
 };
+

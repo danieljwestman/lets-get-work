@@ -19,13 +19,14 @@ export class OpportunityFetcher {
 
   async fetchOpportunityConfig(
     profileId: string,
+    opportunityId: string,
     requestId: string,
     currentOpportunity: OpportunityWithTheme | null
   ): Promise<OpportunityFetchResult> {
     try {
-      console.log('🔧 OPPORTUNITY FETCHER: Starting fetch for profile ID:', profileId, 'RequestID:', requestId);
+      console.log('🔧 OPPORTUNITY FETCHER: Starting fetch for profile ID:', profileId, 'Opportunity ID:', opportunityId, 'RequestID:', requestId);
 
-      // Validation check - ensure opportunity matches profile ID
+      // Validation check - ensure opportunity matches profile ID and opportunity ID
       if (currentOpportunity && profileId && currentOpportunity.profile_id !== profileId) {
         console.error('🔧 OPPORTUNITY FETCHER: CRITICAL ERROR - Opportunity profile ID mismatch!', {
           currentProfileId: profileId,
@@ -41,27 +42,28 @@ export class OpportunityFetcher {
         };
       }
 
-      // Check cache first
-      const cached = this.requestManager.getCachedResult(profileId);
+      // Check cache first (using combined key)
+      const cacheKey = `${profileId}-${opportunityId}`;
+      const cached = this.requestManager.getCachedResult(cacheKey);
       if (cached) {
         if (validateOpportunityProfile(cached.opportunity, profileId)) {
-          console.log('🔧 OPPORTUNITY FETCHER: Using cached result for:', profileId);
+          console.log('🔧 OPPORTUNITY FETCHER: Using cached result for:', cacheKey);
           return {
             opportunity: cached.opportunity,
             error: cached.error
           };
         } else {
           // Invalid cached data, clear it
-          this.requestManager.clearCacheForSubdomain(profileId);
+          this.requestManager.clearCacheForSubdomain(cacheKey);
         }
       }
 
       // Enqueue request and get abort controller
-      const controller = this.requestManager.enqueueRequest(profileId, requestId, 1);
+      const controller = this.requestManager.enqueueRequest(cacheKey, requestId, 1);
 
-      // Always fetch by profile_id (string) - DomainRouterService now ensures we always get the string profile_id
-      console.log('🔧 OPPORTUNITY FETCHER: Fetching by profile ID:', profileId);
-      const opportunityData = await fetchOpportunityByProfile(profileId, 'default', controller, requestId);
+      // Fetch by profile_id and opportunity_id
+      console.log('🔧 OPPORTUNITY FETCHER: Fetching by profile ID:', profileId, 'and opportunity ID:', opportunityId);
+      const opportunityData = await fetchOpportunityByProfile(profileId, opportunityId, controller, requestId);
 
       // Check if request is still valid
       if (!this.requestManager.isRequestValid(requestId)) {
@@ -70,9 +72,9 @@ export class OpportunityFetcher {
       }
 
       if (!opportunityData || opportunityData.length === 0) {
-        console.log('🔧 OPPORTUNITY FETCHER: No opportunity found for profile ID:', profileId, 'RequestID:', requestId);
-        const errorMsg = `Opportunity not found for profile: ${profileId}`;
-        this.requestManager.setCachedResult(profileId, null, errorMsg);
+        console.log('🔧 OPPORTUNITY FETCHER: No opportunity found for profile ID:', profileId, 'and opportunity ID:', opportunityId, 'RequestID:', requestId);
+        const errorMsg = `Opportunity not found for profile: ${profileId}, opportunity: ${opportunityId}`;
+        this.requestManager.setCachedResult(cacheKey, null, errorMsg);
         return { opportunity: null, error: errorMsg };
       }
 
@@ -138,7 +140,7 @@ export class OpportunityFetcher {
       // Final validation
       if (!validateOpportunityBeforeSet(transformedOpportunity, profileId, requestId)) {
         const errorMsg = `Final validation failed: opportunity profile ID mismatch`;
-        this.requestManager.setCachedResult(profileId, null, errorMsg);
+        this.requestManager.setCachedResult(cacheKey, null, errorMsg);
         return { opportunity: null, error: errorMsg };
       }
       
@@ -154,7 +156,7 @@ export class OpportunityFetcher {
       });
       
       // Cache the successful result
-      this.requestManager.setCachedResult(profileId, transformedOpportunity, null);
+      this.requestManager.setCachedResult(cacheKey, transformedOpportunity, null);
       
       return { opportunity: transformedOpportunity, error: null };
     } catch (err) {
@@ -168,7 +170,8 @@ export class OpportunityFetcher {
       const errorMsg = err instanceof Error ? err.message : 'Failed to load opportunity';
       
       // Cache the error result
-      this.requestManager.setCachedResult(profileId, null, errorMsg);
+      const cacheKey = `${profileId}-${opportunityId}`;
+      this.requestManager.setCachedResult(cacheKey, null, errorMsg);
       return { opportunity: null, error: errorMsg };
     } finally {
       // Clean up the request
@@ -176,3 +179,4 @@ export class OpportunityFetcher {
     }
   }
 }
+

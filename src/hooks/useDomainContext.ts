@@ -37,15 +37,25 @@ export const useDomainContext = () => {
     
     const detectedDomainInfo = await DomainRouterService.detectDomainType(window.location.hostname);
     
-    // Check for opportunity parameter in URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const opportunityParam = urlParams.get('opportunity');
-    
-    if (opportunityParam && detectedDomainInfo.type === 'subdomain') {
-      detectedDomainInfo.opportunityId = opportunityParam;
-    } else if (detectedDomainInfo.type === 'subdomain') {
-      // Default opportunity for subdomains
-      detectedDomainInfo.opportunityId = 'default';
+    // For non-main domains, extract opportunity ID from the URL path
+    if (!detectedDomainInfo.isMainDomain) {
+      const pathname = window.location.pathname;
+      
+      // Root path or empty path = default opportunity
+      if (pathname === '/' || pathname === '') {
+        detectedDomainInfo.opportunityId = 'default';
+      } else {
+        // Extract opportunity ID from path (remove leading slash)
+        const opportunityId = pathname.substring(1);
+        
+        // Only set if it's a valid opportunity ID (no additional slashes)
+        if (opportunityId && !opportunityId.includes('/')) {
+          detectedDomainInfo.opportunityId = opportunityId;
+        } else {
+          // Invalid path structure, default to 'default'
+          detectedDomainInfo.opportunityId = 'default';
+        }
+      }
     }
     
     console.log('🔧 DOMAIN CONTEXT: Detected domain info:', detectedDomainInfo);
@@ -95,3 +105,4 @@ export const useDomainContext = () => {
 
   return domainInfo;
 };
+

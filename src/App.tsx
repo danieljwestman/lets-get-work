@@ -41,16 +41,31 @@ const DomainAwareRouter: React.FC = () => {
     }
   }, [domainInfo, navigate]);
 
+  // Check if this is the main domain or a profile domain
+  const isMainDomain = domainInfo?.isMainDomain;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/profiles/:profileId" element={<ProfilePresentation />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/help-support" element={<HelpSupport />} />
-        <Route path="/marketing" element={<Marketing />} />
-        <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<NotFound />} />
+        {isMainDomain ? (
+          // Main domain routes
+          <>
+            <Route path="/" element={<Index />} />
+            <Route path="/profiles/:profileId" element={<ProfilePresentation />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/help-support" element={<HelpSupport />} />
+            <Route path="/marketing" element={<Marketing />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </>
+        ) : (
+          // Profile domain routes (subdomains and custom profile domains)
+          <>
+            <Route path="/" element={<Index />} />
+            <Route path="/:opportunityId" element={<Index />} />
+            <Route path="*" element={<NotFound />} />
+          </>
+        )}
       </Routes>
     </div>
   );
@@ -77,3 +92,4 @@ function App() {
 }
 
 export default App;
+
