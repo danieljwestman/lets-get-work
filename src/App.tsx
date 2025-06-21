@@ -50,7 +50,7 @@ const DomainAwareRouter: React.FC = () => {
         {isMainDomain ? (
           // Main domain routes
           <>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Marketing />} />
             <Route path="/profiles/:profileId" element={<ProfilePresentation />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/help-support" element={<HelpSupport />} />
@@ -92,4 +92,3 @@ function App() {
 }
 
 export default App;
-
