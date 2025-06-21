@@ -70,12 +70,12 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
         console.log('🔧 OPPORTUNITY CONTEXT: Using path-based opportunity ID:', opportunityId);
       }
     }
-    // For main domain /profiles/:profileId routes, also fetch opportunities
+    // For main domain /opportunities/:profileId routes, also fetch opportunities
     else if (domainInfo.type === 'main' && domainInfo.profileId) {
       shouldFetchOpportunity = true;
       profileId = domainInfo.profileId;
-      opportunityId = 'default'; // Profile routes always use default opportunity
-      console.log('🔧 OPPORTUNITY CONTEXT: Main domain profile route, using default opportunity');
+      opportunityId = domainInfo.opportunityId || 'default'; // Use the opportunity ID from domain info
+      console.log('🔧 OPPORTUNITY CONTEXT: Main domain opportunity route, using opportunity ID:', opportunityId);
     }
   }
   
