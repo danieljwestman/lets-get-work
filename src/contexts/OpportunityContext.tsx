@@ -39,12 +39,30 @@ export const useCompany = () => {
 export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const domainInfo = useDomainContext();
   
-  // Only fetch opportunities for non-main domains (subdomains and custom domains)
-  const shouldFetchOpportunity = domainInfo && !domainInfo.isMainDomain;
-  const profileId = shouldFetchOpportunity ? domainInfo.profileId : null;
-  const opportunityId = shouldFetchOpportunity ? domainInfo.opportunityId : null;
+  // Determine if we should fetch opportunities
+  let shouldFetchOpportunity = false;
+  let profileId: string | null = null;
+  let opportunityId: string | null = null;
+
+  if (domainInfo) {
+    // For subdomains and custom domains, fetch opportunities
+    if (!domainInfo.isMainDomain) {
+      shouldFetchOpportunity = true;
+      profileId = domainInfo.profileId || null;
+      opportunityId = domainInfo.opportunityId || null;
+    }
+    // For main domain /profiles/:profileId routes, also fetch opportunities
+    else if (domainInfo.type === 'main' && domainInfo.profileId) {
+      shouldFetchOpportunity = true;
+      profileId = domainInfo.profileId;
+      opportunityId = 'default'; // Profile routes always use default opportunity
+    }
+  }
   
-  const { opportunity, isLoading, error } = useOpportunityConfig(profileId, opportunityId);
+  const { opportunity, isLoading, error } = useOpportunityConfig(
+    shouldFetchOpportunity ? profileId : null, 
+    shouldFetchOpportunity ? opportunityId : null
+  );
 
   // Enhanced logging with validation
   console.log('🔧 OPPORTUNITY CONTEXT: Provider render:', {
@@ -63,7 +81,7 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     customDomainData: domainInfo?.customDomainData
   });
 
-  // Validation check - ensure opportunity matches profile ID (only for subdomains and custom domains)
+  // Validation check - ensure opportunity matches profile ID
   if (opportunity && profileId && opportunity.profile_id !== profileId) {
     console.error('🔧 OPPORTUNITY CONTEXT: CRITICAL ERROR - Opportunity profile ID mismatch in provider!', {
       currentProfileId: profileId,
@@ -84,4 +102,3 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     </OpportunityContext.Provider>
   );
 };
-

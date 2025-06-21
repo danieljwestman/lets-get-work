@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBrowserTitle } from '@/hooks/useBrowserTitle';
 import { useAuth } from '@/contexts/AuthContext';
+import { useOpportunity } from '@/contexts/OpportunityContext';
 import { usePasscodeAccess } from '@/hooks/usePasscodeAccess';
 import { passcodeService } from '@/services/passcodeService';
 import { IndexPageStates } from '@/components/pages/IndexPageStates';
-import { useOpportunityConfig } from '@/hooks/useOpportunityConfig';
 
 const ProfilePresentation = () => {
   const { profileId } = useParams<{ profileId: string }>();
@@ -15,8 +15,8 @@ const ProfilePresentation = () => {
   
   console.log('ProfilePresentation: Starting with profile ID:', profileId);
   
-  // For main domain profile routes, fetch the default opportunity for the given profile
-  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityConfig(profileId || null, 'default');
+  // Use the OpportunityProvider's data instead of fetching directly
+  const { opportunity, isLoading: opportunityLoading, error } = useOpportunity();
   
   const {
     hasAccess,

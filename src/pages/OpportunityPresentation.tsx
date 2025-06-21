@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBrowserTitle } from '@/hooks/useBrowserTitle';
@@ -15,7 +14,7 @@ const OpportunityPresentation = () => {
   
   console.log('OpportunityPresentation: Starting with user ID:', userId, 'opportunity ID:', opportunityId);
   
-  // Fetch opportunity directly by user_id and opportunity_id
+  // Fetch opportunity directly with the correct user_id and opportunity_id structure
   const { opportunity, isLoading: opportunityLoading, error } = useOpportunityDirectConfig(userId || null, opportunityId || null);
   
   const {

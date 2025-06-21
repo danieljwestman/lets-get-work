@@ -94,7 +94,7 @@ export class OpportunityRequestManager {
   }
 
   setCachedResult(subdomain: string, opportunity: OpportunityWithTheme | null, error: string | null) {
-    // Only cache successful results or definitive errors
+    // Only cache successful results or definitive errors - never cache null/null states
     if (opportunity !== null || (error !== null && error.length > 0)) {
       this.cache.set(subdomain, { 
         opportunity, 
@@ -105,6 +105,8 @@ export class OpportunityRequestManager {
       console.log('🔧 OPPORTUNITY MANAGER: Cached result for:', subdomain, 'Success:', !!opportunity, 'Error:', !!error);
     } else {
       console.log('🔧 OPPORTUNITY MANAGER: Skipping cache for incomplete result:', subdomain);
+      // Clear any existing cache for this subdomain to prevent contamination
+      this.cache.delete(subdomain);
     }
   }
 
