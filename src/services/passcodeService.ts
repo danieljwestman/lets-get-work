@@ -4,11 +4,12 @@ import { supabase } from '@/integrations/supabase/client';
 const STORAGE_KEY_PREFIX = 'opportunity_access_';
 
 export const passcodeService = {
-  // Verify passcode with server
-  async verifyPasscodeWithServer(passcode: string, subdomain: string): Promise<boolean> {
+  // Verify passcode with server using profile_id and opportunity_id
+  async verifyPasscodeWithServer(passcode: string, profileId: string, opportunityId: string): Promise<boolean> {
     try {
       const { data, error } = await supabase.rpc('verify_opportunity_passcode', {
-        subdomain_param: subdomain,
+        profile_id_param: profileId,
+        opportunity_id_param: opportunityId,
         passcode_param: passcode
       });
 

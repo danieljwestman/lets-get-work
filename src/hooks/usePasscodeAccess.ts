@@ -55,8 +55,11 @@ export const usePasscodeAccess = (opportunity: OpportunityWithTheme | null) => {
       if (storedPasscode) {
         console.log('usePasscodeAccess: Found stored passcode, verifying...');
         try {
-          // For now, we'll use a simple verification since we don't have profile-based verification yet
-          const isValid = await passcodeService.verifyPasscodeWithServer(storedPasscode, opportunity.profile_id);
+          const isValid = await passcodeService.verifyPasscodeWithServer(
+            storedPasscode, 
+            opportunity.profile_id, 
+            opportunity.opportunity_id
+          );
           if (isValid) {
             console.log('usePasscodeAccess: Valid stored passcode found, granting access');
             setHasAccess(true);

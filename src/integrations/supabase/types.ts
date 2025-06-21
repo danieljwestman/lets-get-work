@@ -612,7 +612,11 @@ export type Database = {
         }[]
       }
       verify_opportunity_passcode: {
-        Args: { subdomain_param: string; passcode_param: string }
+        Args: {
+          profile_id_param: string
+          opportunity_id_param: string
+          passcode_param: string
+        }
         Returns: boolean
       }
     }
