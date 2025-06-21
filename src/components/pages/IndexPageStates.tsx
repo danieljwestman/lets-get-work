@@ -60,15 +60,15 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
     shouldShowNotFound: error && !opportunityLoading && !opportunity
   });
 
-  // CRITICAL FIX: Only render NotFound if we have a persistent error AND we're not loading AND no opportunity data
-  // AND we've given enough time for the data to load (not during initial fetch)
+  // Enhanced error handling - don't show 404 for AbortErrors or during loading/processing
   if (error && !opportunityLoading && !opportunity && !isProcessing) {
-    // Additional check: make sure this isn't a temporary fetch error during loading
-    const isPersistentError = error !== "Failed to load opportunity" || 
-                            (!opportunityLoading && !opportunity);
+    // Skip AbortErrors and temporary fetch errors
+    const isRetriableError = error.includes('AbortError') || 
+                            error === "Failed to load opportunity" ||
+                            error.includes('Request aborted');
     
-    if (isPersistentError) {
-      console.log('🔧 INDEX PAGE STATES: Persistent error detected, rendering NotFound component:', {
+    if (!isRetriableError) {
+      console.log('🔧 INDEX PAGE STATES: Persistent non-retriable error detected, rendering NotFound component:', {
         url: window.location.href,
         error,
         opportunityLoading,
@@ -76,6 +76,15 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
         isProcessing
       });
       return <NotFound />;
+    } else {
+      console.log('🔧 INDEX PAGE STATES: Retriable error detected, showing loading instead:', {
+        url: window.location.href,
+        error,
+        opportunityLoading,
+        hasOpportunity: !!opportunity,
+        isProcessing
+      });
+      return <AppLoadingWrapper isDashboard={false}>Loading opportunity...</AppLoadingWrapper>;
     }
   }
 

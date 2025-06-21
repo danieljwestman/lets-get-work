@@ -19,10 +19,11 @@ const OpportunityPresentation = () => {
     opportunityId: opportunityId || 'default'
   });
   
-  // Use useOpportunityConfig directly with URL parameters for main domain routes
+  // Use useOpportunityConfig directly with URL parameters and direct flag for main domain routes
   const { opportunity, isLoading: opportunityLoading, error } = useOpportunityConfig(
     profileId || null, 
-    opportunityId || 'default'
+    opportunityId || 'default',
+    true // isDirect flag for main domain routes
   );
   
   const {

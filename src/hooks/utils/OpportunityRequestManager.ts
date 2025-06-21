@@ -7,6 +7,7 @@ interface RequestQueueItem {
   timestamp: number;
   controller: AbortController;
   priority: number;
+  requestType: 'direct' | 'subdomain'; // Add request type differentiation
 }
 
 interface CacheEntry {
@@ -20,6 +21,7 @@ export class OpportunityRequestManager {
   private activeQueue: RequestQueueItem[] = [];
   private cache = new Map<string, CacheEntry>();
   private readonly CACHE_DURATION = 30000; // 30 seconds
+  private readonly CANCELLATION_GRACE_PERIOD = 1000; // 1 second grace period
   private sessionId = `session-${Date.now()}-${Math.random()}`;
 
   clearCacheForSubdomain(subdomain: string) {
@@ -32,16 +34,33 @@ export class OpportunityRequestManager {
     console.log('🔧 OPPORTUNITY MANAGER: Cleared all cache');
   }
 
-  enqueueRequest(subdomain: string, requestId: string, priority: number = 0): AbortController {
-    // Cancel and remove any existing requests for this subdomain with lower or equal priority
-    this.activeQueue = this.activeQueue.filter(item => {
-      if (item.subdomain === subdomain && item.priority <= priority) {
-        console.log('🔧 OPPORTUNITY MANAGER: Cancelling existing request for subdomain:', subdomain, 'RequestID:', item.requestId);
-        item.controller.abort();
-        return false;
-      }
-      return true;
-    });
+  enqueueRequest(subdomain: string, requestId: string, priority: number = 0, requestType: 'direct' | 'subdomain' = 'subdomain'): AbortController {
+    // For direct requests (main domain routes), be less aggressive about cancellation
+    if (requestType === 'direct') {
+      // Only cancel existing direct requests for the same subdomain with lower priority
+      this.activeQueue = this.activeQueue.filter(item => {
+        if (item.subdomain === subdomain && item.requestType === 'direct' && item.priority <= priority) {
+          console.log('🔧 OPPORTUNITY MANAGER: Cancelling existing direct request for:', subdomain, 'RequestID:', item.requestId);
+          item.controller.abort();
+          return false;
+        }
+        return true;
+      });
+    } else {
+      // For subdomain requests, cancel any existing requests for the same subdomain with lower or equal priority
+      // But add a grace period to prevent premature cancellation
+      this.activeQueue = this.activeQueue.filter(item => {
+        if (item.subdomain === subdomain && item.priority <= priority) {
+          const timeSinceRequest = Date.now() - item.timestamp;
+          if (timeSinceRequest > this.CANCELLATION_GRACE_PERIOD) {
+            console.log('🔧 OPPORTUNITY MANAGER: Cancelling existing request for subdomain:', subdomain, 'RequestID:', item.requestId);
+            item.controller.abort();
+            return false;
+          }
+        }
+        return true;
+      });
+    }
 
     // Create new controller and add to queue
     const controller = new AbortController();
@@ -50,7 +69,8 @@ export class OpportunityRequestManager {
       requestId,
       timestamp: Date.now(),
       controller,
-      priority
+      priority,
+      requestType
     });
 
     // Sort by priority (higher first) and timestamp (newer first)
@@ -59,7 +79,7 @@ export class OpportunityRequestManager {
       return b.timestamp - a.timestamp;
     });
 
-    console.log('🔧 OPPORTUNITY MANAGER: Enqueued request for subdomain:', subdomain, 'RequestID:', requestId, 'Priority:', priority);
+    console.log('🔧 OPPORTUNITY MANAGER: Enqueued request for subdomain:', subdomain, 'RequestID:', requestId, 'Priority:', priority, 'Type:', requestType);
     return controller;
   }
 
@@ -95,7 +115,7 @@ export class OpportunityRequestManager {
 
   setCachedResult(subdomain: string, opportunity: OpportunityWithTheme | null, error: string | null) {
     // Only cache successful results or definitive errors - never cache null/null states
-    if (opportunity !== null || (error !== null && error.length > 0)) {
+    if (opportunity !== null || (error !== null && error.length > 0 && !error.includes('AbortError'))) {
       this.cache.set(subdomain, { 
         opportunity, 
         error, 

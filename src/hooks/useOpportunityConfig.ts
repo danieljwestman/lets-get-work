@@ -8,7 +8,11 @@ import { useOpportunityState } from './utils/useOpportunityState';
 const requestManager = new OpportunityRequestManager();
 const opportunityFetcher = new OpportunityFetcher(requestManager);
 
-export const useOpportunityConfig = (profileId: string | null, opportunityId: string | null = null) => {
+export const useOpportunityConfig = (
+  profileId: string | null, 
+  opportunityId: string | null = null,
+  isDirect: boolean = false // Flag to indicate this is a direct URL-based request (main domain)
+) => {
   const { state, updateState, resetState, refs } = useOpportunityState();
 
   // Single consolidated useEffect to handle all opportunity loading logic
@@ -51,26 +55,37 @@ export const useOpportunityConfig = (profileId: string | null, opportunityId: st
         lastSubdomain: configKey 
       });
 
+      console.log('🔧 OPPORTUNITY CONFIG: Starting fetch with isDirect:', isDirect, 'for:', configKey);
+
       const result = await opportunityFetcher.fetchOpportunityConfig(
         profileId, 
         targetOpportunityId,
         requestId, 
-        state.opportunity
+        state.opportunity,
+        isDirect
       );
 
       // Only update state if this is still the current request
       if (refs.currentRequestId.current === requestId) {
-        updateState({
-          opportunity: result.opportunity,
-          error: result.error,
-          isLoading: false
-        });
+        // For direct requests, distinguish between AbortError (don't show error) and real errors
+        if (result.error && result.error.includes('AbortError')) {
+          console.log('🔧 OPPORTUNITY CONFIG: Ignoring AbortError for direct request');
+          updateState({
+            isLoading: false
+          });
+        } else {
+          updateState({
+            opportunity: result.opportunity,
+            error: result.error,
+            isLoading: false
+          });
+        }
       }
 
       console.log('🔧 OPPORTUNITY CONFIG: Fetch completed for profile ID:', profileId, 'Opportunity ID:', targetOpportunityId, 'RequestID:', requestId);
     };
 
-    console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with profile ID:', profileId, 'opportunity ID:', opportunityId);
+    console.log('🔧 OPPORTUNITY CONFIG: useEffect triggered with profile ID:', profileId, 'opportunity ID:', opportunityId, 'isDirect:', isDirect);
     fetchOpportunityConfig();
 
     // Cleanup function
@@ -80,7 +95,7 @@ export const useOpportunityConfig = (profileId: string | null, opportunityId: st
         requestManager.dequeueRequest(refs.currentRequestId.current);
       }
     };
-  }, [profileId, opportunityId]); // Depend on both profileId and opportunityId
+  }, [profileId, opportunityId, isDirect]); // Include isDirect in dependencies
 
   // Log whenever opportunity state changes
   console.log('🔧 OPPORTUNITY CONFIG: State changed:', {
@@ -92,7 +107,8 @@ export const useOpportunityConfig = (profileId: string | null, opportunityId: st
     themeId: state.opportunity?.theme.theme_id,
     userId: state.opportunity?.user_id,
     isLoading: state.isLoading,
-    error: state.error
+    error: state.error,
+    isDirect
   });
 
   return { 
@@ -101,4 +117,3 @@ export const useOpportunityConfig = (profileId: string | null, opportunityId: st
     error: state.error 
   };
 };
-
