@@ -50,7 +50,8 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
       isMainDomain: domainInfo.isMainDomain,
       profileId: domainInfo.profileId,
       opportunityId: domainInfo.opportunityId,
-      customDomainData: domainInfo.customDomainData
+      customDomainData: domainInfo.customDomainData,
+      url: window.location.href
     });
 
     // For subdomains and custom domains, fetch opportunities
@@ -75,14 +76,20 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
       shouldFetchOpportunity = true;
       profileId = domainInfo.profileId;
       opportunityId = domainInfo.opportunityId || 'default'; // Use the opportunity ID from domain info
-      console.log('🔧 OPPORTUNITY CONTEXT: Main domain opportunity route, using opportunity ID:', opportunityId);
+      console.log('🔧 OPPORTUNITY CONTEXT: Main domain opportunity route detected, fetching data for:', {
+        profileId,
+        opportunityId,
+        shouldFetch: shouldFetchOpportunity,
+        url: window.location.href
+      });
     }
   }
   
   console.log('🔧 OPPORTUNITY CONTEXT: Final fetch parameters:', {
     shouldFetchOpportunity,
     profileId,
-    opportunityId
+    opportunityId,
+    url: window.location.href
   });
 
   const { opportunity, isLoading, error } = useOpportunityConfig(
@@ -91,7 +98,7 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
   );
 
   // Enhanced logging with validation
-  console.log('🔧 OPPORTUNITY CONTEXT: Provider render:', {
+  console.log('🔧 OPPORTUNITY CONTEXT: Provider render result:', {
     domainType: domainInfo?.type,
     isMainDomain: domainInfo?.isMainDomain,
     shouldFetchOpportunity,
@@ -104,7 +111,8 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     isLoading,
     error,
     profileIdMatch: opportunity ? opportunity.profile_id === profileId : 'N/A',
-    customDomainData: domainInfo?.customDomainData
+    customDomainData: domainInfo?.customDomainData,
+    url: window.location.href
   });
 
   // Validation check - ensure opportunity matches profile ID
@@ -112,7 +120,8 @@ export const OpportunityProvider: React.FC<{ children: React.ReactNode }> = ({ c
     console.error('🔧 OPPORTUNITY CONTEXT: CRITICAL ERROR - Opportunity profile ID mismatch in provider!', {
       currentProfileId: profileId,
       opportunityProfileId: opportunity.profile_id,
-      opportunityId: opportunity.opportunity_id
+      opportunityId: opportunity.opportunity_id,
+      url: window.location.href
     });
   }
 

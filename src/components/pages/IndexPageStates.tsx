@@ -35,6 +35,7 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
   React.useEffect(() => {
     if (opportunity) {
       console.log('🔧 INDEX PAGE STATES: Opportunity data received:', {
+        url: window.location.href,
         opportunity_id: opportunity.opportunity_id,
         user_id: opportunity.user_id,
         owner_full_name: opportunity.owner_full_name,
@@ -45,17 +46,40 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
     }
   }, [opportunity, showPasscodeModal]);
 
+  console.log('🔧 INDEX PAGE STATES: Render decision logic:', {
+    url: window.location.href,
+    hasError: !!error,
+    error: error,
+    opportunityLoading,
+    hasOpportunity: !!opportunity,
+    opportunityId: opportunity?.opportunity_id,
+    isPasscodeProtected: opportunity?.is_passcode_protected,
+    showPasscodeModal,
+    hasAccess,
+    isProcessing,
+    shouldShowNotFound: error && !opportunityLoading && !opportunity
+  });
+
   // Only render NotFound if there's an error AND no opportunity data AND not loading
   // This prevents showing 404 during race conditions where we have opportunity data but temporary errors
   if (error && !opportunityLoading && !opportunity) {
-    console.log('🔧 INDEX PAGE STATES: Error detected with no opportunity data, rendering NotFound component:', error);
+    console.log('🔧 INDEX PAGE STATES: Error detected with no opportunity data, rendering NotFound component:', {
+      url: window.location.href,
+      error,
+      opportunityLoading,
+      hasOpportunity: !!opportunity
+    });
     return <NotFound />;
   }
 
   // Show passcode modal for protected opportunities that require passcode entry
   if (opportunity?.is_passcode_protected && showPasscodeModal) {
     const personName = opportunity.owner_full_name?.trim() || 'the opportunity owner';
-    console.log('Index: Showing passcode modal for protected opportunity with personName:', personName);
+    console.log('🔧 INDEX PAGE STATES: Showing passcode modal for protected opportunity:', {
+      url: window.location.href,
+      personName,
+      opportunityId: opportunity.opportunity_id
+    });
     return (
       <AppLoadingWrapper isDashboard={false}>
         <PasscodeModal
@@ -69,17 +93,33 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
 
   // Wait for opportunity to load completely
   if (opportunityLoading || !opportunity) {
-    console.log('Index: Still loading opportunity or no opportunity found');
+    console.log('🔧 INDEX PAGE STATES: Still loading opportunity or no opportunity found:', {
+      url: window.location.href,
+      opportunityLoading,
+      hasOpportunity: !!opportunity
+    });
     return <AppLoadingWrapper isDashboard={false}>Loading opportunity...</AppLoadingWrapper>;
   }
 
   // Wait for access verification to complete for protected opportunities
   if (opportunity.is_passcode_protected && (!hasAccess || isProcessing)) {
-    console.log('Index: Waiting for access verification');
+    console.log('🔧 INDEX PAGE STATES: Waiting for access verification:', {
+      url: window.location.href,
+      hasAccess,
+      isProcessing,
+      opportunityId: opportunity.opportunity_id
+    });
     return <AppLoadingWrapper isDashboard={false}>Verifying access...</AppLoadingWrapper>;
   }
 
   // Render main content - this will now wait for translations to be ready
+  console.log('🔧 INDEX PAGE STATES: Rendering main content for opportunity:', {
+    url: window.location.href,
+    opportunityId: opportunity.opportunity_id,
+    profileId: opportunity.profile_id,
+    isOwner
+  });
+  
   return (
     <AppLoadingWrapper isDashboard={false}>
       <IndexPageContent
