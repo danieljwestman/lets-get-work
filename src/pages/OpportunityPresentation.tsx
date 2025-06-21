@@ -1,19 +1,29 @@
+
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useBrowserTitle } from '@/hooks/useBrowserTitle';
 import { useAuth } from '@/contexts/AuthContext';
-import { useOpportunity } from '@/contexts/OpportunityContext';
+import { useOpportunityConfig } from '@/hooks/useOpportunityConfig';
 import { usePasscodeAccess } from '@/hooks/usePasscodeAccess';
 import { passcodeService } from '@/services/passcodeService';
 import { IndexPageStates } from '@/components/pages/IndexPageStates';
 
 const OpportunityPresentation = () => {
   const { user } = useAuth();
+  const { profileId, opportunityId } = useParams<{ profileId: string; opportunityId?: string }>();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   
-  console.log('🔧 OPPORTUNITY PRESENTATION: Component starting, URL:', window.location.href);
+  console.log('🔧 OPPORTUNITY PRESENTATION: Component starting with URL params:', {
+    url: window.location.href,
+    profileId,
+    opportunityId: opportunityId || 'default'
+  });
   
-  // Use the opportunity context instead of direct useOpportunityConfig
-  const { opportunity, isLoading: opportunityLoading, error } = useOpportunity();
+  // Use useOpportunityConfig directly with URL parameters for main domain routes
+  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityConfig(
+    profileId || null, 
+    opportunityId || 'default'
+  );
   
   const {
     hasAccess,
@@ -31,8 +41,10 @@ const OpportunityPresentation = () => {
 
   console.log('🔧 OPPORTUNITY PRESENTATION: Current state debug:', {
     url: window.location.href,
+    profileId,
+    opportunityId: opportunityId || 'default',
     hasOpportunity: !!opportunity,
-    opportunityId: opportunity?.opportunity_id,
+    opportunityIdFromData: opportunity?.opportunity_id,
     opportunityProfileId: opportunity?.profile_id,
     opportunityLoading,
     error,
