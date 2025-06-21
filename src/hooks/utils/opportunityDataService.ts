@@ -244,3 +244,78 @@ export const fetchOpportunityData = async (
   // For now, treat subdomain as profile_id and default opportunity
   return fetchOpportunityByProfile(subdomain, 'default', controller, requestId);
 };
+
+export const fetchOpportunityByDirectId = async (
+  opportunityId: string,
+  controller: AbortController,
+  requestId: string
+) => {
+  console.log('🔧 OPPORTUNITY SERVICE: Fetching opportunity by direct ID:', {
+    opportunityId,
+    requestId
+  });
+
+  // Check if user is authenticated
+  const { data: { session } } = await supabase.auth.getSession();
+  const isAuthenticated = !!session?.user;
+  
+  console.log('🔧 OPPORTUNITY SERVICE: User authenticated:', isAuthenticated, 'RequestID:', requestId);
+
+  let opportunityData;
+  let opportunityError;
+
+  if (isAuthenticated) {
+    // For authenticated users, query directly by opportunity_id
+    const { data, error } = await supabase
+      .from('opportunities')
+      .select(`
+        id, opportunity_id, name, theme_id, company_name, target_role, status, user_id, 
+        is_passcode_protected, access_passcode,
+        profiles!inner(profile_id)
+      `)
+      .eq('opportunity_id', opportunityId)
+      .abortSignal(controller.signal)
+      .limit(1);
+    
+    opportunityData = data;
+    opportunityError = error;
+
+    // Validate access for unpublished opportunities
+    if (opportunityData && opportunityData.length > 0) {
+      const opportunity = opportunityData[0];
+      
+      if (opportunity.status === 'unpublished' && opportunity.user_id !== session.user.id) {
+        console.log('🔧 OPPORTUNITY SERVICE: Unpublished opportunity access denied - not owner:', {
+          opportunityUserId: opportunity.user_id,
+          sessionUserId: session.user.id,
+          requestId
+        });
+        opportunityData = [];
+      }
+    }
+  } else {
+    // For public access, query only published opportunities
+    const { data, error } = await supabase
+      .from('opportunities')
+      .select(`
+        id, opportunity_id, name, theme_id, company_name, target_role, status, user_id, 
+        is_passcode_protected, access_passcode,
+        profiles!inner(profile_id)
+      `)
+      .eq('opportunity_id', opportunityId)
+      .eq('status', 'published')
+      .abortSignal(controller.signal)
+      .limit(1);
+    
+    opportunityData = data;
+    opportunityError = error;
+  }
+
+  if (opportunityError) {
+    console.error('🔧 OPPORTUNITY SERVICE: Supabase error:', opportunityError, 'RequestID:', requestId);
+    throw opportunityError;
+  }
+
+  console.log('🔧 OPPORTUNITY SERVICE: Raw opportunity data by direct ID:', opportunityData, 'RequestID:', requestId);
+  return opportunityData;
+};
