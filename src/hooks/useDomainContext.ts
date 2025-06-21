@@ -19,18 +19,19 @@ export const useDomainContext = () => {
     console.log('🔧 DOMAIN CONTEXT: Processing URL change:', currentUrl);
     lastUrl.current = currentUrl;
     
-    // Check if we're on a /profiles/:profileId route on the main domain
-    const profileMatch = window.location.pathname.match(/^\/profiles\/([^\/]+)$/);
-    if (profileMatch) {
-      const profileId = profileMatch[1];
-      console.log('🔧 DOMAIN CONTEXT: Detected /profiles/ route for profile ID:', profileId);
+    // Check if we're on a /opportunities/:profileId or /opportunities/:profileId/:opportunityId route on the main domain
+    const opportunityMatch = window.location.pathname.match(/^\/opportunities\/([^\/]+)(?:\/([^\/]+))?$/);
+    if (opportunityMatch) {
+      const profileId = opportunityMatch[1];
+      const opportunityId = opportunityMatch[2] || 'default';
+      console.log('🔧 DOMAIN CONTEXT: Detected /opportunities/ route for profile ID:', profileId, 'opportunity ID:', opportunityId);
       
       // This is a main domain route, not a subdomain
       setDomainInfo({
         type: 'main',
         domain: window.location.hostname,
         profileId,
-        opportunityId: 'default',
+        opportunityId,
         isMainDomain: true
       });
       isInitialized.current = true;
