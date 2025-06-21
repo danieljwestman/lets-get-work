@@ -22,15 +22,35 @@ export const fetchOpportunityByProfile = async (
   let opportunityError;
 
   if (isAuthenticated) {
-    // For authenticated users, use direct query with profile join
+    // For authenticated users, first get the user_id from profiles table
+    const { data: profileData, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('profile_id', profileId)
+      .abortSignal(controller.signal)
+      .limit(1);
+
+    if (profileError) {
+      console.error('🔧 OPPORTUNITY SERVICE: Profile lookup error:', profileError, 'RequestID:', requestId);
+      throw profileError;
+    }
+
+    if (!profileData || profileData.length === 0) {
+      console.log('🔧 OPPORTUNITY SERVICE: No profile found for profile_id:', profileId, 'RequestID:', requestId);
+      return [];
+    }
+
+    const userId = profileData[0].id;
+    console.log('🔧 OPPORTUNITY SERVICE: Found user_id for profile:', userId, 'RequestID:', requestId);
+
+    // Now query opportunities using the user_id
     const { data, error } = await supabase
       .from('opportunities')
       .select(`
         id, opportunity_id, name, theme_id, company_name, target_role, status, user_id, 
-        is_passcode_protected, access_passcode,
-        profiles!inner(profile_id)
+        is_passcode_protected, access_passcode
       `)
-      .eq('profiles.profile_id', profileId)
+      .eq('user_id', userId)
       .eq('opportunity_id', opportunityId)
       .abortSignal(controller.signal)
       .limit(1);
