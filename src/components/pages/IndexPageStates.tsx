@@ -45,9 +45,10 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
     }
   }, [opportunity, showPasscodeModal]);
 
-  // If there's an error loading the opportunity, render NotFound directly (no redirect)
-  if (error && !opportunityLoading) {
-    console.log('🔧 INDEX PAGE STATES: Error detected, rendering NotFound component:', error);
+  // Only render NotFound if there's an error AND no opportunity data AND not loading
+  // This prevents showing 404 during race conditions where we have opportunity data but temporary errors
+  if (error && !opportunityLoading && !opportunity) {
+    console.log('🔧 INDEX PAGE STATES: Error detected with no opportunity data, rendering NotFound component:', error);
     return <NotFound />;
   }
 
