@@ -15,8 +15,11 @@ const OpportunityPresentation = () => {
   
   console.log('OpportunityPresentation: Starting with profile ID:', profileId, 'opportunity ID:', opportunityId);
   
-  // Use the standard opportunity config hook with profileId and opportunityId
-  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityConfig(profileId || null, opportunityId || null);
+  // Use the standard opportunity config hook with profileId and opportunityId (defaulting to 'default' if not provided)
+  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityConfig(
+    profileId || null, 
+    opportunityId || 'default'
+  );
   
   const {
     hasAccess,
@@ -34,7 +37,7 @@ const OpportunityPresentation = () => {
 
   console.log('OpportunityPresentation: Current state:', {
     profileId,
-    opportunityId,
+    opportunityId: opportunityId || 'default',
     hasOpportunity: !!opportunity,
     opportunityLoading,
     error,

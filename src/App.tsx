@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -10,7 +11,6 @@ import Index from '@/pages/Index';
 import Dashboard from '@/pages/Dashboard';
 import HelpSupport from '@/pages/HelpSupport';
 import Marketing from '@/pages/Marketing';
-import ProfilePresentation from '@/pages/ProfilePresentation';
 import OpportunityPresentation from '@/pages/OpportunityPresentation';
 import NotFound from '@/pages/NotFound';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
@@ -51,7 +51,7 @@ const DomainAwareRouter: React.FC = () => {
           // Main domain routes
           <>
             <Route path="/" element={<Marketing />} />
-            <Route path="/profiles/:profileId" element={<ProfilePresentation />} />
+            <Route path="/opportunities/:profileId" element={<OpportunityPresentation />} />
             <Route path="/opportunities/:profileId/:opportunityId" element={<OpportunityPresentation />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/help-support" element={<HelpSupport />} />
