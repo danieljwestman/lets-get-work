@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBrowserTitle } from '@/hooks/useBrowserTitle';
@@ -12,7 +13,9 @@ const ProfilePresentation = () => {
   const { user } = useAuth();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   
-  // Fetch opportunity using the profile ID from the URL
+  console.log('ProfilePresentation: Starting with profile ID:', profileId);
+  
+  // Fetch opportunity using the profile ID from the URL - always use 'default' for main domain profile routes
   const { opportunity, isLoading: opportunityLoading, error } = useOpportunityConfig(profileId || null, 'default');
   
   const {
@@ -29,20 +32,30 @@ const ProfilePresentation = () => {
 
   useBrowserTitle();
 
-  console.log('ProfilePresentation: Rendering for profile ID:', profileId, {
+  console.log('ProfilePresentation: Current state:', {
+    profileId,
     hasOpportunity: !!opportunity,
     opportunityLoading,
     error,
     isOwner,
     hasAccess,
-    showPasscodeModal
+    showPasscodeModal,
+    isProcessing,
+    isProtected: opportunity?.is_passcode_protected
   });
 
   // Handle access logic for profile presentations
   React.useEffect(() => {
     if (!opportunity) {
+      console.log('ProfilePresentation: No opportunity yet, waiting...');
       return;
     }
+
+    console.log('ProfilePresentation: Processing opportunity access logic', {
+      opportunityId: opportunity.opportunity_id,
+      isProtected: opportunity.is_passcode_protected,
+      isOwner
+    });
 
     if (!opportunity.is_passcode_protected) {
       console.log('ProfilePresentation: Opportunity not protected, granting access');
@@ -85,7 +98,7 @@ const ProfilePresentation = () => {
     // Otherwise, deny access (will trigger passcode modal or stored passcode check)
     console.log('ProfilePresentation: Protected opportunity, denying access');
     denyAccess();
-  }, [opportunity?.opportunity_id, opportunity?.is_passcode_protected, isOwner, grantAccess, denyAccess, startProcessing]);
+  }, [opportunity?.opportunity_id, opportunity?.is_passcode_protected, opportunity?.profile_id, isOwner, grantAccess, denyAccess, startProcessing]);
 
   // Passcode verification function for the modal
   const verifyPasscode = async (passcode: string): Promise<boolean> => {
