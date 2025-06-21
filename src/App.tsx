@@ -52,7 +52,7 @@ const DomainAwareRouter: React.FC = () => {
           <>
             <Route path="/" element={<Marketing />} />
             <Route path="/profiles/:profileId" element={<ProfilePresentation />} />
-            <Route path="/opportunities/:userId/:opportunityId" element={<OpportunityPresentation />} />
+            <Route path="/opportunities/:profileId/:opportunityId" element={<OpportunityPresentation />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/help-support" element={<HelpSupport />} />
             <Route path="/marketing" element={<Marketing />} />

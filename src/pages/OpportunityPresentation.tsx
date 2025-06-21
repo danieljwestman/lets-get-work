@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBrowserTitle } from '@/hooks/useBrowserTitle';
@@ -5,17 +6,17 @@ import { useAuth } from '@/contexts/AuthContext';
 import { usePasscodeAccess } from '@/hooks/usePasscodeAccess';
 import { passcodeService } from '@/services/passcodeService';
 import { IndexPageStates } from '@/components/pages/IndexPageStates';
-import { useOpportunityDirectConfig } from '@/hooks/useOpportunityDirectConfig';
+import { useOpportunityConfig } from '@/hooks/useOpportunityConfig';
 
 const OpportunityPresentation = () => {
-  const { userId, opportunityId } = useParams<{ userId: string; opportunityId: string }>();
+  const { profileId, opportunityId } = useParams<{ profileId: string; opportunityId: string }>();
   const { user } = useAuth();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   
-  console.log('OpportunityPresentation: Starting with user ID:', userId, 'opportunity ID:', opportunityId);
+  console.log('OpportunityPresentation: Starting with profile ID:', profileId, 'opportunity ID:', opportunityId);
   
-  // Fetch opportunity directly with the correct user_id and opportunity_id structure
-  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityDirectConfig(userId || null, opportunityId || null);
+  // Use the standard opportunity config hook with profileId and opportunityId
+  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityConfig(profileId || null, opportunityId || null);
   
   const {
     hasAccess,
@@ -32,7 +33,7 @@ const OpportunityPresentation = () => {
   useBrowserTitle();
 
   console.log('OpportunityPresentation: Current state:', {
-    userId,
+    profileId,
     opportunityId,
     hasOpportunity: !!opportunity,
     opportunityLoading,
