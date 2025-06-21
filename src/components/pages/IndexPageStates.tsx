@@ -60,16 +60,45 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
     shouldShowNotFound: error && !opportunityLoading && !opportunity
   });
 
-  // Only render NotFound if there's an error AND no opportunity data AND not loading
-  // This prevents showing 404 during race conditions where we have opportunity data but temporary errors
-  if (error && !opportunityLoading && !opportunity) {
-    console.log('🔧 INDEX PAGE STATES: Error detected with no opportunity data, rendering NotFound component:', {
+  // CRITICAL FIX: Only render NotFound if we have a persistent error AND we're not loading AND no opportunity data
+  // AND we've given enough time for the data to load (not during initial fetch)
+  if (error && !opportunityLoading && !opportunity && !isProcessing) {
+    // Additional check: make sure this isn't a temporary fetch error during loading
+    const isPersistentError = error !== "Failed to load opportunity" || 
+                            (!opportunityLoading && !opportunity);
+    
+    if (isPersistentError) {
+      console.log('🔧 INDEX PAGE STATES: Persistent error detected, rendering NotFound component:', {
+        url: window.location.href,
+        error,
+        opportunityLoading,
+        hasOpportunity: !!opportunity,
+        isProcessing
+      });
+      return <NotFound />;
+    }
+  }
+
+  // Show loading state while we're still fetching or processing
+  if (opportunityLoading || (!opportunity && !error)) {
+    console.log('🔧 INDEX PAGE STATES: Still loading opportunity or no opportunity found:', {
+      url: window.location.href,
+      opportunityLoading,
+      hasOpportunity: !!opportunity,
+      hasError: !!error
+    });
+    return <AppLoadingWrapper isDashboard={false}>Loading opportunity...</AppLoadingWrapper>;
+  }
+
+  // If we have an error but no opportunity data, show loading instead of 404
+  // This handles the race condition where error is set temporarily during fetch
+  if (error && !opportunity) {
+    console.log('🔧 INDEX PAGE STATES: Error with no opportunity data, showing loading to handle race condition:', {
       url: window.location.href,
       error,
-      opportunityLoading,
-      hasOpportunity: !!opportunity
+      opportunityLoading
     });
-    return <NotFound />;
+    return <AppLoadingWrapper isDashboard={false}>Loading opportunity...</AppLoadingWrapper>;
   }
 
   // Show passcode modal for protected opportunities that require passcode entry
@@ -91,18 +120,8 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
     );
   }
 
-  // Wait for opportunity to load completely
-  if (opportunityLoading || !opportunity) {
-    console.log('🔧 INDEX PAGE STATES: Still loading opportunity or no opportunity found:', {
-      url: window.location.href,
-      opportunityLoading,
-      hasOpportunity: !!opportunity
-    });
-    return <AppLoadingWrapper isDashboard={false}>Loading opportunity...</AppLoadingWrapper>;
-  }
-
   // Wait for access verification to complete for protected opportunities
-  if (opportunity.is_passcode_protected && (!hasAccess || isProcessing)) {
+  if (opportunity && opportunity.is_passcode_protected && (!hasAccess || isProcessing)) {
     console.log('🔧 INDEX PAGE STATES: Waiting for access verification:', {
       url: window.location.href,
       hasAccess,
@@ -110,6 +129,17 @@ export const IndexPageStates: React.FC<IndexPageStatesProps> = ({
       opportunityId: opportunity.opportunity_id
     });
     return <AppLoadingWrapper isDashboard={false}>Verifying access...</AppLoadingWrapper>;
+  }
+
+  // Final check: if we still don't have opportunity data at this point, something is wrong
+  if (!opportunity) {
+    console.log('🔧 INDEX PAGE STATES: No opportunity data available after all checks, rendering NotFound:', {
+      url: window.location.href,
+      error,
+      opportunityLoading,
+      isProcessing
+    });
+    return <NotFound />;
   }
 
   // Render main content - this will now wait for translations to be ready
