@@ -20,18 +20,17 @@ export const BillingManager: React.FC = () => {
         </div>
       </div>
 
-      {/* Current Plan Status - Enhanced Design */}
-      <Card className="overflow-hidden border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-white/10"></div>
-          <div className="relative flex items-center justify-between">
+      {/* Current Plan Status - Updated Design to match Help & Support */}
+      <Card className="border-2 border-blue-100 shadow-lg hover:shadow-xl transition-shadow">
+        <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <Gift className="h-6 w-6 text-white" />
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <Gift className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <CardTitle className="text-white text-xl">Current Plan</CardTitle>
-                <p className="text-blue-100 text-sm">Active since beta launch</p>
+                <CardTitle className="text-gray-900 text-xl">Current Plan</CardTitle>
+                <p className="text-gray-600 text-sm">Active since beta launch</p>
               </div>
             </div>
           </div>
@@ -123,7 +122,7 @@ export const BillingManager: React.FC = () => {
             </div>
           </div>
 
-          {/* Beta Promise - Removed gray border */}
+          {/* Beta Promise */}
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="text-center space-y-3">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">

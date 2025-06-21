@@ -9,7 +9,6 @@ import { Toaster } from '@/components/ui/toaster';
 import { DebugPanel } from '@/components/shared/DebugPanel';
 import Index from '@/pages/Index';
 import Dashboard from '@/pages/Dashboard';
-import HelpSupport from '@/pages/HelpSupport';
 import Marketing from '@/pages/Marketing';
 import OpportunityPresentation from '@/pages/OpportunityPresentation';
 import NotFound from '@/pages/NotFound';
@@ -54,7 +53,6 @@ const DomainAwareRouter: React.FC = () => {
             <Route path="/opportunities/:profileId" element={<OpportunityPresentation />} />
             <Route path="/opportunities/:profileId/:opportunityId" element={<OpportunityPresentation />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/help-support" element={<HelpSupport />} />
             <Route path="/marketing" element={<Marketing />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
