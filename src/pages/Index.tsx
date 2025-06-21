@@ -22,7 +22,7 @@ const Index = () => {
     resetState
   } = usePasscodeAccess(opportunity);
 
-  const { isOwner } = useIndexPageLogic(opportunity, user);
+  const { isOwner } = useIndexPageLogic();
 
   console.log('Index: Rendering with state:', {
     hasOpportunity: !!opportunity,

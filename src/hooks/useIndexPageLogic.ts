@@ -80,7 +80,7 @@ export const useIndexPageLogic = () => {
         console.log('Index: Found passcode in URL, verifying...');
         startProcessing();
         try {
-          const isValid = await passcodeService.verifyPasscodeWithServer(urlPasscode, opportunity.profile_id);
+          const isValid = await passcodeService.verifyPasscodeWithServer(urlPasscode, opportunity.profile_id, opportunity.opportunity_id);
           if (isValid) {
             console.log('Index: Valid passcode found in URL - universal access granted');
             passcodeService.storePasscode(opportunity.opportunity_id, urlPasscode);
@@ -155,7 +155,7 @@ export const useIndexPageLogic = () => {
     }
 
     try {
-      const isValid = await passcodeService.verifyPasscodeWithServer(enteredPasscode, opportunity.profile_id);
+      const isValid = await passcodeService.verifyPasscodeWithServer(enteredPasscode, opportunity.profile_id, opportunity.opportunity_id);
       console.log('Index: Passcode validation result:', isValid);
       
       if (isValid) {
