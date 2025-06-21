@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -53,7 +52,7 @@ const DomainAwareRouter: React.FC = () => {
           <>
             <Route path="/" element={<Marketing />} />
             <Route path="/profiles/:profileId" element={<ProfilePresentation />} />
-            <Route path="/opportunities/:opportunityId" element={<OpportunityPresentation />} />
+            <Route path="/opportunities/:userId/:opportunityId" element={<OpportunityPresentation />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/help-support" element={<HelpSupport />} />
             <Route path="/marketing" element={<Marketing />} />

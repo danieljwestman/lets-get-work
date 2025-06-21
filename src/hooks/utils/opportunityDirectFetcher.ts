@@ -3,7 +3,7 @@ import { OpportunityWithTheme } from '@/types/opportunity';
 import { OpportunityRequestManager } from './OpportunityRequestManager';
 import { validateOpportunityBeforeSet } from './opportunityValidation';
 import { transformOpportunityData } from './opportunityDataTransformer';
-import { fetchOpportunityByDirectId, fetchThemeData, fetchOwnerProfile } from './opportunityDataService';
+import { fetchOpportunityByUserId, fetchThemeData, fetchOwnerProfile } from './opportunityDataService';
 
 export interface OpportunityFetchResult {
   opportunity: OpportunityWithTheme | null;
@@ -18,17 +18,19 @@ export class OpportunityDirectFetcher {
   }
 
   async fetchOpportunityConfig(
+    userId: string,
     opportunityId: string,
     requestId: string,
     currentOpportunity: OpportunityWithTheme | null
   ): Promise<OpportunityFetchResult> {
     try {
-      console.log('🔧 OPPORTUNITY DIRECT FETCHER: Starting fetch for opportunity ID:', opportunityId, 'RequestID:', requestId);
+      console.log('🔧 OPPORTUNITY DIRECT FETCHER: Starting fetch for user ID:', userId, 'Opportunity ID:', opportunityId, 'RequestID:', requestId);
 
-      // Check cache first
-      const cached = this.requestManager.getCachedResult(opportunityId);
+      // Check cache first (using combined key)
+      const cacheKey = `${userId}-${opportunityId}`;
+      const cached = this.requestManager.getCachedResult(cacheKey);
       if (cached) {
-        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Using cached result for:', opportunityId);
+        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Using cached result for:', cacheKey);
         return {
           opportunity: cached.opportunity,
           error: cached.error
@@ -36,22 +38,22 @@ export class OpportunityDirectFetcher {
       }
 
       // Enqueue request and get abort controller
-      const controller = this.requestManager.enqueueRequest(opportunityId, requestId, 1);
+      const controller = this.requestManager.enqueueRequest(cacheKey, requestId, 1);
 
-      // Fetch by opportunity_id directly
-      console.log('🔧 OPPORTUNITY DIRECT FETCHER: Fetching by opportunity ID:', opportunityId);
-      const opportunityData = await fetchOpportunityByDirectId(opportunityId, controller, requestId);
+      // Fetch by user_id and opportunity_id
+      console.log('🔧 OPPORTUNITY DIRECT FETCHER: Fetching by user ID:', userId, 'and opportunity ID:', opportunityId);
+      const opportunityData = await fetchOpportunityByUserId(userId, opportunityId, controller, requestId);
 
       // Check if request is still valid
       if (!this.requestManager.isRequestValid(requestId)) {
-        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Request cancelled or superseded:', opportunityId, 'RequestID:', requestId);
+        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Request cancelled or superseded:', userId, 'RequestID:', requestId);
         return { opportunity: null, error: null };
       }
 
       if (!opportunityData || opportunityData.length === 0) {
-        console.log('🔧 OPPORTUNITY DIRECT FETCHER: No opportunity found for opportunity ID:', opportunityId, 'RequestID:', requestId);
+        console.log('🔧 OPPORTUNITY DIRECT FETCHER: No opportunity found for user ID:', userId, 'and opportunity ID:', opportunityId, 'RequestID:', requestId);
         const errorMsg = `Opportunity not found: ${opportunityId}`;
-        this.requestManager.setCachedResult(opportunityId, null, errorMsg);
+        this.requestManager.setCachedResult(cacheKey, null, errorMsg);
         return { opportunity: null, error: errorMsg };
       }
 
@@ -70,7 +72,7 @@ export class OpportunityDirectFetcher {
 
       // Check if request is still valid after theme fetch
       if (!this.requestManager.isRequestValid(requestId)) {
-        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Theme request cancelled or superseded:', opportunityId, 'RequestID:', requestId);
+        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Theme request cancelled or superseded:', userId, 'RequestID:', requestId);
         return { opportunity: null, error: null };
       }
 
@@ -88,7 +90,7 @@ export class OpportunityDirectFetcher {
         
         // Check if request is still valid after profile fetch
         if (!this.requestManager.isRequestValid(requestId)) {
-          console.log('🔧 OPPORTUNITY DIRECT FETCHER: Profile request cancelled or superseded:', opportunityId, 'RequestID:', requestId);
+          console.log('🔧 OPPORTUNITY DIRECT FETCHER: Profile request cancelled or superseded:', userId, 'RequestID:', requestId);
           return { opportunity: null, error: null };
         }
       } else {
@@ -115,13 +117,13 @@ export class OpportunityDirectFetcher {
       });
       
       // Cache the successful result
-      this.requestManager.setCachedResult(opportunityId, transformedOpportunity, null);
+      this.requestManager.setCachedResult(cacheKey, transformedOpportunity, null);
       
       return { opportunity: transformedOpportunity, error: null };
     } catch (err) {
       // Don't log errors for aborted requests
       if (err instanceof Error && err.name === 'AbortError') {
-        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Request aborted for opportunity ID:', opportunityId, 'RequestID:', requestId);
+        console.log('🔧 OPPORTUNITY DIRECT FETCHER: Request aborted for user ID:', userId, 'RequestID:', requestId);
         return { opportunity: null, error: null };
       }
       
@@ -129,7 +131,8 @@ export class OpportunityDirectFetcher {
       const errorMsg = err instanceof Error ? err.message : 'Failed to load opportunity';
       
       // Cache the error result
-      this.requestManager.setCachedResult(opportunityId, null, errorMsg);
+      const cacheKey = `${userId}-${opportunityId}`;
+      this.requestManager.setCachedResult(cacheKey, null, errorMsg);
       return { opportunity: null, error: errorMsg };
     } finally {
       // Clean up the request

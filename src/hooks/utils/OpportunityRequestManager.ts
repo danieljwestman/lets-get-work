@@ -83,17 +83,29 @@ export class OpportunityRequestManager {
       console.log('🔧 OPPORTUNITY MANAGER: Using cached result for:', subdomain);
       return cached;
     }
+    
+    // Clear stale cache entries
+    if (cached && (Date.now() - cached.timestamp) >= this.CACHE_DURATION) {
+      console.log('🔧 OPPORTUNITY MANAGER: Clearing stale cache for:', subdomain);
+      this.cache.delete(subdomain);
+    }
+    
     return null;
   }
 
   setCachedResult(subdomain: string, opportunity: OpportunityWithTheme | null, error: string | null) {
-    this.cache.set(subdomain, { 
-      opportunity, 
-      error, 
-      timestamp: Date.now(),
-      sessionId: this.sessionId
-    });
-    console.log('🔧 OPPORTUNITY MANAGER: Cached result for:', subdomain);
+    // Only cache successful results or definitive errors
+    if (opportunity !== null || (error !== null && error.length > 0)) {
+      this.cache.set(subdomain, { 
+        opportunity, 
+        error, 
+        timestamp: Date.now(),
+        sessionId: this.sessionId
+      });
+      console.log('🔧 OPPORTUNITY MANAGER: Cached result for:', subdomain, 'Success:', !!opportunity, 'Error:', !!error);
+    } else {
+      console.log('🔧 OPPORTUNITY MANAGER: Skipping cache for incomplete result:', subdomain);
+    }
   }
 
   invalidateCacheOnUrlChange() {

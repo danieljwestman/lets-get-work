@@ -8,15 +8,15 @@ import { useOpportunityState } from './utils/useOpportunityState';
 const requestManager = new OpportunityRequestManager();
 const opportunityDirectFetcher = new OpportunityDirectFetcher(requestManager);
 
-export const useOpportunityDirectConfig = (opportunityId: string | null) => {
+export const useOpportunityDirectConfig = (userId: string | null, opportunityId: string | null) => {
   const { state, updateState, resetState, refs } = useOpportunityState();
 
   // Single consolidated useEffect to handle direct opportunity loading logic
   useEffect(() => {
     const fetchOpportunityConfig = async () => {
-      // Don't fetch if opportunityId is null
-      if (opportunityId === null) {
-        console.log('🔧 OPPORTUNITY DIRECT CONFIG: Opportunity ID is null, not fetching');
+      // Don't fetch if either userId or opportunityId is null
+      if (userId === null || opportunityId === null) {
+        console.log('🔧 OPPORTUNITY DIRECT CONFIG: User ID or Opportunity ID is null, not fetching');
         updateState({
           opportunity: null,
           isLoading: false,
@@ -25,27 +25,31 @@ export const useOpportunityDirectConfig = (opportunityId: string | null) => {
         return;
       }
 
+      // Create a unique key that includes both user and opportunity ID
+      const configKey = `${userId}-${opportunityId}`;
+
       // Skip if the configuration hasn't changed
-      if (refs.lastSubdomain.current === opportunityId) {
-        console.log('🔧 OPPORTUNITY DIRECT CONFIG: Configuration unchanged, skipping fetch:', opportunityId);
+      if (refs.lastSubdomain.current === configKey) {
+        console.log('🔧 OPPORTUNITY DIRECT CONFIG: Configuration unchanged, skipping fetch:', configKey);
         return;
       }
 
-      const requestId = `opp-direct-${opportunityId}-${Date.now()}-${Math.random()}`;
+      const requestId = `opp-direct-${userId}-${opportunityId}-${Date.now()}-${Math.random()}`;
       updateState({ currentRequestId: requestId });
 
       // Clear cache for previous configuration to prevent contamination
-      if (refs.lastSubdomain.current && refs.lastSubdomain.current !== opportunityId) {
+      if (refs.lastSubdomain.current && refs.lastSubdomain.current !== configKey) {
         requestManager.clearCacheForSubdomain(refs.lastSubdomain.current);
       }
 
       updateState({ 
         isLoading: true, 
         error: null, 
-        lastSubdomain: opportunityId 
+        lastSubdomain: configKey 
       });
 
       const result = await opportunityDirectFetcher.fetchOpportunityConfig(
+        userId,
         opportunityId,
         requestId, 
         state.opportunity
@@ -60,10 +64,10 @@ export const useOpportunityDirectConfig = (opportunityId: string | null) => {
         });
       }
 
-      console.log('🔧 OPPORTUNITY DIRECT CONFIG: Fetch completed for opportunity ID:', opportunityId, 'RequestID:', requestId);
+      console.log('🔧 OPPORTUNITY DIRECT CONFIG: Fetch completed for user ID:', userId, 'opportunity ID:', opportunityId, 'RequestID:', requestId);
     };
 
-    console.log('🔧 OPPORTUNITY DIRECT CONFIG: useEffect triggered with opportunity ID:', opportunityId);
+    console.log('🔧 OPPORTUNITY DIRECT CONFIG: useEffect triggered with user ID:', userId, 'opportunity ID:', opportunityId);
     fetchOpportunityConfig();
 
     // Cleanup function
@@ -73,12 +77,13 @@ export const useOpportunityDirectConfig = (opportunityId: string | null) => {
         requestManager.dequeueRequest(refs.currentRequestId.current);
       }
     };
-  }, [opportunityId]); // Only depend on opportunityId
+  }, [userId, opportunityId]); // Depend on both userId and opportunityId
 
   // Log whenever opportunity state changes
   console.log('🔧 OPPORTUNITY DIRECT CONFIG: State changed:', {
     hasOpportunity: !!state.opportunity,
     opportunityId: state.opportunity?.opportunity_id,
+    currentUserId: userId,
     currentOpportunityId: opportunityId,
     themeId: state.opportunity?.theme.theme_id,
     userId: state.opportunity?.user_id,

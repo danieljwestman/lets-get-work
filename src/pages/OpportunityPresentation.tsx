@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBrowserTitle } from '@/hooks/useBrowserTitle';
@@ -8,14 +9,14 @@ import { IndexPageStates } from '@/components/pages/IndexPageStates';
 import { useOpportunityDirectConfig } from '@/hooks/useOpportunityDirectConfig';
 
 const OpportunityPresentation = () => {
-  const { opportunityId } = useParams<{ opportunityId: string }>();
+  const { userId, opportunityId } = useParams<{ userId: string; opportunityId: string }>();
   const { user } = useAuth();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   
-  console.log('OpportunityPresentation: Starting with opportunity ID:', opportunityId);
+  console.log('OpportunityPresentation: Starting with user ID:', userId, 'opportunity ID:', opportunityId);
   
-  // Fetch opportunity directly by opportunity_id (without profile context)
-  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityDirectConfig(opportunityId || null);
+  // Fetch opportunity directly by user_id and opportunity_id
+  const { opportunity, isLoading: opportunityLoading, error } = useOpportunityDirectConfig(userId || null, opportunityId || null);
   
   const {
     hasAccess,
@@ -32,6 +33,7 @@ const OpportunityPresentation = () => {
   useBrowserTitle();
 
   console.log('OpportunityPresentation: Current state:', {
+    userId,
     opportunityId,
     hasOpportunity: !!opportunity,
     opportunityLoading,
