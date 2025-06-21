@@ -62,7 +62,9 @@ export const MarketingFooter = () => {
               {/* Personal attribution with improved styling */}
               <div className="text-sm text-gray-600 font-light">
                 <a 
-                  href="/" 
+                  href="https://getdaniel.work" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 relative group px-3 py-2 rounded-lg hover:bg-blue-50/50 hover:scale-105 hover:shadow-sm"
                 >
                   <span className="relative z-10">Made by Daniel - check out his page</span>
