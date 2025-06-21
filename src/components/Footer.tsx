@@ -22,7 +22,7 @@ export const Footer = () => {
                 
                 {/* LetsGetWork logo - now clickable */}
                 <div className="relative inline-block">
-                  <a href="/marketing" className="block">
+                  <a href="https://letsget.work/marketing" className="block">
                     {/* Multiple glow layers for depth */}
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl blur-3xl scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl blur-2xl scale-105" />
@@ -68,7 +68,7 @@ export const Footer = () => {
               {/* Marketing page link */}
               <div className="text-sm text-gray-600 font-light">
                 <a 
-                  href="/marketing" 
+                  href="https://letsget.work/marketing" 
                   className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-all duration-300 relative group px-3 py-2 rounded-lg hover:bg-blue-50/50"
                 >
                   <span className="relative z-10">Check out the marketing page</span>
