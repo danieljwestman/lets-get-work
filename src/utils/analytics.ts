@@ -1,5 +1,6 @@
 
 import { supabase } from '@/integrations/supabase/client';
+import { plausible, plausibleGoals } from './plausible';
 
 export interface AnalyticsEventRow {
   id: string;
@@ -103,6 +104,7 @@ export const analytics = {
     
     const deviceType = window.innerWidth < 768 ? 'mobile' : 'desktop';
     
+    // Track with Supabase
     trackEvent({
       event_type: 'page_view',
       event_data: { 
@@ -119,6 +121,13 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.PAGE_VIEW, {
+      device_type: deviceType,
+      language: language,
+      opportunity_id: opportunityId
+    });
   },
 
   trackSectionView: (sectionId: string) => {
@@ -127,6 +136,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'section_view',
       event_data: { section_id: sectionId },
@@ -137,6 +147,12 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.SECTION_VIEW, {
+      section: sectionId,
+      opportunity_id: opportunityId
+    });
   },
 
   trackButtonClick: (buttonName: string, context?: string) => {
@@ -145,6 +161,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'button_click',
       event_data: { button_name: buttonName, context },
@@ -155,6 +172,13 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.BUTTON_CLICK, {
+      button: buttonName,
+      context: context || 'unknown',
+      opportunity_id: opportunityId
+    });
   },
 
   trackChatInteraction: (action: string, data?: Record<string, any>) => {
@@ -163,6 +187,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'chat_interaction',
       event_data: { action, ...data },
@@ -173,6 +198,13 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible based on action type
+    if (action === 'started') {
+      plausible.trackEvent(plausibleGoals.CHAT_STARTED, {
+        opportunity_id: opportunityId
+      });
+    }
   },
 
   trackChatPrompt: (promptLength: number, promptPreview?: string) => {
@@ -181,6 +213,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'chat_prompt',
       event_data: { prompt_length: promptLength, prompt_preview: promptPreview },
@@ -191,6 +224,12 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.CHAT_PROMPT, {
+      prompt_length: promptLength,
+      opportunity_id: opportunityId
+    });
   },
 
   trackEmailSent: (inquiryType: string) => {
@@ -199,6 +238,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'email_sent',
       event_data: { inquiry_type: inquiryType },
@@ -209,6 +249,12 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.EMAIL_SENT, {
+      inquiry_type: inquiryType,
+      opportunity_id: opportunityId
+    });
   },
 
   trackDownload: (fileName: string) => {
@@ -217,6 +263,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'download',
       event_data: { file_name: fileName },
@@ -227,6 +274,12 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.DOWNLOAD, {
+      file_name: fileName,
+      opportunity_id: opportunityId
+    });
   },
 
   trackChatStart: (source: 'hero' | 'contact' | 'floating_button') => {
@@ -235,6 +288,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'chat_started',
       event_data: { source },
@@ -245,6 +299,12 @@ export const analytics = {
       opportunity_id: opportunityId,
       theme_id: themeId
     });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.CHAT_STARTED, {
+      source: source,
+      opportunity_id: opportunityId
+    });
   },
 
   trackExternalLink: (platform: 'github' | 'linkedin', context?: string) => {
@@ -253,6 +313,7 @@ export const analytics = {
       return;
     }
     
+    // Track with Supabase
     trackEvent({
       event_type: 'external_link_click',
       event_data: { platform, context },
@@ -262,6 +323,13 @@ export const analytics = {
       user_agent: navigator.userAgent,
       opportunity_id: opportunityId,
       theme_id: themeId
+    });
+
+    // Track with Plausible
+    plausible.trackEvent(plausibleGoals.EXTERNAL_LINK, {
+      platform: platform,
+      context: context || 'unknown',
+      opportunity_id: opportunityId
     });
   }
 };
