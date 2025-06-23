@@ -46,7 +46,7 @@ export const MarketingHero: React.FC = () => {
         </h2>
 
         {/* Subheadline */}
-        <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+        <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
           Build your professional digital presence — with a customizable profiles, 
           striking designs, and powerful tracking tools for your opportunities.
         </p>
