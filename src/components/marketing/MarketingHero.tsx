@@ -47,7 +47,7 @@ export const MarketingHero: React.FC = () => {
 
         {/* Subheadline */}
         <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-          Build your professional digital presence — with a customizable profiles, 
+          Build your professional digital presence — with customizable profiles, 
           striking designs, and powerful tracking tools for your opportunities.
         </p>
 
