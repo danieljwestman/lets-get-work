@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Plus, ExternalLink, Copy, Trash2, AlertCircle, CheckCircle } from 'lucide-react';
+import { Plus, ExternalLink, Copy, Trash2, AlertCircle, CheckCircle, Globe } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -66,7 +66,10 @@ export const CustomDomainsCard: React.FC = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Custom Domains</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Globe className="h-5 w-5" />
+            Custom Domains
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="animate-pulse space-y-4">
@@ -83,7 +86,10 @@ export const CustomDomainsCard: React.FC = () => {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <div>
-            <CardTitle>Custom Domains</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5" />
+              Custom Domains
+            </CardTitle>
             <p className="text-sm text-gray-600 mt-1">
               Connect your own domain to your profile or opportunities
             </p>
