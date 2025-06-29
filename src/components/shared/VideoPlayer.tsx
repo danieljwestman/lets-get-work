@@ -18,7 +18,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 }) => {
   if (!videoUrl) return null;
 
-  // Convert Tella.tv URLs to embed format
+  // Convert video URLs to embed format
   const getEmbedUrl = (url: string) => {
     // Handle Tella.tv URLs
     if (url.includes('tella.tv/video/')) {
@@ -41,6 +41,11 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       if (videoId) {
         return `https://player.vimeo.com/video/${videoId}`;
       }
+    }
+    
+    // Handle Loom URLs
+    if (url.includes('loom.com/share/')) {
+      return url.replace('/share/', '/embed/');
     }
     
     // Return original URL if no conversion needed
