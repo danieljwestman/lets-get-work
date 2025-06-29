@@ -26,6 +26,8 @@ export const SettingsManager: React.FC = () => {
       {/* Settings Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
+          <CustomDomainsCard />
+
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -63,8 +65,6 @@ export const SettingsManager: React.FC = () => {
               <NotificationPreferences />
             </CardContent>
           </Card>
-
-          <CustomDomainsCard />
         </div>
       </div>
     </div>
