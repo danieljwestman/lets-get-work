@@ -18,6 +18,7 @@ interface Theme {
 export const useThemeEditor = (themeId?: string | null) => {
   const { user } = useAuth();
   const [theme, setTheme] = useState<Theme | null>(null);
+  const [originalThemeId, setOriginalThemeId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -78,6 +79,7 @@ export const useThemeEditor = (themeId?: string | null) => {
       }
 
       setTheme(data);
+      setOriginalThemeId(data.theme_id); // Store original theme_id for comparison
     } catch (err) {
       console.error('Error fetching theme:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch theme');
@@ -89,6 +91,27 @@ export const useThemeEditor = (themeId?: string | null) => {
   const updateTheme = (updates: Partial<Theme>) => {
     if (!theme) return;
     setTheme({ ...theme, ...updates });
+  };
+
+  const updateTranslationsThemeId = async (oldThemeId: string, newThemeId: string): Promise<void> => {
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    console.log(`Migrating translations from ${oldThemeId} to ${newThemeId} for user ${user.id}`);
+
+    const { error } = await supabase
+      .from('translations')
+      .update({ theme_id: newThemeId })
+      .eq('theme_id', oldThemeId)
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error('Translation migration error:', error);
+      throw new Error(`Failed to migrate translations: ${error.message}`);
+    }
+
+    console.log('Translation migration successful');
   };
 
   const saveTheme = async (): Promise<boolean> => {
@@ -125,9 +148,24 @@ export const useThemeEditor = (themeId?: string | null) => {
 
     setIsSaving(true);
     try {
+      // Check if theme_id has changed and migrate translations if needed
+      const newThemeId = theme.theme_id.trim();
+      const hasThemeIdChanged = originalThemeId && originalThemeId !== newThemeId && theme.id;
+      
+      if (hasThemeIdChanged) {
+        console.log(`Theme ID changed from ${originalThemeId} to ${newThemeId}, migrating translations...`);
+        toast({
+          title: "Updating translations...",
+          description: "Migrating translations to new theme ID",
+        });
+        
+        await updateTranslationsThemeId(originalThemeId!, newThemeId);
+        setOriginalThemeId(newThemeId); // Update the stored original theme_id
+      }
+
       const updateData = {
         name: theme.name.trim(),
-        theme_id: theme.theme_id.trim(),
+        theme_id: newThemeId,
         browser_title: theme.browser_title?.trim() || null,
         branding: theme.branding,
         content: theme.content,
