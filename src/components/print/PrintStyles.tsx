@@ -16,71 +16,77 @@ export const PrintStyles: React.FC = () => {
           top: 0;
           width: 100% !important;
           margin: 0 !important;
-          padding: 15mm !important;
+          padding: 20mm 18mm !important;
           background: white !important;
           color: #000 !important;
           font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif !important;
-          font-size: 10px !important;
-          line-height: 1.3 !important;
+          font-size: 11px !important;
+          line-height: 1.4 !important;
           height: 297mm !important;
+          max-height: 297mm !important;
           overflow: hidden !important;
+          box-sizing: border-box !important;
         }
         .print-no-break {
-          page-break-inside: avoid;
-          break-inside: avoid;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
         }
         .print-header {
-          border-bottom: 1.5px solid #000;
-          margin-bottom: 12px;
-          padding-bottom: 8px;
+          border-bottom: 2px solid #000;
+          margin-bottom: 18px;
+          padding-bottom: 12px;
         }
         .print-section {
-          margin-bottom: 10px;
+          margin-bottom: 16px;
         }
         .print-section h2 {
-          font-size: 12px !important;
+          font-size: 13px !important;
           font-weight: bold !important;
-          margin-bottom: 5px !important;
+          margin-bottom: 8px !important;
           text-transform: uppercase;
-          letter-spacing: 0.3px;
-          border-bottom: 0.5px solid #666;
-          padding-bottom: 2px;
+          letter-spacing: 0.4px;
+          border-bottom: 1px solid #333;
+          padding-bottom: 4px;
           color: #000 !important;
         }
         .print-section h3 {
-          font-size: 10px !important;
+          font-size: 11px !important;
           font-weight: bold !important;
-          margin-bottom: 2px !important;
+          margin-bottom: 4px !important;
           color: #000 !important;
         }
         .print-grid {
           display: grid;
-          grid-template-columns: 35% 65%;
-          gap: 12px;
+          grid-template-columns: 38% 62%;
+          gap: 20px;
           height: auto;
         }
         .print-skills-pills {
           display: flex;
           flex-wrap: wrap;
-          gap: 3px;
+          gap: 6px;
+          margin-bottom: 4px;
         }
         .print-skill-pill {
-          background: #f0f0f0;
-          padding: 2px 6px;
-          border-radius: 8px;
-          font-size: 8px;
-          border: 0.5px solid #ccc;
+          background: #f4f4f4;
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 9px;
+          border: 1px solid #ddd;
+          white-space: nowrap;
         }
         .print-tools-compact {
           display: flex;
           flex-wrap: wrap;
-          gap: 2px;
+          gap: 4px;
+          margin-bottom: 2px;
         }
         .print-tool-item {
-          font-size: 8px;
-          padding: 1px 4px;
+          font-size: 9px;
+          padding: 2px 6px;
           background: #f8f8f8;
-          border-radius: 4px;
+          border-radius: 6px;
+          border: 0.5px solid #e0e0e0;
         }
         .print-no-print {
           display: none !important;
@@ -91,16 +97,23 @@ export const PrintStyles: React.FC = () => {
         .print-contact-grid {
           display: grid;
           grid-template-columns: auto 1fr;
-          gap: 2px 8px;
-          font-size: 9px;
+          gap: 4px 12px;
+          font-size: 10px;
+          line-height: 1.3;
         }
         .print-compact-exp {
-          margin-bottom: 8px;
+          margin-bottom: 12px;
+          padding-bottom: 8px;
         }
         .print-summary {
-          font-size: 9px;
-          line-height: 1.2;
-          margin-bottom: 10px;
+          font-size: 10px;
+          line-height: 1.4;
+          margin-bottom: 16px;
+          text-align: justify;
+        }
+        .print-language-item {
+          margin-bottom: 4px;
+          font-size: 10px;
         }
       }
       

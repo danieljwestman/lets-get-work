@@ -51,9 +51,9 @@ export const PrintSkillsSection: React.FC<PrintSkillsSectionProps> = ({
       {/* Languages */}
       <div className="print-section">
         <h2>{language === 'en' ? 'Languages' : 'Språk'}</h2>
-        <div className="text-xs space-y-1">
-          <div><strong>{language === 'en' ? 'Swedish' : 'Svenska'}:</strong> {language === 'en' ? 'Native' : 'Modersmål'}</div>
-          <div><strong>{language === 'en' ? 'English' : 'Engelska'}:</strong> {language === 'en' ? 'Fluent' : 'Flytande'}</div>
+        <div className="space-y-1">
+          <div className="print-language-item"><strong>{language === 'en' ? 'Swedish' : 'Svenska'}:</strong> {language === 'en' ? 'Native' : 'Modersmål'}</div>
+          <div className="print-language-item"><strong>{language === 'en' ? 'English' : 'Engelska'}:</strong> {language === 'en' ? 'Fluent' : 'Flytande'}</div>
         </div>
       </div>
     </div>
