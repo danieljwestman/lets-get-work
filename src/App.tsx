@@ -11,6 +11,7 @@ import Index from '@/pages/Index';
 import Dashboard from '@/pages/Dashboard';
 import Marketing from '@/pages/Marketing';
 import OpportunityPresentation from '@/pages/OpportunityPresentation';
+import OpportunityPrintResume from '@/pages/OpportunityPrintResume';
 import NotFound from '@/pages/NotFound';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 import { DomainRouterService } from '@/services/domainRouterService';
@@ -52,6 +53,7 @@ const DomainAwareRouter: React.FC = () => {
             <Route path="/" element={<Marketing />} />
             <Route path="/opportunities/:profileId" element={<OpportunityPresentation />} />
             <Route path="/opportunities/:profileId/:opportunityId" element={<OpportunityPresentation />} />
+            <Route path="/opportunities/:profileId/:opportunityId/print" element={<OpportunityPrintResume />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/marketing" element={<Marketing />} />
             <Route path="/404" element={<NotFound />} />
