@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Building2, Target, Palette, Edit, Eye, Copy, Lock, BarChart3 } from 'lucide-react';
+import { Building2, Target, Palette, Edit, Eye, Copy, Lock, BarChart3, Printer } from 'lucide-react';
 import { DeleteConfirmation } from './DeleteConfirmation';
 import { useDeleteEntity } from '@/hooks/useDeleteEntity';
 import { useToast } from '@/hooks/use-toast';
@@ -63,6 +63,13 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
         variant: 'destructive',
       });
     }
+  };
+
+  const handlePrintView = () => {
+    // Navigate to print view - we need to get the user's profile_id
+    // For now, we'll use a placeholder - this should be passed from parent or fetched
+    const profileId = 'daniel'; // This should come from the user's profile
+    window.open(`/opportunities/${profileId}/${opportunity.opportunity_id}/print`, '_blank');
   };
 
   const getStatusBadgeVariant = (status: string) => {
@@ -126,6 +133,14 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             >
               <Edit className="h-3 w-3 mr-1" />
               Edit
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handlePrintView}
+              title="Print Resume"
+            >
+              <Printer className="h-3 w-3" />
             </Button>
             <Button
               size="sm"
