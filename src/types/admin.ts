@@ -13,6 +13,8 @@ export interface Opportunity {
   user_id?: string;
   is_passcode_protected?: boolean;
   access_passcode?: string;
+  intro_video_url_en?: string;
+  intro_video_url_sv?: string;
   created_at?: string;
   updated_at?: string;
 }

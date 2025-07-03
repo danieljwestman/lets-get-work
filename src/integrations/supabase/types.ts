@@ -537,6 +537,23 @@ export type Database = {
           intro_video_url_sv: string
         }[]
       }
+      get_public_opportunity_with_id: {
+        Args: { subdomain_param: string }
+        Returns: {
+          id: string
+          opportunity_id: string
+          name: string
+          theme_id: string
+          company_name: string
+          target_role: string
+          status: string
+          user_id: string
+          is_passcode_protected: boolean
+          access_passcode: string
+          intro_video_url_en: string
+          intro_video_url_sv: string
+        }[]
+      }
       get_public_profile_by_profile_id: {
         Args: { profile_id_param: string }
         Returns: {

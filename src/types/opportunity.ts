@@ -19,6 +19,8 @@ export interface Opportunity {
   created_at?: string;
   updated_at?: string;
   profile_id?: string; // Add profile_id to identify which profile this opportunity belongs to
+  intro_video_url_en?: string;
+  intro_video_url_sv?: string;
 }
 
 export interface OpportunityWithTheme extends Opportunity {

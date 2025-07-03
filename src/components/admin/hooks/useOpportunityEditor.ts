@@ -31,7 +31,9 @@ export const useOpportunityEditor = (opportunityId?: string | null) => {
         status: 'unpublished', // Default status for new opportunities
         user_id: user.id,
         is_passcode_protected: false,
-        access_passcode: ''
+        access_passcode: '',
+        intro_video_url_en: '',
+        intro_video_url_sv: ''
       });
     }
   }, [opportunityId, user]);
@@ -72,6 +74,8 @@ export const useOpportunityEditor = (opportunityId?: string | null) => {
         status: validStatus,
         is_passcode_protected: data.is_passcode_protected || false,
         access_passcode: data.access_passcode || '',
+        intro_video_url_en: data.intro_video_url_en || '',
+        intro_video_url_sv: data.intro_video_url_sv || '',
         user_id: user.id // Ensure user_id is always set
       });
     } catch (err) {
@@ -146,6 +150,8 @@ export const useOpportunityEditor = (opportunityId?: string | null) => {
         notes: opportunity.notes?.trim() || null,
         status: opportunity.status,
         is_passcode_protected: Boolean(opportunity.is_passcode_protected),
+        intro_video_url_en: opportunity.intro_video_url_en?.trim() || null,
+        intro_video_url_sv: opportunity.intro_video_url_sv?.trim() || null,
         updated_at: new Date().toISOString()
       };
 

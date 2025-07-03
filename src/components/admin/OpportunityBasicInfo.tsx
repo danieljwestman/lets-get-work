@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Target, Building2, Lock, Shield } from 'lucide-react';
+import { Target, Building2, Lock, Shield, Video } from 'lucide-react';
 import { useThemesData } from './hooks/useThemesData';
 import { OPPORTUNITY_STATUSES, type OpportunityStatusType } from '@/constants/opportunityStatuses';
 import type { Opportunity } from '@/types/admin';
@@ -199,6 +199,46 @@ export const OpportunityBasicInfo: React.FC<OpportunityBasicInfoProps> = ({
               placeholder="Internal notes about this opportunity..."
               rows={4}
             />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Video className="h-5 w-5" />
+            Video Content
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="intro_video_url_en">Introduction Video URL (English)</Label>
+              <Input
+                id="intro_video_url_en"
+                type="url"
+                value={opportunity.intro_video_url_en || ''}
+                onChange={(e) => onChange({ intro_video_url_en: e.target.value })}
+                placeholder="e.g., https://tella.tv/video/xxxxx, https://youtube.com/watch?v=xxxxx"
+              />
+              <p className="text-xs text-gray-500">
+                Supports Tella.tv, YouTube, Vimeo, and Loom URLs. Leave blank to use profile video.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="intro_video_url_sv">Introduction Video URL (Swedish)</Label>
+              <Input
+                id="intro_video_url_sv"
+                type="url"
+                value={opportunity.intro_video_url_sv || ''}
+                onChange={(e) => onChange({ intro_video_url_sv: e.target.value })}
+                placeholder="e.g., https://tella.tv/video/xxxxx, https://youtube.com/watch?v=xxxxx"
+              />
+              <p className="text-xs text-gray-500">
+                Supports Tella.tv, YouTube, Vimeo, and Loom URLs. Leave blank to use profile video.
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>

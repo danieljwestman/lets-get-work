@@ -14,16 +14,22 @@ interface UserProfile {
   full_name: string | null;
 }
 
+interface OpportunityVideoData {
+  intro_video_url_en: string | null;
+  intro_video_url_sv: string | null;
+}
+
 export const AboutSection = () => {
   const { t } = useOpportunityTranslations();
   const { opportunity } = useOpportunity();
   const { language } = useLanguage();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [opportunityVideoData, setOpportunityVideoData] = useState<OpportunityVideoData | null>(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchVideoData = async () => {
       if (!opportunity?.user_id) {
         console.log('🎥 VIDEO DEBUG: No user_id found in opportunity', { opportunity });
         setLoadingProfile(false);
@@ -31,7 +37,14 @@ export const AboutSection = () => {
       }
 
       try {
-        console.log('🎥 VIDEO DEBUG: Fetching profile videos using public function for user_id:', opportunity.user_id);
+        console.log('🎥 VIDEO DEBUG: Fetching video data for opportunity:', opportunity);
+        
+        // Set opportunity video data if available
+        const oppVideoData = {
+          intro_video_url_en: opportunity.intro_video_url_en || null,
+          intro_video_url_sv: opportunity.intro_video_url_sv || null
+        };
+        setOpportunityVideoData(oppVideoData);
         
         // Use the new public function that doesn't require authentication
         const { data, error } = await supabase
@@ -57,30 +70,42 @@ export const AboutSection = () => {
       }
     };
 
-    fetchUserProfile();
-  }, [opportunity?.user_id]);
+    fetchVideoData();
+  }, [opportunity]);
 
   const getCurrentVideoUrl = () => {
-    if (!userProfile) {
-      console.log('🎥 VIDEO DEBUG: No userProfile available');
-      return null;
-    }
-    
     console.log('🎥 VIDEO DEBUG: Getting current video URL', {
       language,
-      userProfile,
-      swedishUrl: userProfile.intro_video_url_sv,
-      englishUrl: userProfile.intro_video_url_en
+      opportunityVideoData,
+      userProfile
     });
     
-    // Return video URL based on current language, fallback to English if Swedish not available
-    if (language === 'sv' && userProfile.intro_video_url_sv) {
-      console.log('🎥 VIDEO DEBUG: Returning Swedish video URL');
-      return userProfile.intro_video_url_sv;
+    // First priority: opportunity-specific videos
+    if (opportunityVideoData) {
+      if (language === 'sv' && opportunityVideoData.intro_video_url_sv) {
+        console.log('🎥 VIDEO DEBUG: Returning opportunity Swedish video URL');
+        return opportunityVideoData.intro_video_url_sv;
+      }
+      if (opportunityVideoData.intro_video_url_en) {
+        console.log('🎥 VIDEO DEBUG: Returning opportunity English video URL');
+        return opportunityVideoData.intro_video_url_en;
+      }
     }
     
-    console.log('🎥 VIDEO DEBUG: Returning English video URL or null');
-    return userProfile.intro_video_url_en;
+    // Second priority: profile videos (fallback)
+    if (userProfile) {
+      if (language === 'sv' && userProfile.intro_video_url_sv) {
+        console.log('🎥 VIDEO DEBUG: Returning profile Swedish video URL');
+        return userProfile.intro_video_url_sv;
+      }
+      if (userProfile.intro_video_url_en) {
+        console.log('🎥 VIDEO DEBUG: Returning profile English video URL');
+        return userProfile.intro_video_url_en;
+      }
+    }
+    
+    console.log('🎥 VIDEO DEBUG: No video URL available');
+    return null;
   };
 
   const currentVideoUrl = getCurrentVideoUrl();
@@ -105,7 +130,8 @@ export const AboutSection = () => {
   console.log('🎥 VIDEO DEBUG: AboutSection render:', { 
     hasVideo, 
     currentVideoUrl, 
-    userProfile, 
+    userProfile,
+    opportunityVideoData,
     language,
     loadingProfile,
     opportunityUserId: opportunity?.user_id
