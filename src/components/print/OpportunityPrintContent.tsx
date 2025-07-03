@@ -36,10 +36,10 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
     window.print();
   };
 
-  // Curated content for single-page optimization
-  const coreSkills = skillsData.slice(0, 9); // Reduced from 12
-  const topExperiences = experienceItems.slice(0, 3); // Reduced from 4
-  const essentialToolCategories = toolCategories.slice(0, 3); // Show only top 3 categories
+  // Optimized content for enhanced single-page layout
+  const coreSkills = skillsData.slice(0, 12); // Show all core skills
+  const topExperiences = experienceItems; // Show all experience items
+  const essentialToolCategories = toolCategories.slice(0, 4); // Show top 4 categories
 
   return (
     <div className="print-resume">
@@ -66,11 +66,11 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
 
       {/* Professional Summary */}
       <div className="print-section print-no-break">
-        <h2>{language === 'en' ? 'Professional Summary' : 'Professionell Sammanfattning'}</h2>
+        <h2>🎯 {language === 'en' ? 'Professional Summary' : 'Professionell Sammanfattning'}</h2>
         <p className="print-summary">
           {language === 'en' 
-            ? 'Stockholm-based Full-Stack Developer & Customer Success Expert with 10+ years experience building user-centric platforms. Combines technical expertise in React, AI integration, and platform development with deep customer understanding. Remote-ready professional with passion for quality and innovation.'
-            : 'Stockholm-baserad Full-Stack Utvecklare & Customer Success Expert med 10+ års erfarenhet av att bygga användarcentrerade plattformar. Kombinerar teknisk expertis inom React, AI-integration och plattformsutveckling med djup kundförståelse. Distansarbete-redo med passion för kvalitet och innovation.'
+            ? '🚀 Stockholm-based Full-Stack Developer & Customer Success Expert with 10+ years experience building user-centric platforms. 💡 Combines technical expertise in React, AI integration, and platform development with deep customer understanding. 🌍 Remote-ready professional with passion for quality and innovation. 🎨 Proven track record of transforming complex requirements into elegant, scalable solutions.'
+            : '🚀 Stockholm-baserad Full-Stack Utvecklare & Customer Success Expert med 10+ års erfarenhet av att bygga användarcentrerade plattformar. 💡 Kombinerar teknisk expertis inom React, AI-integration och plattformsutveckling med djup kundförståelse. 🌍 Distansarbete-redo med passion för kvalitet och innovation. 🎨 Bevisad förmåga att transformera komplexa krav till eleganta, skalbara lösningar.'
           }
         </p>
       </div>
