@@ -520,37 +520,6 @@ export type Database = {
           status: string
         }[]
       }
-      get_public_opportunity_by_profile: {
-        Args: { profile_id_param: string; opportunity_id_param: string }
-        Returns: {
-          id: string
-          opportunity_id: string
-          name: string
-          theme_id: string
-          company_name: string
-          target_role: string
-          status: string
-          user_id: string
-          is_passcode_protected: boolean
-          access_passcode: string
-        }[]
-      }
-      get_public_opportunity_with_id: {
-        Args: { subdomain_param: string }
-        Returns: {
-          id: string
-          opportunity_id: string
-          name: string
-          subdomain: string
-          theme_id: string
-          company_name: string
-          target_role: string
-          status: string
-          user_id: string
-          is_passcode_protected: boolean
-          access_passcode: string
-        }[]
-      }
       get_public_profile_by_profile_id: {
         Args: { profile_id_param: string }
         Returns: {
