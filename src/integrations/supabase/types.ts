@@ -220,6 +220,8 @@ export type Database = {
           contact_person: string | null
           created_at: string | null
           id: string
+          intro_video_url_en: string | null
+          intro_video_url_sv: string | null
           is_passcode_protected: boolean | null
           name: string
           notes: string | null
@@ -236,6 +238,8 @@ export type Database = {
           contact_person?: string | null
           created_at?: string | null
           id?: string
+          intro_video_url_en?: string | null
+          intro_video_url_sv?: string | null
           is_passcode_protected?: boolean | null
           name: string
           notes?: string | null
@@ -252,6 +256,8 @@ export type Database = {
           contact_person?: string | null
           created_at?: string | null
           id?: string
+          intro_video_url_en?: string | null
+          intro_video_url_sv?: string | null
           is_passcode_protected?: boolean | null
           name?: string
           notes?: string | null
