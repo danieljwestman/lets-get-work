@@ -217,11 +217,9 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             <h1 className="text-2xl font-bold mb-2 leading-tight">{fullName}</h1>
             <p className="text-base mb-4 text-gray-700 font-medium">{tagline}</p>
             <div className="print-contact-grid">
-              <span className="font-semibold">📍</span><span>{location}</span>
               <span className="font-semibold">✉️</span><span>{email}</span>
               <span className="font-semibold">📱</span><span>{phone}</span>
               <span className="font-semibold">💼</span><span>{linkedin}</span>
-              <span className="font-semibold">⚡</span><span>{github}</span>
             </div>
           </div>
           <div className="print-qr text-center">
@@ -233,9 +231,8 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
         </div>
       </div>
 
-      {/* Professional Summary */}
+      {/* Professional Summary - No heading */}
       <div className="print-section print-no-break">
-        <h2>{language === 'en' ? 'Professional Summary' : 'Professionell Sammanfattning'}</h2>
         <p className="print-summary">
           {language === 'en' 
             ? 'Stockholm-based Full-Stack Developer & Customer Success Expert with 10+ years experience building user-centric platforms. Combines technical expertise in React, AI integration, and platform development with deep customer understanding. Remote-ready professional with passion for quality and innovation.'
