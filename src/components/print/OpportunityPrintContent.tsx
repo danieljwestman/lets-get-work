@@ -54,12 +54,12 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             top: 0;
             width: 100% !important;
             margin: 0 !important;
-            padding: 20mm !important;
+            padding: 24mm !important;
             background: white !important;
             color: #000 !important;
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif !important;
-            font-size: 10px !important;
-            line-height: 1.4 !important;
+            font-size: 11px !important;
+            line-height: 1.5 !important;
             height: auto !important;
             max-height: 297mm !important;
             overflow: hidden !important;
@@ -70,34 +70,40 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             break-inside: avoid;
           }
           .print-header {
-            border-bottom: 1.5px solid #000;
-            margin-bottom: 16px;
-            padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
           }
           .print-section {
-            margin-bottom: 14px;
+            margin-bottom: 18px;
           }
           .print-section h2 {
-            font-size: 12px !important;
+            font-size: 13px !important;
             font-weight: bold !important;
-            margin-bottom: 5px !important;
+            margin-bottom: 8px !important;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
-            border-bottom: 0.5px solid #666;
-            padding-bottom: 2px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 3px;
             color: #000 !important;
           }
           .print-section h3 {
-            font-size: 10px !important;
+            font-size: 11px !important;
             font-weight: bold !important;
-            margin-bottom: 2px !important;
+            margin-bottom: 4px !important;
             color: #000 !important;
           }
           .print-grid {
             display: grid;
-            grid-template-columns: 35% 65%;
-            gap: 12px;
+            grid-template-columns: 38% 62%;
+            gap: 18px;
             height: auto;
+          }
+          .print-header-layout {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: start;
           }
           .print-skills-pills {
             display: flex;
@@ -105,22 +111,24 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             gap: 3px;
           }
           .print-skill-pill {
-            background: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 8px;
-            font-size: 8px;
-            border: 0.5px solid #ccc;
+            background: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            border: 1px solid #ddd;
+            margin-bottom: 2px;
           }
           .print-tools-compact {
             display: flex;
             flex-wrap: wrap;
-            gap: 2px;
+            gap: 4px;
           }
           .print-tool-item {
-            font-size: 8px;
-            padding: 1px 4px;
+            font-size: 9px;
+            padding: 2px 6px;
             background: #f8f8f8;
-            border-radius: 4px;
+            border-radius: 6px;
+            border: 0.5px solid #e0e0e0;
           }
           .print-no-print {
             display: none !important;
@@ -135,12 +143,18 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             font-size: 9px;
           }
           .print-compact-exp {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 0.5px solid #e0e0e0;
+          }
+          .print-compact-exp:last-child {
+            border-bottom: none;
           }
           .print-summary {
-            font-size: 9px;
-            line-height: 1.2;
-            margin-bottom: 10px;
+            font-size: 10px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            padding: 6px 0;
           }
         }
         
@@ -198,11 +212,11 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
 
       {/* Optimized Header */}
       <div className="print-header print-no-break">
-        <div className="flex justify-between items-start">
-          <div className="flex-1 mr-3">
-            <h1 className="text-xl font-bold mb-1 leading-tight">{fullName}</h1>
-            <p className="text-sm mb-2 text-gray-700 font-medium">{tagline}</p>
-            <div className="print-contact-grid text-xs">
+        <div className="print-header-layout">
+          <div>
+            <h1 className="text-2xl font-bold mb-2 leading-tight">{fullName}</h1>
+            <p className="text-base mb-4 text-gray-700 font-medium">{tagline}</p>
+            <div className="print-contact-grid">
               <span className="font-semibold">📍</span><span>{location}</span>
               <span className="font-semibold">✉️</span><span>{email}</span>
               <span className="font-semibold">📱</span><span>{phone}</span>
@@ -210,9 +224,9 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
               <span className="font-semibold">⚡</span><span>{github}</span>
             </div>
           </div>
-          <div className="print-qr">
-            <img src={qrCodeUrl} alt="Digital Portfolio" className="w-16 h-16" />
-            <p className="text-xs text-center mt-1 font-medium">
+          <div className="print-qr text-center">
+            <img src={qrCodeUrl} alt="Digital Portfolio" className="w-20 h-20 border border-gray-300 rounded-lg p-1 bg-white" />
+            <p className="text-xs mt-2 font-medium text-gray-600">
               {language === 'en' ? 'Scan for portfolio' : 'Skanna för portfolio'}
             </p>
           </div>
