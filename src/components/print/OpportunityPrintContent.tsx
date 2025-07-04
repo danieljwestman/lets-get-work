@@ -34,7 +34,7 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
 
   // Curated content for single-page optimization
   const coreSkills = skillsData.slice(0, 9); // Reduced from 12
-  const topExperiences = experienceItems.slice(0, 3); // Reduced from 4
+  const topExperiences = experienceItems; // Show all experiences
   const essentialToolCategories = toolCategories.slice(0, 3); // Show only top 3 categories
 
   return (
@@ -54,14 +54,16 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             top: 0;
             width: 100% !important;
             margin: 0 !important;
-            padding: 15mm !important;
+            padding: 20mm !important;
             background: white !important;
             color: #000 !important;
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif !important;
             font-size: 10px !important;
-            line-height: 1.3 !important;
-            height: 297mm !important;
+            line-height: 1.4 !important;
+            height: auto !important;
+            max-height: 297mm !important;
             overflow: hidden !important;
+            page-break-after: avoid !important;
           }
           .print-no-break {
             page-break-inside: avoid;
@@ -69,11 +71,11 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
           }
           .print-header {
             border-bottom: 1.5px solid #000;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
           }
           .print-section {
-            margin-bottom: 10px;
+            margin-bottom: 14px;
           }
           .print-section h2 {
             font-size: 12px !important;
@@ -146,14 +148,14 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
           .print-resume {
             max-width: 210mm;
             margin: 0 auto;
-            padding: 15mm;
+            padding: 20mm;
             background: white;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 10px;
-            line-height: 1.3;
+            line-height: 1.4;
             color: #000;
-            min-height: 297mm;
+            height: auto;
             position: relative;
           }
         }
