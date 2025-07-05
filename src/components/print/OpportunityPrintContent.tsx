@@ -239,15 +239,9 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
       <div className="print-section print-no-break">
         <p className="print-summary">
           {language === 'en' 
-            ? 'Stockholm-based Full-Stack Developer & Customer Success Expert with 10+ years experience building user-centric platforms. Combines technical expertise in React, AI integration, and platform development with deep customer understanding. Remote-ready professional with passion for quality and innovation.'
-            : 'Stockholm-baserad Full-Stack Utvecklare & Customer Success Expert med 10+ års erfarenhet av att bygga användarcentrerade plattformar. Kombinerar teknisk expertis inom React, AI-integration och plattformsutveckling med djup kundförståelse. Distansarbete-redo med passion för kvalitet och innovation.'
+            ? 'Stockholm-based Full-Stack Developer & Customer Success Expert with 10+ years building user-centric platforms. Combines technical expertise in React, AI integration, and platform development with deep customer understanding. Family-focused professional who loves creating quality solutions - both digital platforms and weekend carpentry projects.'
+            : 'Stockholm-baserad Full-Stack Utvecklare & Customer Success Expert med 10+ års erfarenhet av användarcentrerade plattformar. Kombinerar teknisk expertis inom React, AI-integration och plattformsutveckling med djup kundförståelse. Familjefokuserad professionell som älskar att skapa kvalitetslösningar - både digitala plattformar och helgsnickeri.'
           }
-        </p>
-        <p className="print-summary">
-          {language === 'en' 
-            ? 'Family man with two kids who loves building things - both software platforms and carpentry projects. Stockholm local with global perspective, combining Scandinavian work-life balance with entrepreneurial drive.'
-            : 'Familjepappa med två barn som älskar att bygga saker - både mjukvaruplattformar och snickprojekt. Stockholmare med globalt perspektiv, kombinerar skandinavisk work-life balance med entreprenörsdrift.'
-           }
         </p>
       </div>
 
@@ -286,7 +280,7 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
 
           {/* Contact & Languages */}
           <div className="print-section">
-            <h2>{language === 'en' ? 'Contact & Languages' : 'Kontakt & Språk'}</h2>
+            <h2>{language === 'en' ? 'Get in Touch' : 'Kontaktinformation'}</h2>
             <div className="mb-3">
               <h3 className="text-xs font-semibold mb-2">{language === 'en' ? 'Contact' : 'Kontakt'}</h3>
               <div className="print-contact-grid">
@@ -320,17 +314,6 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
                 <p className="text-xs leading-tight">{experience.description}</p>
               </div>
             ))}
-          </div>
-
-          {/* Personal Touch - Condensed */}
-          <div className="print-section">
-            <h2>{language === 'en' ? 'Personal Profile' : 'Personlig Profil'}</h2>
-            <p className="text-xs leading-tight">
-              {language === 'en' 
-                ? 'Family man with two kids who loves building things - both software platforms and carpentry projects. Stockholm local with global perspective, combining Scandinavian work-life balance with entrepreneurial drive.'
-                : 'Familjepappa med två barn som älskar att bygga saker - både mjukvaruplattformar och snickprojekt. Stockholmare med globalt perspektiv, kombinerar skandinavisk work-life balance med entreprenörsdrift.'
-              }
-            </p>
           </div>
         </div>
       </div>
