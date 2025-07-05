@@ -239,7 +239,7 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
       <div className="print-section print-no-break">
         <p className="print-summary">
           {language === 'en' 
-            ? 'Stockholm-based Full-Stack Developer & Customer Success Expert with 10+ years building user-centric platforms. Combines technical expertise in React, AI integration, and platform development with deep customer understanding. Family-focused professional who loves creating quality solutions - both digital platforms and weekend carpentry projects.'
+            ? 'Customer-Focused Product Specialist with Full-Stack & UX skills and 15+ years’ experience creating and running user-focused digital platforms. Blends strong technical ability with deep insight into support, onboarding, and user experience — always making complex things feel simple. Skilled in modern frameworks and always exploring smarter tools and better ways to solve real problems. Grounded, curious, and dependable — a dedicated family man with a stable lifestyle, a maker’s mindset, and a drive to shape thoughtful, intuitive solutions that help users succeed and stay engaged.'
             : 'Stockholm-baserad Full-Stack Utvecklare & Customer Success Expert med 10+ års erfarenhet av användarcentrerade plattformar. Kombinerar teknisk expertis inom React, AI-integration och plattformsutveckling med djup kundförståelse. Familjefokuserad professionell som älskar att skapa kvalitetslösningar - både digitala plattformar och helgsnickeri.'
           }
         </p>
