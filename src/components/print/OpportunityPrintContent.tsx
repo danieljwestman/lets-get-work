@@ -210,16 +210,20 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
         </Button>
       </div>
 
-      {/* Optimized Header */}
+      {/* Optimized Header with Avatar */}
       <div className="print-header print-no-break">
         <div className="print-header-layout">
-          <div>
-            <h1 className="text-2xl font-bold mb-2 leading-tight">{fullName}</h1>
-            <p className="text-base mb-4 text-gray-700 font-medium">{tagline}</p>
-            <div className="print-contact-grid">
-              <span className="font-semibold">✉️</span><span>{email}</span>
-              <span className="font-semibold">📱</span><span>{phone}</span>
-              <span className="font-semibold">💼</span><span>{linkedin}</span>
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <img 
+                src="/lovable-uploads/adf9ba16-d4eb-43b3-9f3f-ac2e9e61d530.png" 
+                alt="Daniel Westman" 
+                className="w-16 h-16 rounded-full border-2 border-gray-300 object-cover"
+              />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold mb-2 leading-tight">{fullName}</h1>
+              <p className="text-base text-gray-700 font-medium">{tagline}</p>
             </div>
           </div>
           <div className="print-qr text-center">
@@ -274,12 +278,24 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             ))}
           </div>
 
-          {/* Languages */}
+          {/* Contact & Languages */}
           <div className="print-section">
-            <h2>{language === 'en' ? 'Languages' : 'Språk'}</h2>
-            <div className="text-xs space-y-1">
-              <div><strong>{language === 'en' ? 'Swedish' : 'Svenska'}:</strong> {language === 'en' ? 'Native' : 'Modersmål'}</div>
-              <div><strong>{language === 'en' ? 'English' : 'Engelska'}:</strong> {language === 'en' ? 'Fluent' : 'Flytande'}</div>
+            <h2>{language === 'en' ? 'Contact & Languages' : 'Kontakt & Språk'}</h2>
+            <div className="mb-3">
+              <h3 className="text-xs font-semibold mb-2">{language === 'en' ? 'Contact' : 'Kontakt'}</h3>
+              <div className="print-contact-grid">
+                <span className="font-semibold">✉️</span><span>{email}</span>
+                <span className="font-semibold">📱</span><span>{phone}</span>
+                <span className="font-semibold">💼</span><span>{linkedin}</span>
+                <span className="font-semibold">📍</span><span>{location}</span>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xs font-semibold mb-1">{language === 'en' ? 'Languages' : 'Språk'}</h3>
+              <div className="text-xs space-y-1">
+                <div><strong>{language === 'en' ? 'Swedish' : 'Svenska'}:</strong> {language === 'en' ? 'Native' : 'Modersmål'}</div>
+                <div><strong>{language === 'en' ? 'English' : 'Engelska'}:</strong> {language === 'en' ? 'Fluent' : 'Flytande'}</div>
+              </div>
             </div>
           </div>
         </div>
