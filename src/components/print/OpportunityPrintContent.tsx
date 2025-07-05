@@ -16,12 +16,12 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
   const experienceItems = getExperienceData(t);
 
   // Get contact information from translations
-  const fullName = t('hero.name') || 'Daniel Wikander';
-  const tagline = t('hero.tagline') || 'Full-Stack Developer & Customer Success Expert';
-  const location = 'Stockholm, Sweden';
-  const email = 'daniel@wikander.me';
-  const phone = '+46 70 123 45 67';
-  const linkedin = 'linkedin.com/in/danielwikander';
+  const fullName = 'Daniel Westman';
+  const tagline = 'Making Support Click';
+  const location = 'Uppsala/Stockholm, Sweden';
+  const email = 'daniel@westman.se';
+  const phone = '+46 (0)73-655 03 53';
+  const linkedin = 'linkedin.com/in/danieljwestman';
   const github = 'github.com/danielwikander';
 
   // Create QR code URL for the full presentation with current language
@@ -54,7 +54,7 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             top: 0;
             width: 100% !important;
             margin: 0 !important;
-            padding: 24mm !important;
+            padding: 14mm !important;
             background: white !important;
             color: #000 !important;
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif !important;
@@ -225,7 +225,7 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
           <div className="print-qr text-center">
             <img src={qrCodeUrl} alt="Digital Portfolio" className="w-20 h-20 border border-gray-300 rounded-lg p-1 bg-white" />
             <p className="text-xs mt-2 font-medium text-gray-600">
-              {language === 'en' ? 'Scan for portfolio' : 'Skanna för portfolio'}
+              {language === 'en' ? 'Scan for full CV' : 'Skanna för portfolio'}
             </p>
           </div>
         </div>
@@ -247,7 +247,7 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
         <div>
           {/* Core Skills - Compact Pills */}
           <div className="print-section">
-            <h2>{language === 'en' ? 'Core Competencies' : 'Kärnkompetenser'}</h2>
+            <h2>{language === 'en' ? 'Core Competencies' : 'Kompetenser'}</h2>
             <div className="print-skills-pills">
               {coreSkills.map((skill, index) => (
                 <span key={index} className="print-skill-pill">
