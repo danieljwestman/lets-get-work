@@ -218,7 +218,7 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
               <img 
                 src="/lovable-uploads/adf9ba16-d4eb-43b3-9f3f-ac2e9e61d530.png" 
                 alt="Daniel Westman" 
-                className="w-16 h-16 rounded-full border-2 border-gray-300 object-cover"
+                className="w-20 h-20 rounded-full border-2 border-gray-300 object-cover"
               />
             </div>
             <div>
@@ -242,6 +242,12 @@ export const OpportunityPrintContent: React.FC<OpportunityPrintContentProps> = (
             ? 'Stockholm-based Full-Stack Developer & Customer Success Expert with 10+ years experience building user-centric platforms. Combines technical expertise in React, AI integration, and platform development with deep customer understanding. Remote-ready professional with passion for quality and innovation.'
             : 'Stockholm-baserad Full-Stack Utvecklare & Customer Success Expert med 10+ års erfarenhet av att bygga användarcentrerade plattformar. Kombinerar teknisk expertis inom React, AI-integration och plattformsutveckling med djup kundförståelse. Distansarbete-redo med passion för kvalitet och innovation.'
           }
+        </p>
+        <p className="print-summary">
+          {language === 'en' 
+            ? 'Family man with two kids who loves building things - both software platforms and carpentry projects. Stockholm local with global perspective, combining Scandinavian work-life balance with entrepreneurial drive.'
+            : 'Familjepappa med två barn som älskar att bygga saker - både mjukvaruplattformar och snickprojekt. Stockholmare med globalt perspektiv, kombinerar skandinavisk work-life balance med entreprenörsdrift.'
+           }
         </p>
       </div>
 
